@@ -10,7 +10,8 @@ type View =
   | 'dorega-products'
   | 'dorega-productbyid'
   | 'no-tournaments'
-  | 'loading';
+  | 'loading'
+  | 'rooms';
 
 interface ViewStore {
   activeViews: Record<View, boolean>;
@@ -18,7 +19,8 @@ interface ViewStore {
   toggleView: (view: View, state?: boolean) => void;
   setSelectedId: (id: string) => void;
   resetViews: () => void;
-  goTo: (view: View, id?: string) => void; // 👈
+  goTo: (view: View, id?: string) => void;
+  goBack: () => void;
 }
 
 export const useViewStore = create<ViewStore>()(
@@ -33,6 +35,7 @@ export const useViewStore = create<ViewStore>()(
         'dorega-productbyid': false,
         'no-tournaments': false,
         loading: false,
+        rooms: false,
       },
       selectedId: undefined,
       toggleView: (view, state) =>
@@ -60,7 +63,20 @@ export const useViewStore = create<ViewStore>()(
           } as Record<View, boolean>,
           selectedId: id,
         })),
+      goBack: () =>
+        set((s) => {
+          return {
+            activeViews: {
+              ...Object.fromEntries(
+                Object.keys(s.activeViews).map((k) => [k, false])
+              ),
+              loading: true,
+            } as Record<View, boolean>,
+            selectedId: undefined,
+          };
+        }),
     }),
+
     { name: 'view-store' }
   )
 );
