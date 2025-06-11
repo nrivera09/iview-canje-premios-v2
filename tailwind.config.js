@@ -3,11 +3,14 @@ module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   theme: {
     extend: {
+      backdropBlur: {
+        '4xl': '80px',
+      },
       fontFamily: {
         sans: ['TTNormsPro', 'sans-serif'],
       },
       screens: {
-        xs: { max: '400px' },
+        xs: { max: '500px' },
       },
       keyframes: {
         'marquee-full': {

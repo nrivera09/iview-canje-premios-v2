@@ -9,6 +9,7 @@ import DoregaProducts from '@/feature/dorega/DoregaProducts';
 import DoregaProductById from '@/feature/dorega/DoregaProductById';
 import NoTournaments from '@/feature/NoTournaments';
 import Loading from '@/feature/Loading';
+import '@/app/index.css';
 
 export default function App() {
   const { activeViews, selectedId, goTo } = useViewStore();
