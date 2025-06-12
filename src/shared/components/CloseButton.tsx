@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { callHandleClose } from '../utils/iviewCoreHelpers';
 
 interface CloseButtonProps {
   onClick: () => void;
@@ -12,7 +13,12 @@ const CloseButton: FC<CloseButtonProps> = ({
   height = '65',
 }) => {
   return (
-    <button onClick={onClick}>
+    <button
+      onClick={() => {
+        onClick();
+        callHandleClose();
+      }}
+    >
       <svg
         width={width}
         height={height}

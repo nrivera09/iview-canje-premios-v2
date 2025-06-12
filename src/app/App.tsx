@@ -11,18 +11,21 @@ import NoTournaments from '@/feature/NoTournaments';
 import Loading from '@/feature/Loading';
 import '@/app/index.css';
 import Rooms from '@/feature/mirega/Rooms';
-import BtnCasinoOnline from '@/shared/components/BtnCasinoOnline';
 import { useUIStore } from '@/store/uiStore';
 import ConfirmRedeem from '@/shared/components/ConfirmRedeem';
 import PostRedeem from '@/shared/components/PostRedeem';
-import PostExchange from '@/shared/components/PostExchange';
-import WithOurTournaments from '@/shared/components/WithOurTournaments';
+import { useInitUserStoreFromURL } from '@/shared/hooks/useInitUserStoreFromURL';
+import { ConsoleOverlay } from '@/shared/components/ConsoleOverlay';
+import IViewDebug from '@/shared/components/IViewDebug';
+import IViewFakeId from '@/shared/components/IViewFakeId';
 
 export default function App() {
   const resetUI = useUIStore((s) => s.resetUI);
   const { activeViews, selectedId, goTo } = useViewStore();
   const confirmRedeem = useUIStore((s) => s.confirmRedeem);
   const postRedeem = useUIStore((s) => s.postRedeem);
+
+  useInitUserStoreFromURL();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -35,7 +38,7 @@ export default function App() {
 
   useEffect(() => {
     resetUI();
-  }, []);
+  }, [resetUI]);
 
   return (
     <>
@@ -56,6 +59,9 @@ export default function App() {
       {activeViews.rooms && <Rooms />}
       {confirmRedeem && <ConfirmRedeem id={'1'} />}
       {postRedeem && <PostRedeem id={'1'}></PostRedeem>}
+
+      {process.env.NODE_ENV === 'development' && <IViewDebug />}
+      {process.env.NODE_ENV === 'development' && <IViewFakeId />}
     </>
   );
 }
