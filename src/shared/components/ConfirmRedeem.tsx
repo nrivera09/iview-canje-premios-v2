@@ -27,7 +27,7 @@ const ConfirmRedeem: FC<ConfirmRedeemProps> = ({ id }) => {
           El stock es limitado, canjéalo ahora que podría acabarse.
         </span>
       </main>
-      <footer className="min-h-[62px] gap-[16px] flex flex-row items-center justify-center border-b-0 border-r-0 border-l-0 border border-white/20">
+      <footer className="min-h-[62px] gap-[16px] flex flex-row items-center justify-center border-b-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px]">
         <BtnCasinoOnlineBack
           onClick={() => toggle('confirmRedeem', false)}
           minWidth="115px"

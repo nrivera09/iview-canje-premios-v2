@@ -37,7 +37,7 @@ const MiregaProductById: FC<MiregaProductByIdProps> = ({ id }) => {
         <main className="flex-1 flex items-center justify-center  p-[24px]  ">
           <ProductCardById idRoom={2}></ProductCardById>
         </main>
-        <footer className="min-h-[62px] flex items-center justify-center border-b-0 border-r-0 border-l-0 border border-white/20">
+        <footer className="min-h-[62px] flex items-center justify-center border-b-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px]">
           <BtnCasinoOnline
             minWidth="115px"
             label="CANJEAR"

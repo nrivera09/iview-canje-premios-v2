@@ -15,6 +15,8 @@ import BtnCasinoOnline from '@/shared/components/BtnCasinoOnline';
 import { useUIStore } from '@/store/uiStore';
 import ConfirmRedeem from '@/shared/components/ConfirmRedeem';
 import PostRedeem from '@/shared/components/PostRedeem';
+import PostExchange from '@/shared/components/PostExchange';
+import WithOurTournaments from '@/shared/components/WithOurTournaments';
 
 export default function App() {
   const resetUI = useUIStore((s) => s.resetUI);
