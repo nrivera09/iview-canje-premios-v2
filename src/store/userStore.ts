@@ -1,5 +1,3 @@
-// src/shared/store/userStore.ts
-
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -11,21 +9,32 @@ interface UserStore {
   cardFake: string | null;
   assetFake: number | null;
   viewFake: string | null;
+  forceRedeemFake: boolean | null;
+
+  oldcard: string;
+  oldasset: number;
+  oldview: string;
 
   setCard: (value: string) => void;
   setAsset: (value: number) => void;
   setView: (value: string) => void;
 
+  setOldCard: (value: string) => void;
+  setOldAsset: (value: number) => void;
+  setOldView: (value: string) => void;
+
   setCardFake: (value: string | null) => void;
   setAssetFake: (value: number | null) => void;
   setViewFake: (value: string | null) => void;
+  setForceRedeemFake: (value: boolean | null) => void;
 
   getEffectiveCard: () => string;
   getEffectiveAsset: () => number;
   getEffectiveView: () => string;
+  getEffectiveForceRedeem: () => boolean | null;
 
   resetUser: () => void;
-  resetFakes: () => void; // <-- agregamos esto
+  resetFakes: () => void;
 }
 
 export const useUserStore = create<UserStore>()(
@@ -38,18 +47,29 @@ export const useUserStore = create<UserStore>()(
       cardFake: null,
       assetFake: null,
       viewFake: null,
+      forceRedeemFake: null,
+
+      oldcard: '',
+      oldasset: 0,
+      oldview: '',
 
       setCard: (value) => set({ card: value }),
       setAsset: (value) => set({ asset: value }),
       setView: (value) => set({ view: value }),
 
+      setOldCard: (value) => set({ oldcard: value }),
+      setOldAsset: (value) => set({ oldasset: value }),
+      setOldView: (value) => set({ oldview: value }),
+
       setCardFake: (value) => set({ cardFake: value }),
       setAssetFake: (value) => set({ assetFake: value }),
       setViewFake: (value) => set({ viewFake: value }),
+      setForceRedeemFake: (value) => set({ forceRedeemFake: value }),
 
       getEffectiveCard: () => get().cardFake ?? get().card,
       getEffectiveAsset: () => get().assetFake ?? get().asset,
       getEffectiveView: () => get().viewFake ?? get().view,
+      getEffectiveForceRedeem: () => get().forceRedeemFake,
 
       resetUser: () =>
         set({
@@ -59,6 +79,10 @@ export const useUserStore = create<UserStore>()(
           cardFake: null,
           assetFake: null,
           viewFake: null,
+          forceRedeemFake: null,
+          oldcard: '',
+          oldasset: 0,
+          oldview: '',
         }),
 
       resetFakes: () =>
@@ -66,6 +90,7 @@ export const useUserStore = create<UserStore>()(
           cardFake: null,
           assetFake: null,
           viewFake: null,
+          forceRedeemFake: null,
         }),
     }),
     {
