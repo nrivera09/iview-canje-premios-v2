@@ -9,12 +9,19 @@ import BackButton from '@/shared/components/BackButton';
 import ProductCardBeneficio from '@/shared/components/ProductCardBeneficio';
 import BtnCasinoOnline from './BtnCasinoOnline';
 import { useUIStore } from '@/store/uiStore';
+import { getPromoImage } from '../utils/getPromoImage';
 
 const PostExchange = () => {
   const toggle = useUIStore((s) => s.toggle);
   const resetUI = useUIStore((s) => s.resetUI);
   return (
-    <div className="h-dvh w-full flex flex-col  bg-purple-950">
+    <div
+      className="h-dvh w-full flex flex-col  bg-no-repeat bg-cover"
+      style={{
+        backgroundImage: `url(${getPromoImage('mirega', 'vip')})`,
+        backgroundPosition: 'center top',
+      }}
+    >
       <header className="flex items-center justify-between w-full   min-h-[65px] h-[65px]">
         <BackButton title="" onClick={() => soundManager.play('button')} />
         <CloseButton

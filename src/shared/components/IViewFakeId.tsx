@@ -10,7 +10,7 @@ const IViewFakeId = () => {
   return (
     <>
       <button
-        className="absolute p-2 rounded-tl-xl rounded-bl-xl flex items-center justify-center top-1/2 mt-[-50px] right-0 bg-yellow-300 backdrop-blur-sm"
+        className="absolute p-2 rounded-tl-xl rounded-bl-xl flex items-center justify-center top-1/2 mt-[-50px] right-0 bg-white/50 backdrop-blur-sm text-white/70"
         onClick={() => {
           soundManager.play('button');
           toggleFakeId();

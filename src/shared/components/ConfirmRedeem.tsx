@@ -7,6 +7,7 @@ import { useViewStore } from '@/store/viewStore';
 import React, { FC } from 'react';
 import BtnCasinoOnlineBack from './BtnCasinoOnlineBack';
 import { useUIStore } from '@/store/uiStore';
+import { getPromoImage } from '../utils/getPromoImage';
 
 interface ConfirmRedeemProps {
   id: string;
@@ -18,7 +19,13 @@ const ConfirmRedeem: FC<ConfirmRedeemProps> = ({ id }) => {
   const resetUI = useUIStore((s) => s.resetUI);
 
   return (
-    <div className="h-dvh w-full flex flex-col  bg-purple-950 absolute top-0 left-0 z-10 ">
+    <div
+      className="h-dvh w-full flex flex-col   absolute top-0 left-0 z-10 bg-no-repeat bg-cover"
+      style={{
+        backgroundImage: `url(${getPromoImage('mirega', 'novip')})`,
+        backgroundPosition: 'center top',
+      }}
+    >
       <main className="flex-1 flex items-center flex-col justify-center  p-[24px]  ">
         <p className="text-white text-center font-bold text-[24px]">
           ¿Deseas obtener este regalo?

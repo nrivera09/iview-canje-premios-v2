@@ -3,6 +3,7 @@ import React, { FC, useMemo } from 'react';
 import { soundManager } from '../utils/SoundManager';
 import imgDemo from '@/shared/assets/img/product-demo-overlay.png';
 import clsx from 'clsx';
+import { useUIStore } from '@/store/uiStore';
 
 interface ProductCardBeneficioProps {
   idRoom: number;
@@ -12,13 +13,18 @@ const ProductCardBeneficio: FC<ProductCardBeneficioProps> = ({ idRoom }) => {
   const goTo = useViewStore((s) => s.goTo);
   const isReadyToExchange = false;
 
+  const goRoomProducts = () => {
+    soundManager.play('button');
+    useUIStore.getState().toggle('loading', true);
+    setTimeout(() => {
+      goTo('mirega-products', idRoom.toString());
+    }, 2000);
+  };
+
   return (
     <div
       onMouseLeave={() => soundManager.play('pin')}
-      onClick={() => {
-        soundManager.play('button');
-        goTo('mirega-products', idRoom.toString());
-      }}
+      onClick={goRoomProducts}
       style={{ backgroundImage: `url(${imgDemo})` }}
       className={clsx(
         'cursor-pointer bg-white rounded-xl bg-center xs:min-w-full min-w-[225px] min-h-[200px] relative overflow-hidden'

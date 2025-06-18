@@ -4,6 +4,7 @@ import CloseButton from '@/shared/components/CloseButton';
 import ConfirmRedeem from '@/shared/components/ConfirmRedeem';
 import NotDayExchange from '@/shared/components/NotDayExchange';
 import ProductCardById from '@/shared/components/ProductCardById';
+import { getPromoImage } from '@/shared/utils/getPromoImage';
 import { soundManager } from '@/shared/utils/SoundManager';
 import { useUIStore } from '@/store/uiStore';
 import { useViewStore } from '@/store/viewStore';
@@ -19,8 +20,14 @@ const MiregaProductById: FC<MiregaProductByIdProps> = ({ id }) => {
   const goTo = useViewStore((s) => s.goTo);
   return (
     <>
-      <div className="h-dvh w-full flex flex-col  bg-purple-950">
-        <header className="flex items-center justify-between w-full  bg-transparent backdrop-blur-[80px] min-h-[65px] h-[65px]">
+      <div
+        className="h-dvh w-full flex flex-col  bg-no-repeat bg-cover"
+        style={{
+          backgroundImage: `url(${getPromoImage('mirega', 'novip')})`,
+          backgroundPosition: 'center top',
+        }}
+      >
+        <header className="flex items-center justify-between w-full  bg-transparent  min-h-[65px] h-[65px]">
           <BackButton
             title=""
             onClick={() => {

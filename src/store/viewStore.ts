@@ -11,7 +11,8 @@ type View =
   | 'dorega-productbyid'
   | 'no-tournaments'
   | 'loading'
-  | 'rooms';
+  | 'rooms'
+  | 'post-exchange-day';
 
 interface ViewStore {
   activeViews: Record<View, boolean>;
@@ -36,6 +37,7 @@ export const useViewStore = create<ViewStore>()(
         'no-tournaments': false,
         loading: false,
         rooms: false,
+        'post-exchange-day': false,
       },
       selectedId: undefined,
       toggleView: (view, state) =>

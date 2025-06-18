@@ -11,6 +11,7 @@ import { BackgroundProductExchange } from './BackgroundProductExchange';
 import { ProductExchangeLabel } from './ProductExchangeLabel';
 import imgDemo from '@/shared/assets/img/product-demo.jpg';
 import { LineaProductExchange } from './LineaProductExchange';
+import { getPromoImage } from '../utils/getPromoImage';
 
 interface PostRedeemProps {
   id: string;
@@ -21,7 +22,13 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
   const isExchange = true;
   const resetUI = useUIStore((s) => s.resetUI);
   return (
-    <div className="h-dvh w-full flex flex-col  bg-purple-950 absolute top-0 left-0 z-10 ">
+    <div
+      className="h-dvh w-full flex flex-col  bg-cover absolute top-0 left-0 z-10 bg-no-repeat "
+      style={{
+        backgroundImage: `url(${getPromoImage('mirega', 'novip')})`,
+        backgroundPosition: 'center top',
+      }}
+    >
       <main className="flex-1 flex items-center flex-col justify-center  p-[24px]  ">
         <div className="min-w-[340px] min-h-[448px] relative">
           <div className="relative">
