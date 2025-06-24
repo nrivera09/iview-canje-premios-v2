@@ -1,10 +1,12 @@
+// src/shared/store/promocionesStore.ts
+
 import { create } from 'zustand';
-import { IViewResponse } from '@/shared/types/iview.types';
+import { IPromocionesResponse } from '@/shared/types/iview.types';
 import { fetchPromociones } from '@/shared/api/iviewApi';
 import { useUserStore } from './userStore';
 
-interface PromocionesStore {
-  data: IViewResponse | null;
+export interface PromocionesStore {
+  data: IPromocionesResponse | null;
   loading: boolean;
   loadPromociones: () => Promise<void>;
 }
@@ -14,7 +16,7 @@ export const usePromocionesStore = create<PromocionesStore>((set) => ({
   loading: false,
 
   loadPromociones: async () => {
-    const tarjeta = useUserStore.getState().card; // <<< tomamos la tarjeta desde el store global
+    const tarjeta = useUserStore.getState().card;
     set({ loading: true });
     try {
       const response = await fetchPromociones(tarjeta);

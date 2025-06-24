@@ -1,18 +1,26 @@
-import { IViewResponse } from '@/shared/types/iview.types';
-import { ENV } from '@/shared/config/env';
+import { ENV } from '../config/env';
+import { ISeccion, IPromocionesResponse } from '../types/iview.types';
 
 export const fetchPromociones = async (
   tarjeta: string
-): Promise<IViewResponse> => {
+): Promise<IPromocionesResponse> => {
   const url = new URL(`${ENV.API_BASE_URL}IView/ListarPromocionesIviewJson`);
   url.searchParams.append('tarjeta', tarjeta);
 
   const response = await fetch(url.toString());
-
-  if (!response.ok) {
+  if (!response.ok)
     throw new Error(`Error en la solicitud: ${response.status}`);
-  }
 
-  const data = (await response.json()) as IViewResponse;
-  return data;
+  const raw = await response.json();
+  const secciones: ISeccion[] = Array.isArray(raw.data) ? raw.data : [];
+
+  const ordenadas = secciones.sort((a, b) => a.orden - b.orden);
+
+  return {
+    status: raw.status,
+    success: raw.success,
+    message: raw.message,
+    errors: raw.errors,
+    data: ordenadas,
+  };
 };

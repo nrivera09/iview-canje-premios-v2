@@ -1,16 +1,20 @@
 import { useViewStore } from '@/store/viewStore';
 import React, { FC, useMemo } from 'react';
 import { soundManager } from '../utils/SoundManager';
-import imgDemo from '@/shared/assets/img/product-demo.jpg';
+
+import imgDemo from '@/shared/assets/img/product-demo-overlay.png';
 import clsx from 'clsx';
+import { useUserStore } from '@/store/userStore';
 
 interface ProductCardByIdProps {
   idRoom: number;
+  producto?: any;
 }
 
-const ProductCardById: FC<ProductCardByIdProps> = ({ idRoom }) => {
+const ProductCardById: FC<ProductCardByIdProps> = ({ idRoom, producto }) => {
+  const beneficio = useUserStore((s) => s.selectedBeneficioData);
   const goTo = useViewStore((s) => s.goTo);
-  const isOutStock = false;
+  const isOutStock = producto?.stock === 0;
 
   return (
     <div
@@ -30,11 +34,11 @@ const ProductCardById: FC<ProductCardByIdProps> = ({ idRoom }) => {
         <div className="w-full relative flex items-center justify-center">
           {!isOutStock && (
             <span className="points text-black font-bold min-w-[75px] min-h-[26px] bg-white text-[14px] flex items-center justify-center absolute top-0 left-0 rounded-br-[8px] ">
-              {idRoom} ptos
+              {beneficio?.puntos_Min} ptos
             </span>
           )}
           <img
-            src={imgDemo}
+            src={producto?.nombreImagen ?? imgDemo}
             alt=""
             className="object-cover object-center w-full h-[251.74px]"
           />
@@ -42,13 +46,17 @@ const ProductCardById: FC<ProductCardByIdProps> = ({ idRoom }) => {
       </div>
 
       <p className="truncate-2-lines text-white text-[24px] font-bold break-words text-left w-full mt-[16px] ">
-        Xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxo
+        {producto?.nombre}
       </p>
-      <p className="text-white font-light">
-        Le faltan <span className="font-bold">77 puntos</span> para canjear
-      </p>
+      {beneficio?.puntos_Falta !== undefined && beneficio.puntos_Falta > 0 && (
+        <p className="text-white font-light">
+          Le faltan <span className="font-bold">{beneficio.puntos_Falta}</span>{' '}
+          para canjear
+        </p>
+      )}
+
       <div className="stock text-[14px] font-normal bg-white/10 text-white rounded max-w-[103px] min-h-[26px] flex items-center justify-center mt-[24px]">
-        Stock: 20 uds.
+        Stock: {producto?.stock} {producto?.stock > 1 ? `uds.` : `ud.`}
       </div>
 
       {isOutStock && (

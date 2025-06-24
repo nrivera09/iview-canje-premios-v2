@@ -17,11 +17,15 @@ type View =
 interface ViewStore {
   activeViews: Record<View, boolean>;
   selectedId?: string;
+  selectedType?: string;
   toggleView: (view: View, state?: boolean) => void;
   setSelectedId: (id: string) => void;
+  setSelectedType: (type: string) => void;
   resetViews: () => void;
-  goTo: (view: View, id?: string) => void;
+  goTo: (view: View, id?: string, type?: string) => void;
   goBack: () => void;
+  previousId?: string;
+  setPreviousId: (id: string) => void;
 }
 
 export const useViewStore = create<ViewStore>()(
@@ -39,6 +43,9 @@ export const useViewStore = create<ViewStore>()(
         rooms: false,
         'post-exchange-day': false,
       },
+      previousId: undefined,
+      setPreviousId: (id) => set({ previousId: id }),
+
       selectedId: undefined,
       toggleView: (view, state) =>
         set((s) => ({
@@ -48,35 +55,38 @@ export const useViewStore = create<ViewStore>()(
           },
         })),
       setSelectedId: (id) => set({ selectedId: id }),
+      setSelectedType: (type) => set({ selectedType: type }),
       resetViews: () =>
         set((s) => ({
           activeViews: Object.fromEntries(
             Object.keys(s.activeViews).map((key) => [key, false])
           ) as Record<View, boolean>,
           selectedId: undefined,
+          selectedType: undefined,
         })),
-      goTo: (view, id) =>
+      goTo: (view, id, type) =>
         set((s) => ({
           activeViews: {
             ...(Object.fromEntries(
               Object.keys(s.activeViews).map((k) => [k, false])
             ) as Record<View, boolean>),
             [view]: true,
-          } as Record<View, boolean>,
+          },
           selectedId: id,
+          selectedType: type,
         })),
+
       goBack: () =>
-        set((s) => {
-          return {
-            activeViews: {
-              ...Object.fromEntries(
-                Object.keys(s.activeViews).map((k) => [k, false])
-              ),
-              loading: true,
-            } as Record<View, boolean>,
-            selectedId: undefined,
-          };
-        }),
+        set((s) => ({
+          activeViews: {
+            ...Object.fromEntries(
+              Object.keys(s.activeViews).map((k) => [k, false])
+            ),
+            loading: true,
+          } as Record<View, boolean>,
+          selectedId: undefined,
+          selectedType: undefined,
+        })),
     }),
 
     { name: 'view-store' }

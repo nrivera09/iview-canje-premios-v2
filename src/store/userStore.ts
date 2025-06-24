@@ -1,7 +1,11 @@
+import { IBeneficio } from '@/shared/types/iview.types';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 interface UserStore {
+  selectedBeneficioData: IBeneficio | null;
+  setSelectedBeneficioData: (beneficio: IBeneficio | null) => void;
+
   card: string;
   asset: number;
   view: string;
@@ -43,6 +47,10 @@ export const useUserStore = create<UserStore>()(
       card: '',
       asset: 0,
       view: '',
+
+      selectedBeneficioData: null,
+      setSelectedBeneficioData: (beneficio) =>
+        set({ selectedBeneficioData: beneficio }),
 
       cardFake: null,
       assetFake: null,

@@ -2,28 +2,92 @@ import BackButton from '@/shared/components/BackButton';
 import CloseButton from '@/shared/components/CloseButton';
 import HeaderProgressBar from '@/shared/components/HeaderProgressBar';
 import LoadingGrid from '@/shared/components/LoadingGrid';
-import ProductCard from '@/shared/components/ProductCard';
+import ProductCardBeneficio from '@/shared/components/ProductCardBeneficio';
 import ProgressBar from '@/shared/components/ProgressBar';
 import { getPromoImage } from '@/shared/utils/getPromoImage';
 import { soundManager } from '@/shared/utils/SoundManager';
 import { useUIStore } from '@/store/uiStore';
 import { useViewStore } from '@/store/viewStore';
+import { usePromocionesStore } from '@/store/promocionesStore';
 import clsx from 'clsx';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
+import {
+  IBeneficio,
+  ITorneoItem,
+  IPromocionItem,
+} from '@/shared/types/iview.types';
+import { useUserStore } from '@/store/userStore';
+import { calculatePuntosPorcentaje } from '@/shared/utils/Utils';
 
 const MiregaProducts = () => {
+  const beneficio = useUserStore((s) => s.selectedBeneficioData);
   const loading = useUIStore((s) => s.loading);
   const selectedId = useViewStore((s) => s.selectedId);
-
-  const objProducts = Array.from({ length: 4 });
+  const selectedType = useViewStore((s) => s.selectedType);
+  const { data } = usePromocionesStore();
 
   const goTo = useViewStore((s) => s.goTo);
 
   useEffect(() => {
-    if (loading === true) {
+    if (loading) {
       useUIStore.getState().toggle('loading', false);
     }
   }, [loading]);
+
+  // 🔍 Filtrado dinámico según el tipo
+  const productos = useMemo(() => {
+    if (!data || !selectedId || typeof selectedType !== 'string') return [];
+
+    const secciones = data.data; // ← tipo ISeccion[]
+    switch (selectedType.toUpperCase()) {
+      case 'MIREGA':
+      case 'DOREGA': {
+        const beneficioList =
+          secciones.find((s) => s.nombre === 'Beneficios')?.lista ?? [];
+
+        const beneficio = (beneficioList as IBeneficio[]).find(
+          (item) => item.promocion_Tipo_Id.toString() === selectedId
+        );
+
+        // ⏺️ Almacena el beneficio seleccionado en el store
+        useUserStore.getState().setSelectedBeneficioData(beneficio ?? null);
+
+        console.log('[BENEFICIO encontrado]', beneficio);
+
+        return beneficio?.lista_Regalos ?? [];
+      }
+
+      case 'TORNEO': {
+        const torneoList =
+          secciones.find((s) => s.nombre === 'Torneos')?.lista ?? [];
+
+        const filtrado = (torneoList as ITorneoItem[]).filter(
+          (item) => item.promocion_Id.toString() === selectedId
+        );
+
+        console.log('[TORNEO filtrado]', filtrado);
+
+        return filtrado;
+      }
+
+      case 'PROMOCIONES': {
+        const promoList =
+          secciones.find((s) => s.nombre === 'Promociones')?.lista ?? [];
+
+        const filtrado = (promoList as IPromocionItem[]).filter(
+          (item) => item.id.toString() === selectedId
+        );
+
+        console.log('[PROMOCIONES filtradas]', filtrado);
+
+        return filtrado;
+      }
+
+      default:
+        console.warn('[TIPO no reconocido]', selectedType);
+        return [];
+    }
+  }, [data, selectedId, selectedType]);
 
   return (
     <div
@@ -35,7 +99,9 @@ const MiregaProducts = () => {
     >
       <header className="flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px] min-h-[65px] h-[65px] ">
         <BackButton
-          title="{Miércoles} regalones"
+          title={`${
+            selectedType === 'MIREGA' ? 'Miercoles' : 'Domingos'
+          } regalones`}
           onClick={() => {
             soundManager.play('button');
             goTo('rooms');
@@ -49,19 +115,34 @@ const MiregaProducts = () => {
       </header>
       <div className=" h-[34px] bg-[#ffffff3d] flex items-center justify-between">
         <HeaderProgressBar />
-        <ProgressBar />
+        <ProgressBar
+          value={calculatePuntosPorcentaje(
+            beneficio?.puntos ?? 0,
+            beneficio?.puntos_Min ?? 0
+          )}
+        />
       </div>
       <main
         className={clsx(
-          `flex-1  p-[24px]  overflow-y-auto scrollbar-none`,
-          objProducts.length > 4 && `flex items-center justify-center`
+          `flex-1 p-[24px] overflow-y-auto scrollbar-none`,
+          productos.length > 4 && `flex items-center justify-center`
         )}
       >
-        <div className="grid grid-cols-2 gap-[24px]    max-w-[474px] mx-auto">
-          {/*<LoadingGrid /> */}
-          {objProducts.map((_, index) => {
-            return <ProductCard key={index} idRoom={index} />;
-          })}
+        <div className="grid grid-cols-2 gap-[24px] max-w-[474px] mx-auto">
+          {loading
+            ? productos.map((_, index) => <LoadingGrid key={index} />)
+            : productos.map((item, index) => (
+                <ProductCardBeneficio
+                  key={index}
+                  idRoom={index}
+                  beneficio={item as IBeneficio}
+                  onClick={() => {
+                    soundManager.play('button');
+                    useUIStore.getState().toggle('loading', true);
+                    goTo('mirega-productbyid', index.toString(), 'MIREGA');
+                  }}
+                />
+              ))}
         </div>
       </main>
     </div>

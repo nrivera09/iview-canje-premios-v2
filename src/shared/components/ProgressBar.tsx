@@ -1,3 +1,4 @@
+import { useUserStore } from '@/store/userStore';
 import React, { FC, useEffect, useState } from 'react';
 
 interface ProgressBarProps {
@@ -11,6 +12,7 @@ const ProgressBar: FC<ProgressBarProps> = ({
   labelFormat = 'puntos',
   value = 70,
 }) => {
+  const beneficio = useUserStore((s) => s.selectedBeneficioData);
   const [percentage, setPercentage] = useState(0);
 
   useEffect(() => {
@@ -30,7 +32,8 @@ const ProgressBar: FC<ProgressBarProps> = ({
   return (
     <div className="flex flex-1 items-center justify-center px-6 gap-[10px]">
       <p className="text-[14px] text-white">
-        {labelHave} <span className="font-bold">{999}</span> {labelFormat}
+        {labelHave} <span className="font-bold">{beneficio?.puntos}</span>{' '}
+        {labelFormat}
       </p>
       <div className="relative min-w-[100px] max-w-full overflow-hidden h-[8px] rounded-full bg-neutral-700">
         <div
