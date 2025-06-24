@@ -7,8 +7,9 @@ import ProductCardById from '@/shared/components/ProductCardById';
 import { getPromoImage } from '@/shared/utils/getPromoImage';
 import { soundManager } from '@/shared/utils/SoundManager';
 import { useUIStore } from '@/store/uiStore';
+import { useUserStore } from '@/store/userStore';
 import { useViewStore } from '@/store/viewStore';
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 
 interface MiregaProductByIdProps {
   id: string;
@@ -16,8 +17,29 @@ interface MiregaProductByIdProps {
 
 const MiregaProductById: FC<MiregaProductByIdProps> = ({ id }) => {
   const selectedId = useViewStore((s) => s.selectedId);
+  const previousId = useViewStore((s) => s.previousId);
+
+  const selectedType = useViewStore((s) => s.selectedType);
+
+  const beneficio = useUserStore((s) => s.selectedBeneficioData);
+
+  const index = Number(selectedId);
+  const productoSeleccionado =
+    index >= 0 && beneficio?.lista_Regalos?.[index]
+      ? beneficio.lista_Regalos[index]
+      : null;
+
+  console.log('productoSeleccionado: ', productoSeleccionado);
+
   const confirmRedeem = useUIStore((s) => s.confirmRedeem);
   const goTo = useViewStore((s) => s.goTo);
+
+  useEffect(() => {
+    setTimeout(() => {
+      useUIStore.getState().toggle('loading', false);
+    }, 1000);
+  }, []);
+
   return (
     <>
       <div
@@ -32,7 +54,7 @@ const MiregaProductById: FC<MiregaProductByIdProps> = ({ id }) => {
             title=""
             onClick={() => {
               soundManager.play('button');
-              goTo('mirega-products');
+              goTo('dorega-products', previousId ?? '', selectedType ?? '');
             }}
           />
           <CloseButton
@@ -41,8 +63,11 @@ const MiregaProductById: FC<MiregaProductByIdProps> = ({ id }) => {
             onClick={() => soundManager.play('button')}
           />
         </header>
-        <main className="flex-1 flex items-center justify-center  p-[24px]  ">
-          <ProductCardById idRoom={2}></ProductCardById>
+        <main className="flex-1 flex items-center justify-center  px-[84px]  ">
+          <ProductCardById
+            idRoom={productoSeleccionado?.id ?? 0}
+            producto={productoSeleccionado}
+          />
         </main>
         <footer className="min-h-[62px] flex items-center justify-center border-b-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px]">
           <BtnCasinoOnline
