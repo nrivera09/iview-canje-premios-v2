@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import imgLoading from '@/shared/assets/img/loading.png';
 import imgLoading1 from '@/shared/assets/img/loading1.png';
 import imgLoading2 from '@/shared/assets/img/loading2.png';
 import imgLoading3 from '@/shared/assets/img/loading3.png';

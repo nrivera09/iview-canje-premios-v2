@@ -12,20 +12,36 @@ import { ProductExchangeLabel } from './ProductExchangeLabel';
 import imgDemo from '@/shared/assets/img/product-demo.jpg';
 import { LineaProductExchange } from './LineaProductExchange';
 import { getPromoImage } from '../utils/getPromoImage';
+import { useUserStore } from '@/store/userStore';
 
 interface PostRedeemProps {
   id: string;
 }
 
 const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
-  const { activeViews, selectedId, goTo } = useViewStore();
+  const { goTo } = useViewStore();
+  const selectedId = useViewStore((s) => s.selectedId);
+  const previousId = useViewStore((s) => s.previousId);
+
+  const selectedType = useViewStore((s) => s.selectedType);
+
+  const beneficio = useUserStore((s) => s.selectedBeneficioData);
+
+  const index = Number(selectedId);
+  const productoSeleccionado =
+    index >= 0 && beneficio?.lista_Regalos?.[index]
+      ? beneficio.lista_Regalos[index]
+      : null;
   const isExchange = true;
   const resetUI = useUIStore((s) => s.resetUI);
   return (
     <div
       className="h-dvh w-full flex flex-col  bg-cover absolute top-0 left-0 z-10 bg-no-repeat "
       style={{
-        backgroundImage: `url(${getPromoImage('mirega', 'novip')})`,
+        backgroundImage: `url(${getPromoImage(
+          selectedType?.toLocaleLowerCase() || 'mirega',
+          'novip'
+        )})`,
         backgroundPosition: 'center top',
       }}
     >

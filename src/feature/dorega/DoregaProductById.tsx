@@ -2,6 +2,8 @@ import BackButton from '@/shared/components/BackButton';
 import BtnCasinoOnline from '@/shared/components/BtnCasinoOnline';
 import CloseButton from '@/shared/components/CloseButton';
 import ConfirmRedeem from '@/shared/components/ConfirmRedeem';
+import bgDorega from '@/shared/assets/img/btnMiregaDorega/bgDorega.png';
+import bgDoregaVIP from '@/shared/assets/img/btnMiregaDorega/bgDoregaVIP.png';
 import NotDayExchange from '@/shared/components/NotDayExchange';
 import ProductCardById from '@/shared/components/ProductCardById';
 import { getPromoImage } from '@/shared/utils/getPromoImage';
@@ -10,6 +12,7 @@ import { useUIStore } from '@/store/uiStore';
 import { useUserStore } from '@/store/userStore';
 import { useViewStore } from '@/store/viewStore';
 import React, { FC, useEffect } from 'react';
+import PostRedeem from '../../shared/components/PostRedeem';
 
 interface DoregaProductByIdProps {
   id: string;
@@ -22,17 +25,18 @@ const DoregaProductById: FC<DoregaProductByIdProps> = ({ id }) => {
   const selectedType = useViewStore((s) => s.selectedType);
 
   const beneficio = useUserStore((s) => s.selectedBeneficioData);
-
   const index = Number(selectedId);
   const productoSeleccionado =
     index >= 0 && beneficio?.lista_Regalos?.[index]
       ? beneficio.lista_Regalos[index]
       : null;
 
-  console.log('productoSeleccionado: ', productoSeleccionado);
-
   const confirmRedeem = useUIStore((s) => s.confirmRedeem);
   const goTo = useViewStore((s) => s.goTo);
+
+  const disableButton =
+    (beneficio?.puntos ?? 0) < (beneficio?.puntos_Min ?? 0) ||
+    productoSeleccionado?.stock === 0;
 
   useEffect(() => {
     setTimeout(() => {
@@ -40,12 +44,17 @@ const DoregaProductById: FC<DoregaProductByIdProps> = ({ id }) => {
     }, 1000);
   }, []);
 
+  useEffect(() => {
+    //beneficio?.canjeado && useUIStore.getState().toggle('postRedeem', true);
+    useUIStore.getState().toggle('postRedeem', true);
+  }, []);
+
   return (
     <>
       <div
         className="h-dvh w-full flex flex-col  bg-no-repeat bg-cover"
         style={{
-          backgroundImage: `url(${getPromoImage('mirega', 'novip')})`,
+          backgroundImage: `url(${bgDorega})`,
           backgroundPosition: 'center top',
         }}
       >
@@ -73,7 +82,11 @@ const DoregaProductById: FC<DoregaProductByIdProps> = ({ id }) => {
           <BtnCasinoOnline
             minWidth="115px"
             label="CANJEAR"
-            onClick={() => useUIStore.getState().toggle('confirmRedeem', true)}
+            disabled={disableButton}
+            onClick={() =>
+              !disableButton &&
+              useUIStore.getState().toggle('confirmRedeem', true)
+            }
           ></BtnCasinoOnline>
         </footer>
       </div>

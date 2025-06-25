@@ -1,10 +1,11 @@
 import { useViewStore } from '@/store/viewStore';
-import React, { FC, useMemo } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import { soundManager } from '../utils/SoundManager';
 
 import imgDemo from '@/shared/assets/img/product-demo-overlay.png';
 import clsx from 'clsx';
 import { useUserStore } from '@/store/userStore';
+import { fetchImgBase64 } from '../api/iviewApi';
 
 interface ProductCardByIdProps {
   idRoom: number;
@@ -12,17 +13,21 @@ interface ProductCardByIdProps {
 }
 
 const ProductCardById: FC<ProductCardByIdProps> = ({ idRoom, producto }) => {
+  const [imgBase64, setImgBase64] = useState<any>(null);
   const beneficio = useUserStore((s) => s.selectedBeneficioData);
   const goTo = useViewStore((s) => s.goTo);
   const isOutStock = producto?.stock === 0;
+  useEffect(() => {
+    const getImg = async () => {
+      const result = await fetchImgBase64(producto.nombreImagen);
+      setImgBase64(result);
+    };
+    getImg();
+  }, [producto.nombreImagen]);
 
   return (
     <div
       onMouseLeave={() => soundManager.play('pin')}
-      onClick={() => {
-        soundManager.play('button');
-        goTo('mirega-productbyid', idRoom.toString());
-      }}
       className="cursor-pointer  xs:min-w-full min-w-[362px] min-h-[154px] relative overflow-hidden"
     >
       <div
@@ -38,7 +43,7 @@ const ProductCardById: FC<ProductCardByIdProps> = ({ idRoom, producto }) => {
             </span>
           )}
           <img
-            src={producto?.nombreImagen ?? imgDemo}
+            src={imgBase64 || imgDemo}
             alt=""
             className="object-cover object-center w-full h-[251.74px]"
           />
@@ -48,12 +53,18 @@ const ProductCardById: FC<ProductCardByIdProps> = ({ idRoom, producto }) => {
       <p className="truncate-2-lines text-white text-[24px] font-bold break-words text-left w-full mt-[16px] ">
         {producto?.nombre}
       </p>
-      {beneficio?.puntos_Falta !== undefined && beneficio.puntos_Falta > 0 && (
-        <p className="text-white font-light">
-          Le faltan <span className="font-bold">{beneficio.puntos_Falta}</span>{' '}
-          para canjear
-        </p>
-      )}
+      {beneficio &&
+        typeof beneficio.puntos === 'number' &&
+        typeof beneficio.puntos_Min === 'number' &&
+        beneficio.puntos < beneficio.puntos_Min && (
+          <p className="text-white font-light">
+            Le faltan{' '}
+            <span className="font-bold">
+              {beneficio.puntos_Min - beneficio.puntos}
+            </span>{' '}
+            para canjear
+          </p>
+        )}
 
       <div className="stock text-[14px] font-normal bg-white/10 text-white rounded max-w-[103px] min-h-[26px] flex items-center justify-center mt-[24px]">
         Stock: {producto?.stock} {producto?.stock > 1 ? `uds.` : `ud.`}

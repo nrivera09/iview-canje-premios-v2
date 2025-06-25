@@ -9,6 +9,7 @@ import { usePromocionesStore } from '@/store/promocionesStore';
 import { IBeneficio, ISeccion } from '@/shared/types/iview.types';
 import { useUIStore } from '@/store/uiStore';
 import { useViewStore } from '@/store/viewStore';
+import ProductCardTipoBeneficio from '@/shared/components/ProductCardTipoBeneficio';
 
 const Rooms = () => {
   const { data, loading, loadPromociones } = usePromocionesStore();
@@ -50,30 +51,20 @@ const Rooms = () => {
       </header>
 
       <main className="flex-1 p-[24px] overflow-y-auto scrollbar-none">
-        {secciones.map((seccion, sectionIndex) => (
-          <div key={sectionIndex} className="mb-8">
-            <h2 className="text-white text-lg font-semibold mb-4 ">
-              {seccion.nombre}
-            </h2>
-            <div className="grid grid-cols-2 gap-[24px] max-w-[474px] mx-auto">
-              {loading
-                ? seccion.lista.map((_, index) => <LoadingGrid key={index} />)
-                : seccion.lista.map((item: any, index: number) => (
-                    <ProductCardBeneficio
-                      key={item.id ?? index}
-                      idRoom={
-                        seccion.nombre === 'Promociones'
-                          ? item.promocionId
-                          : seccion.nombre === 'Beneficios'
-                          ? item.promocion_Tipo_Id
-                          : seccion.nombre === 'Torneos'
-                          ? item.promocion_Id
-                          : 0
-                      }
-                      beneficio={item}
-                      onClick={() =>
-                        goRoomProducts(
-                          item.promocion,
+        {secciones
+          .filter((seccion) => seccion.nombre === 'Beneficios')
+          .map((seccion, sectionIndex) => (
+            <div key={sectionIndex} className="mb-8">
+              <h2 className="text-white text-lg font-semibold mb-4 !hidden">
+                {seccion.nombre}
+              </h2>
+              <div className="grid grid-cols-2 gap-[24px] max-w-[474px] mx-auto">
+                {loading
+                  ? seccion.lista.map((_, index) => <LoadingGrid key={index} />)
+                  : seccion.lista.map((item: any, index: number) => (
+                      <ProductCardTipoBeneficio
+                        key={item.id ?? index}
+                        idRoom={
                           seccion.nombre === 'Promociones'
                             ? item.promocionId
                             : seccion.nombre === 'Beneficios'
@@ -81,13 +72,25 @@ const Rooms = () => {
                             : seccion.nombre === 'Torneos'
                             ? item.promocion_Id
                             : 0
-                        )
-                      }
-                    />
-                  ))}
+                        }
+                        beneficio={item}
+                        onClick={() =>
+                          goRoomProducts(
+                            item.promocion,
+                            seccion.nombre === 'Promociones'
+                              ? item.promocionId
+                              : seccion.nombre === 'Beneficios'
+                              ? item.promocion_Tipo_Id
+                              : seccion.nombre === 'Torneos'
+                              ? item.promocion_Id
+                              : 0
+                          )
+                        }
+                      />
+                    ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </main>
     </div>
   );

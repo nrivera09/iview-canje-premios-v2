@@ -24,3 +24,22 @@ export const fetchPromociones = async (
     data: ordenadas,
   };
 };
+
+export const fetchImgBase64 = async (nombre: string) => {
+  try {
+    const response = await fetch(
+      `https://dev-api-canje-regalo.acity.com.pe/api/Regalos/imagen?nombre=${nombre}`
+    );
+
+    const blob = await response.blob();
+
+    return await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.readAsDataURL(blob);
+    });
+  } catch (error) {
+    console.error('Error fetching imagen:', error);
+    return null;
+  }
+};

@@ -68,6 +68,13 @@ export interface IBeneficio {
   fecha_fin: string;
 }
 
+export interface IBeneficioGRID {
+  id: number;
+  nombre: string;
+  nombreImagen: string;
+  stock: number;
+}
+
 export interface IGrupoPromociones<T = any> {
   nombre: string;
   orden: number;

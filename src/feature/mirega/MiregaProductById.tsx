@@ -10,6 +10,8 @@ import { useUIStore } from '@/store/uiStore';
 import { useUserStore } from '@/store/userStore';
 import { useViewStore } from '@/store/viewStore';
 import React, { FC, useEffect } from 'react';
+import bgMirega from '@/shared/assets/img/btnMiregaDorega/bgMirega.png';
+import bgMiregaVIP from '@/shared/assets/img/btnMiregaDorega/bgMiregaVIP.png';
 
 interface MiregaProductByIdProps {
   id: string;
@@ -29,10 +31,12 @@ const MiregaProductById: FC<MiregaProductByIdProps> = ({ id }) => {
       ? beneficio.lista_Regalos[index]
       : null;
 
-  console.log('productoSeleccionado: ', productoSeleccionado);
-
   const confirmRedeem = useUIStore((s) => s.confirmRedeem);
   const goTo = useViewStore((s) => s.goTo);
+
+  const disableButton =
+    (beneficio?.puntos ?? 0) < (beneficio?.puntos_Min ?? 0) ||
+    productoSeleccionado?.stock === 0;
 
   useEffect(() => {
     setTimeout(() => {
@@ -40,12 +44,16 @@ const MiregaProductById: FC<MiregaProductByIdProps> = ({ id }) => {
     }, 1000);
   }, []);
 
+  useEffect(() => {
+    beneficio?.canjeado && useUIStore.getState().toggle('postRedeem', true);
+  }, []);
+
   return (
     <>
       <div
         className="h-dvh w-full flex flex-col  bg-no-repeat bg-cover"
         style={{
-          backgroundImage: `url(${getPromoImage('mirega', 'novip')})`,
+          backgroundImage: `url(${bgMirega})`,
           backgroundPosition: 'center top',
         }}
       >
@@ -54,7 +62,7 @@ const MiregaProductById: FC<MiregaProductByIdProps> = ({ id }) => {
             title=""
             onClick={() => {
               soundManager.play('button');
-              goTo('dorega-products', previousId ?? '', selectedType ?? '');
+              goTo('mirega-products', previousId ?? '', selectedType ?? '');
             }}
           />
           <CloseButton
@@ -73,7 +81,11 @@ const MiregaProductById: FC<MiregaProductByIdProps> = ({ id }) => {
           <BtnCasinoOnline
             minWidth="115px"
             label="CANJEAR"
-            onClick={() => useUIStore.getState().toggle('confirmRedeem', true)}
+            disabled={disableButton}
+            onClick={() =>
+              !disableButton &&
+              useUIStore.getState().toggle('confirmRedeem', true)
+            }
           ></BtnCasinoOnline>
         </footer>
       </div>

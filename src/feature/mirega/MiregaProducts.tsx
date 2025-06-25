@@ -15,9 +15,11 @@ import {
   IBeneficio,
   ITorneoItem,
   IPromocionItem,
+  IBeneficioGRID,
 } from '@/shared/types/iview.types';
 import { useUserStore } from '@/store/userStore';
 import { calculatePuntosPorcentaje } from '@/shared/utils/Utils';
+import ProductCardTipoBeneficioGrid from '@/shared/components/ProductCardBeneficioGrid';
 
 const MiregaProducts = () => {
   const beneficio = useUserStore((s) => s.selectedBeneficioData);
@@ -93,15 +95,13 @@ const MiregaProducts = () => {
     <div
       className="h-dvh w-full flex flex-col bg-no-repeat bg-cover"
       style={{
-        backgroundImage: `url(${getPromoImage('mirega', 'vip')})`,
+        backgroundImage: `url(${getPromoImage('mirega', 'novip')})`,
         backgroundPosition: 'center top',
       }}
     >
       <header className="flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px] min-h-[65px] h-[65px] ">
         <BackButton
-          title={`${
-            selectedType === 'MIREGA' ? 'Miercoles' : 'Domingos'
-          } regalones`}
+          title={`Miercoles regalones`}
           onClick={() => {
             soundManager.play('button');
             goTo('rooms');
@@ -132,14 +132,17 @@ const MiregaProducts = () => {
           {loading
             ? productos.map((_, index) => <LoadingGrid key={index} />)
             : productos.map((item, index) => (
-                <ProductCardBeneficio
+                <ProductCardTipoBeneficioGrid
                   key={index}
                   idRoom={index}
-                  beneficio={item as IBeneficio}
+                  beneficio={item as IBeneficioGRID}
                   onClick={() => {
                     soundManager.play('button');
                     useUIStore.getState().toggle('loading', true);
-                    goTo('mirega-productbyid', index.toString(), 'MIREGA');
+                    useViewStore.getState().setPreviousId(selectedId ?? '');
+                    useViewStore
+                      .getState()
+                      .goTo('mirega-productbyid', index.toString(), 'MIREGA');
                   }}
                 />
               ))}
