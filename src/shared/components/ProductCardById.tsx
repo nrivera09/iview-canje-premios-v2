@@ -22,6 +22,7 @@ const ProductCardById: FC<ProductCardByIdProps> = ({
   disableButton = false,
 }) => {
   console.log('producto', producto);
+  const setSelectedId = useViewStore((state) => state.setSelectedId);
   const isLVDS = useIsLVDS();
   const [imgBase64, setImgBase64] = useState<any>(null);
   const beneficio = useUserStore((s) => s.selectedBeneficioData);
@@ -62,8 +63,8 @@ const ProductCardById: FC<ProductCardByIdProps> = ({
             src={imgBase64 || imgDemo}
             alt=""
             className={clsx(
-              !isLVDS ? ` w-full h-[251.74px]` : `w-full h-[176px]`,
-              `object-cover object-center`
+              !isLVDS ? ` w-full h-[251.74px]` : ` w-[244px] h-[176px]`,
+              `object-cover object-center rounded-xl overflow-hidden`
             )}
           />
         </div>
@@ -115,11 +116,11 @@ const ProductCardById: FC<ProductCardByIdProps> = ({
           <BtnCasinoOnline
             minWidth="93px"
             label="CANJEAR"
-            disabled={disableButton}
-            onClick={() =>
-              !disableButton &&
-              useUIStore.getState().toggle('confirmRedeem', true)
-            }
+            onClick={() => {
+              soundManager.play('button');
+              setSelectedId(producto.id);
+              useUIStore.getState().toggle('confirmRedeem', true);
+            }}
           ></BtnCasinoOnline>
         )}
       </div>

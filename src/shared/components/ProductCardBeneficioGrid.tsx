@@ -13,12 +13,14 @@ interface ProductCardTipoBeneficioGridProps {
   idRoom: number;
   beneficio: IBeneficioGRID;
   onClick?: () => void;
+  puntos?: number;
 }
 
 const ProductCardTipoBeneficioGrid: FC<ProductCardTipoBeneficioGridProps> = ({
   idRoom,
   beneficio,
   onClick,
+  puntos,
 }) => {
   const isLVDS = useIsLVDS();
   const [imgBase64, setImgBase64] = useState<any>(null);
@@ -56,7 +58,9 @@ const ProductCardTipoBeneficioGrid: FC<ProductCardTipoBeneficioGridProps> = ({
         <img
           className={clsx(
             `img w-full  bg-cover rounded-lg overflow-hidden`,
-            isLVDS ? 'min-h-[96px]' : 'min-h-[154px]',
+            isLVDS
+              ? 'min-h-[96px] h-[96px] max-h-[96px]'
+              : 'min-h-[154px] h-[154px] max-h-[154px]',
             isOutStock && 'opacity-50'
           )}
           src={imgBase64 || imgDemo}
@@ -79,7 +83,7 @@ const ProductCardTipoBeneficioGrid: FC<ProductCardTipoBeneficioGridProps> = ({
 
       {!isOutStock && (
         <span className="flex items-center justify-center pts absolute left-0 top-0 min-w-[78px] h-[26px] bg-white font-bold text-black text-[14px] px-[8px] rounded-br-lg z-0">
-          XX ptos.
+          {puntos} ptos.
         </span>
       )}
     </div>

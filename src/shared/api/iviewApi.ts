@@ -1,5 +1,13 @@
+import { useUIStore } from '@/store/uiStore';
 import { ENV } from '../config/env';
-import { ISeccion, IPromocionesResponse } from '../types/iview.types';
+import {
+  ISeccion,
+  IPromocionesResponse,
+  CanjeRequest,
+} from '../types/iview.types';
+import { usePromocionesStore } from '@/store/promocionesStore';
+import { useUserStore } from '@/store/userStore';
+import { useViewStore } from '@/store/viewStore';
 
 export const fetchPromociones = async (
   tarjeta: string
@@ -28,7 +36,7 @@ export const fetchPromociones = async (
 export const fetchImgBase64 = async (nombre: string) => {
   try {
     const response = await fetch(
-      `https://dev-api-canje-regalo.acity.com.pe/api/Regalos/imagen?nombre=${nombre}`
+      `${ENV.API_BASE_URL_V1}Regalos/imagen?nombre=1658`
     );
 
     const blob = await response.blob();
@@ -41,5 +49,48 @@ export const fetchImgBase64 = async (nombre: string) => {
   } catch (error) {
     console.error('Error fetching imagen:', error);
     return null;
+  }
+};
+
+export const canjearPremio = async (): Promise<boolean> => {
+  const selectedId = useViewStore.getState().selectedId;
+  try {
+    const user = useUserStore.getState();
+    const beneficio = user.selectedBeneficioData;
+
+    if (!beneficio) {
+      console.error('No hay beneficio seleccionado para canje.');
+      return false;
+    }
+
+    const payload: CanjeRequest = {
+      promocionid: beneficio.promocion_Tipo_Id,
+      tarjeta: Number(user.getEffectiveCard()),
+      regalo: Number(selectedId),
+      asset: user.getEffectiveAsset(),
+      puntos: beneficio.puntos,
+    };
+    debugger;
+    const response = await fetch(`${ENV.API_BASE_URL}Regalos/canjear`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) throw new Error('Error en el canje del premio');
+
+    const result = await response.json();
+
+    if (result === true) {
+      usePromocionesStore.getState().loadPromociones(); // recarga
+      useUIStore.getState().toggle('confirmRedeem', true);
+    }
+
+    return result === true;
+  } catch (error) {
+    console.error('Error al canjear premio:', error);
+    return false;
   }
 };

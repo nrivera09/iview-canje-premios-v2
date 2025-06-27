@@ -11,6 +11,7 @@ import { getPromoImage } from '../utils/getPromoImage';
 import { useUserStore } from '@/store/userStore';
 import clsx from 'clsx';
 import { useIsLVDS } from '../hooks/useDetectIview';
+import { canjearPremio } from '../api/iviewApi';
 
 interface ConfirmRedeemProps {
   id: string;
@@ -62,12 +63,14 @@ const ConfirmRedeem: FC<ConfirmRedeemProps> = ({ id }) => {
         ></BtnCasinoOnlineBack>
         <BtnCasinoOnline
           minWidth="115px"
-          disabled={disableButton}
           label="CANJEAR"
-          onClick={() => {
+          onClick={async () => {
             soundManager.play('button');
-            resetUI();
-            toggle('postRedeem', true);
+            const success = await canjearPremio();
+            if (success) {
+              resetUI();
+              toggle('postRedeem', true);
+            }
           }}
         ></BtnCasinoOnline>
       </footer>

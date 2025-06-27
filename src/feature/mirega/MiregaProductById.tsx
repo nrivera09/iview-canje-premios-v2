@@ -83,10 +83,11 @@ const MiregaProductById: FC<MiregaProductByIdProps> = ({ id }) => {
             minWidth="115px"
             label="CANJEAR"
             disabled={disableButton}
-            onClick={() =>
+            onClick={() => {
+              soundManager.play('button');
               !disableButton &&
-              useUIStore.getState().toggle('confirmRedeem', true)
-            }
+                useUIStore.getState().toggle('confirmRedeem', true);
+            }}
           ></BtnCasinoOnline>
         </footer>
       </div>

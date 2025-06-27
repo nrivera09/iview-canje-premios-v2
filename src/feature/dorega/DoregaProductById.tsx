@@ -122,10 +122,12 @@ const DoregaProductById: FC<DoregaProductByIdProps> = ({ id }) => {
               minWidth="115px"
               label="CANJEAR"
               disabled={disableButton}
-              onClick={() =>
-                !disableButton &&
-                useUIStore.getState().toggle('confirmRedeem', true)
-              }
+              onClick={() => {
+                soundManager.play('button');
+                if (!disableButton) {
+                  useUIStore.getState().toggle('confirmRedeem', true);
+                }
+              }}
             ></BtnCasinoOnline>
           </footer>
         )}

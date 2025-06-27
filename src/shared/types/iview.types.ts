@@ -150,3 +150,11 @@ export interface ISeccion<T = any> {
   orden: number;
   lista: T[];
 }
+
+export interface CanjeRequest {
+  promocionid: number;
+  tarjeta: number;
+  regalo: number;
+  asset: number;
+  puntos: number;
+}

@@ -175,6 +175,7 @@ const DoregaProducts = () => {
                       .getState()
                       .goTo('dorega-productbyid', index.toString(), 'DOREGA');
                   }}
+                  puntos={beneficio?.puntos_Min ?? 0}
                 />
               ))}
         </div>
