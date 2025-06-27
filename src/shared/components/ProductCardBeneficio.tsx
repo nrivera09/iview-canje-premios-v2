@@ -6,6 +6,7 @@ import imgPtsInferior from '@/shared/assets/img/PuntosinferiorProducto.png';
 import clsx from 'clsx';
 import { useUIStore } from '@/store/uiStore';
 import { IBeneficio } from '../types/iview.types';
+import { useIsLVDS } from '../hooks/useDetectIview';
 
 interface ProductCardBeneficioProps {
   idRoom: number;
@@ -18,6 +19,7 @@ const ProductCardBeneficio: FC<ProductCardBeneficioProps> = ({
   beneficio,
   onClick,
 }) => {
+  const isLVDS = useIsLVDS();
   const { promocion, puntos_Min, canjeado } = beneficio;
   const goTo = useViewStore((s) => s.goTo);
   const isReadyToExchange = false;
@@ -49,7 +51,14 @@ const ProductCardBeneficio: FC<ProductCardBeneficioProps> = ({
             className="w-[129px] h-[29px] bg-contain text-center mx-auto flex items-center justify-center text-[14px] font-bold "
             style={{ backgroundImage: `url(${imgPtsInferior})` }}
           >
-            <p className="font-bold text-black text-center w-full">129 ptos</p>
+            <p
+              className={clsx(
+                `font-bold text-black text-center w-full`,
+                isLVDS && `text-[12px]`
+              )}
+            >
+              {beneficio.puntos_Min} ptos
+            </p>
           </div>
         </div>
       )}

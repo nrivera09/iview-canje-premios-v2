@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import { useUIStore } from '@/store/uiStore';
 import { IBeneficio, IBeneficioGRID } from '../types/iview.types';
 import { fetchImgBase64 } from '../api/iviewApi';
+import { useIsLVDS } from '../hooks/useDetectIview';
 
 interface ProductCardTipoBeneficioGridProps {
   idRoom: number;
@@ -19,6 +20,7 @@ const ProductCardTipoBeneficioGrid: FC<ProductCardTipoBeneficioGridProps> = ({
   beneficio,
   onClick,
 }) => {
+  const isLVDS = useIsLVDS();
   const [imgBase64, setImgBase64] = useState<any>(null);
   const goTo = useViewStore((s) => s.goTo);
   const isOutStock = beneficio.stock === 0;
@@ -42,7 +44,8 @@ const ProductCardTipoBeneficioGrid: FC<ProductCardTipoBeneficioGridProps> = ({
         }
       }}
       className={clsx(
-        'cursor-pointer bg-white rounded-xl bg-center xs:min-w-full min-w-[225px] min-h-[200px] relative overflow-hidden bg-cover p-1'
+        'cursor-pointer bg-white rounded-xl bg-center xs:min-w-full  relative overflow-hidden bg-cover p-1',
+        !isLVDS ? `min-w-[225px] min-h-[200px]` : `min-w-[160px] min-h-[144px]`
       )}
     >
       <div className={clsx(`card flex flex-col justify-start items-center `)}>
@@ -52,7 +55,8 @@ const ProductCardTipoBeneficioGrid: FC<ProductCardTipoBeneficioGridProps> = ({
       <div className="product flex flex-col w-full h-full">
         <img
           className={clsx(
-            `img w-full min-h-[154px] bg-cover rounded-lg overflow-hidden`,
+            `img w-full  bg-cover rounded-lg overflow-hidden`,
+            isLVDS ? 'min-h-[96px]' : 'min-h-[154px]',
             isOutStock && 'opacity-50'
           )}
           src={imgBase64 || imgDemo}

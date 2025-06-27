@@ -13,12 +13,15 @@ import imgDemo from '@/shared/assets/img/product-demo.jpg';
 import { LineaProductExchange } from './LineaProductExchange';
 import { getPromoImage } from '../utils/getPromoImage';
 import miercolesRegalones from '@/shared/assets/img/miercolesRegalones.png';
+import { useIsLVDS } from '../hooks/useDetectIview';
+import clsx from 'clsx';
 
 interface PostExchangeDayProps {
   id: string;
 }
 
 const PostExchangeDay: FC<PostExchangeDayProps> = ({ id }) => {
+  const isLVDS = useIsLVDS();
   const { activeViews, selectedId, goTo } = useViewStore();
   const isExchange = true;
   const resetUI = useUIStore((s) => s.resetUI);
@@ -45,14 +48,29 @@ const PostExchangeDay: FC<PostExchangeDayProps> = ({ id }) => {
         <img
           src={miercolesRegalones}
           alt=""
-          className="min-w-[189px] h-[119px]"
+          className={clsx(
+            !isLVDS ? `min-w-[189px] h-[119px]` : `min-w-[142px] h-[90px]`
+          )}
         />
-        <p className="text-white font-bold text-[24px] text-center">
-          ¡Prepárate para el próximo Miércoles regalón!
-        </p>
-        <span className="text-white text-[18px] font-light text-center">
-          Vuelve pronto para descubrirlo.
-        </span>
+        {!isLVDS ? (
+          <>
+            <p className="text-white font-bold text-[24px] text-center">
+              ¡Prepárate para el próximo Miércoles regalón!
+            </p>
+            <span className="text-white text-[18px] font-light text-center">
+              Vuelve pronto para descubrirlo.
+            </span>
+          </>
+        ) : (
+          <>
+            <p className="text-white font-bold text-[20px] text-center">
+              ¡Prepárate para el próximo Miércoles regalón!
+            </p>
+            <span className="text-white text-[16px] font-light text-center">
+              Vuelve pronto para descubrirlo.
+            </span>
+          </>
+        )}
       </main>
       <footer className="min-h-[62px] gap-[16px] flex flex-row items-center justify-center border-b-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px]">
         <BtnCasinoOnline

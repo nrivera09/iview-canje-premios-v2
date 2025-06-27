@@ -18,6 +18,7 @@ import logoMiregaGrande from '@/shared/assets/img/btnMiregaDorega/logoMiregaGran
 import logoMiregaGrandeVIP from '@/shared/assets/img/btnMiregaDorega/logoMiregaGrandeVIP.png';
 import logoMiregaPequeno from '@/shared/assets/img/btnMiregaDorega/logoMiregaPequeno.png';
 import logoMiregaPequenoVIP from '@/shared/assets/img/btnMiregaDorega/logoMiregaPequenoVIP.png';
+import { useIsLVDS } from '../hooks/useDetectIview';
 
 interface ProductCardTipoBeneficioProps {
   idRoom: number;
@@ -30,6 +31,7 @@ const ProductCardTipoBeneficio = ({
   beneficio,
   onClick,
 }: ProductCardTipoBeneficioProps) => {
+  const isLVDS = useIsLVDS();
   const typePromo = beneficio.promocion;
   const isReadyToExchange = beneficio.puntos >= beneficio.puntos_Min;
   const showPoints = beneficio.tipo === 'Informativo';
@@ -89,7 +91,8 @@ const ProductCardTipoBeneficio = ({
       onClick={onClick}
       style={{ backgroundImage: `url(${setBg(false)})` }}
       className={clsx(
-        'cursor-pointer bg-white rounded-xl bg-center xs:min-w-full min-w-[225px] min-h-[200px] relative overflow-hidden bg-cover'
+        'cursor-pointer bg-white rounded-xl bg-center xs:min-w-full  relative overflow-hidden bg-cover',
+        !isLVDS ? `min-w-[225px] min-h-[200px]` : `min-w-[160px] min-h-[144px]`
       )}
     >
       <div className={clsx(`card flex flex-col justify-start items-center `)}>
@@ -111,7 +114,12 @@ const ProductCardTipoBeneficio = ({
             className="w-[129px] h-[29px] bg-contain text-center mx-auto flex items-center justify-center text-[14px] font-bold "
             style={{ backgroundImage: `url(${imgPtsInferior})` }}
           >
-            <p className="font-bold text-black text-center w-full">
+            <p
+              className={clsx(
+                `font-bold text-black text-center w-full`,
+                isLVDS && `text-[12px]`
+              )}
+            >
               {beneficio.puntos_Min} ptos
             </p>
           </div>

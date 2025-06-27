@@ -20,8 +20,10 @@ import {
 import { useUserStore } from '@/store/userStore';
 import { calculatePuntosPorcentaje } from '@/shared/utils/Utils';
 import ProductCardTipoBeneficioGrid from '@/shared/components/ProductCardBeneficioGrid';
+import { useIsLVDS } from '@/shared/hooks/useDetectIview';
 
 const DoregaProducts = () => {
+  const isLVDS = useIsLVDS();
   const [beneficioActual, setBeneficioActual] =
     React.useState<IBeneficio | null>(null);
   const beneficio = useUserStore((s) => s.selectedBeneficioData);
@@ -95,21 +97,47 @@ const DoregaProducts = () => {
         backgroundPosition: 'center top',
       }}
     >
-      <header className="flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px] min-h-[65px] h-[65px] ">
-        <BackButton
-          title={`Domingos regalones`}
-          onClick={() => {
-            soundManager.play('button');
-            goTo('rooms');
-          }}
-        />
-        <CloseButton
-          width="69.33px"
-          height="64px"
-          onClick={() => soundManager.play('button')}
-        />
+      <header
+        className={clsx(
+          'flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px]  ',
+          !isLVDS ? 'min-h-[65px] h-[65px]' : 'min-h-[44px] h-[44px]'
+        )}
+      >
+        {!isLVDS ? (
+          <>
+            <BackButton
+              title={`Domingos regalones`}
+              onClick={() => {
+                soundManager.play('button');
+                goTo('rooms');
+              }}
+            />
+            <CloseButton
+              width="69.33px"
+              height="64px"
+              onClick={() => soundManager.play('button')}
+            />
+          </>
+        ) : (
+          <>
+            <BackButton
+              title={`Domingos regalones`}
+              width="28px"
+              height="28px"
+              onClick={() => {
+                soundManager.play('button');
+                goTo('rooms');
+              }}
+            />
+            <CloseButton
+              width="52px"
+              height="48px"
+              onClick={() => soundManager.play('button')}
+            />
+          </>
+        )}
       </header>
-      <div className=" h-[34px] bg-[#ffffff3d] flex items-center justify-between">
+      <div className=" h-[34px]  flex items-center justify-between">
         <HeaderProgressBar />
         <ProgressBar
           value={calculatePuntosPorcentaje(
@@ -120,11 +148,18 @@ const DoregaProducts = () => {
       </div>
       <main
         className={clsx(
-          `flex-1 p-[24px] overflow-y-auto scrollbar-none`,
-          productos.length > 4 && `flex items-center justify-center`
+          !isLVDS ? ' p-[24px] ' : 'px-[20px] py-[9px] ',
+          'flex-1 overflow-y-auto scrollbar-none'
         )}
       >
-        <div className="grid grid-cols-2 gap-[24px] max-w-[474px] mx-auto">
+        <div
+          className={clsx(
+            ` gap-[24px]  mx-auto`,
+            !isLVDS
+              ? 'grid grid-cols-2 max-w-[474px]'
+              : 'flex flex-row w-full flex-nowrap  scrollbar-none'
+          )}
+        >
           {loading
             ? productos.map((_, index) => <LoadingGrid key={index} />)
             : productos.map((item, index) => (

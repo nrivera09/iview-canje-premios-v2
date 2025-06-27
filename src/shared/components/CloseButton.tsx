@@ -5,12 +5,14 @@ interface CloseButtonProps {
   onClick: () => void;
   width?: string;
   height?: string;
+  className?: string;
 }
 
 const CloseButton: FC<CloseButtonProps> = ({
   onClick,
   width = '72',
   height = '65',
+  className,
 }) => {
   return (
     <button
@@ -18,6 +20,7 @@ const CloseButton: FC<CloseButtonProps> = ({
         onClick();
         callHandleClose();
       }}
+      className={className}
     >
       <svg
         width={width}

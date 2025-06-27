@@ -7,12 +7,15 @@ import { useViewStore } from '@/store/viewStore';
 import React, { FC } from 'react';
 import BtnCasinoOnlineBack from './BtnCasinoOnlineBack';
 import { useUIStore } from '@/store/uiStore';
+import { useIsLVDS } from '../hooks/useDetectIview';
+import clsx from 'clsx';
 
 interface NotDayExchangeProps {
   id: string;
 }
 
 const NotDayExchange: FC<NotDayExchangeProps> = ({ id }) => {
+  const isLVDS = useIsLVDS();
   const selectedId = useViewStore((s) => s.selectedId);
   const toggle = useUIStore((s) => s.toggle);
   const resetUI = useUIStore((s) => s.resetUI);
@@ -20,10 +23,20 @@ const NotDayExchange: FC<NotDayExchangeProps> = ({ id }) => {
   return (
     <div className="h-dvh w-full flex flex-col  bg-purple-950 absolute top-0 left-0 z-10 ">
       <main className="flex-1 flex items-center flex-col justify-center  p-[24px]  ">
-        <p className="text-white text-center font-bold text-[24px]">
-          ¿Deseas obtener este regalo?x
+        <p
+          className={clsx(
+            'text-white text-center font-bold  ',
+            isLVDS ? 'text-[20px]' : 'text-[24px]'
+          )}
+        >
+          ¿Deseas obtener este regalo?
         </p>
-        <span className="text-white text-center font-normal text-[18px]">
+        <span
+          className={clsx(
+            '!text-white text-center font-normal ',
+            isLVDS ? ' text-[16px]' : ' text-[18px]'
+          )}
+        >
           El stock es limitado, canjéalo ahora que podría acabarse.
         </span>
       </main>

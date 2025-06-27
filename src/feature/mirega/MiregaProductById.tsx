@@ -2,8 +2,8 @@ import BackButton from '@/shared/components/BackButton';
 import BtnCasinoOnline from '@/shared/components/BtnCasinoOnline';
 import CloseButton from '@/shared/components/CloseButton';
 import ConfirmRedeem from '@/shared/components/ConfirmRedeem';
-import bgDorega from '@/shared/assets/img/btnMiregaDorega/bgDorega.png';
-import bgDoregaVIP from '@/shared/assets/img/btnMiregaDorega/bgDoregaVIP.png';
+import bgMirega from '@/shared/assets/img/btnMiregaDorega/bgMirega.png';
+import bgMiregaVIP from '@/shared/assets/img/btnMiregaDorega/bgMiregaVIP.png';
 import NotDayExchange from '@/shared/components/NotDayExchange';
 import ProductCardById from '@/shared/components/ProductCardById';
 import { getPromoImage } from '@/shared/utils/getPromoImage';
@@ -54,7 +54,7 @@ const MiregaProductById: FC<MiregaProductByIdProps> = ({ id }) => {
       <div
         className="h-dvh w-full flex flex-col  bg-no-repeat bg-cover"
         style={{
-          backgroundImage: `url(${bgDorega})`,
+          backgroundImage: `url(${bgMirega})`,
           backgroundPosition: 'center top',
         }}
       >
@@ -63,7 +63,7 @@ const MiregaProductById: FC<MiregaProductByIdProps> = ({ id }) => {
             title=""
             onClick={() => {
               soundManager.play('button');
-              goTo('dorega-products', previousId ?? '', selectedType ?? '');
+              goTo('mirega-products', previousId ?? '', selectedType ?? '');
             }}
           />
           <CloseButton

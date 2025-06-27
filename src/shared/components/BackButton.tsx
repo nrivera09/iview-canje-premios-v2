@@ -3,17 +3,24 @@ import React, { FC } from 'react';
 interface BackButtonProps {
   onClick: () => void;
   title?: string;
+  width?: string;
+  height?: string;
 }
 
-const BackButton: FC<BackButtonProps> = ({ onClick, title }) => {
+const BackButton: FC<BackButtonProps> = ({
+  onClick,
+  title,
+  width = 40,
+  height = 40,
+}) => {
   return (
     <button
       onClick={onClick}
       className="flex items-center justify-center gap-2 pl-[16px]"
     >
       <svg
-        width="40"
-        height="40"
+        width={width}
+        height={height}
         viewBox="0 0 40 40"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -33,7 +40,7 @@ const BackButton: FC<BackButtonProps> = ({ onClick, title }) => {
           fill="white"
         />
       </svg>
-      <p className="text-white font-semibold">{title}</p>
+      <p className="text-white font-semibold text-[20px]">{title}</p>
     </button>
   );
 };

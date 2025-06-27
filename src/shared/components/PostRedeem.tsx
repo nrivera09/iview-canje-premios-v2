@@ -13,12 +13,15 @@ import imgDemo from '@/shared/assets/img/product-demo.jpg';
 import { LineaProductExchange } from './LineaProductExchange';
 import { getPromoImage } from '../utils/getPromoImage';
 import { useUserStore } from '@/store/userStore';
+import clsx from 'clsx';
+import { useIsLVDS } from '../hooks/useDetectIview';
 
 interface PostRedeemProps {
   id: string;
 }
 
 const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
+  const isLVDS = useIsLVDS();
   const { goTo } = useViewStore();
   const { isExchange } = useUIStore();
   const selectedId = useViewStore((s) => s.selectedId);
@@ -46,32 +49,76 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
         backgroundPosition: 'center top',
       }}
     >
-      <main className="flex-1 flex items-center flex-col justify-center  p-[24px]  ">
-        <div className="min-w-[340px] min-h-[448px] relative">
+      <main
+        className={clsx(
+          `flex-1 flex items-center flex-col justify-center`,
+          !isLVDS ? `px-[24px]` : `p-[20px] `
+        )}
+      >
+        <div
+          className={clsx(
+            !isLVDS
+              ? `min-w-[340px] min-h-[448px] relative`
+              : `min-w-[340px]  relative`
+          )}
+        >
           <div className="relative">
             <BackgroundProductExchange />
-            <div className="cont absolute top-0 left-0 w-full h-full flex items-start justify-start flex-col">
-              <div className="pt-[32px] pl-[24px] pr-[24px] w-full ">
+            <div
+              className={clsx(
+                'cont absolute top-0 left-0 w-full h-full flex items-center justify-center ',
+                !isLVDS ? `flex-col` : `flex-row`
+              )}
+            >
+              <div
+                className={clsx(
+                  !isLVDS
+                    ? 'pt-[32px] pl-[24px] pr-[24px] w-full '
+                    : ' py-[8px] pl-[8px] pr-[16px]'
+                )}
+              >
                 <img
                   src={imgDemo}
                   alt=""
-                  className="overflow-hidden rounded-xl object-cover bg-center w-full h-[215px]"
+                  className={clsx(
+                    'overflow-hidden rounded-xl object-cover bg-center  ',
+                    !isLVDS ? `h-[215px] w-full` : ` min-w-[180px] h-[120px]`
+                  )}
                 />
               </div>
-              <div className="mx-auto py-[24px]">
+              <div
+                className={clsx(
+                  !isLVDS ? 'mx-auto py-[24px]' : 'mx-auto py-[0px]'
+                )}
+              >
                 <LineaProductExchange></LineaProductExchange>
               </div>
               <div className="info flex items-start justify-start flex-col gap-[8px] px-[24px]">
-                <p className="font-bold text-[24px] text-left text-white">
+                <p
+                  className={clsx(
+                    'font-bold text-left text-white',
+                    !isLVDS ? ` text-[24px]` : ` text-[20px]`
+                  )}
+                >
                   {isExchange ? `¡Ya canjeaste tu regalo!` : `¡Canje exitoso!`}
                 </p>
                 {isExchange ? (
-                  <span className="text-white text-left font-light">
+                  <span
+                    className={clsx(
+                      'text-white text-left font-light',
+                      isLVDS && `text-[16px] leading-[18px]`
+                    )}
+                  >
                     Ya recibiste tu presente. El próximo {`miércoles`} tendremos
                     nuevos regalos para ti.
                   </span>
                 ) : (
-                  <span className="text-white text-left font-light">
+                  <span
+                    className={clsx(
+                      'text-white text-left font-light',
+                      isLVDS && `text-[16px] leading-[18px]`
+                    )}
+                  >
                     Tu regalo te espera en el counter de Atlantic Club. Ten en
                     cuenta que tu canje se mantendrá solo hasta las 4:00 AM.
                   </span>
