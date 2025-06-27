@@ -13,12 +13,15 @@ import { useUserStore } from '@/store/userStore';
 import { useViewStore } from '@/store/viewStore';
 import React, { FC, useEffect } from 'react';
 import PostRedeem from '../../shared/components/PostRedeem';
+import { useIsLVDS } from '@/shared/hooks/useDetectIview';
+import clsx from 'clsx';
 
 interface MiregaProductByIdProps {
   id: string;
 }
 
 const MiregaProductById: FC<MiregaProductByIdProps> = ({ id }) => {
+  const isLVDS = useIsLVDS();
   const selectedId = useViewStore((s) => s.selectedId);
   const previousId = useViewStore((s) => s.previousId);
 
@@ -26,10 +29,9 @@ const MiregaProductById: FC<MiregaProductByIdProps> = ({ id }) => {
 
   const beneficio = useUserStore((s) => s.selectedBeneficioData);
   const index = Number(selectedId);
-  const productoSeleccionado =
-    index >= 0 && beneficio?.lista_Regalos?.[index]
-      ? beneficio.lista_Regalos[index]
-      : null;
+  const productoSeleccionado = beneficio?.lista_Regalos?.find(
+    (item) => item.id_articulo === index
+  );
 
   const confirmRedeem = useUIStore((s) => s.confirmRedeem);
   const goTo = useViewStore((s) => s.goTo);
@@ -58,38 +60,76 @@ const MiregaProductById: FC<MiregaProductByIdProps> = ({ id }) => {
           backgroundPosition: 'center top',
         }}
       >
-        <header className="flex items-center justify-between w-full  bg-transparent  min-h-[65px] h-[65px]">
-          <BackButton
-            title=""
-            onClick={() => {
-              soundManager.play('button');
-              goTo('mirega-products', previousId ?? '', selectedType ?? '');
-            }}
-          />
-          <CloseButton
-            width="69.33px"
-            height="64px"
-            onClick={() => soundManager.play('button')}
-          />
+        <header
+          className={clsx(
+            'flex items-center justify-between w-full  ',
+            !isLVDS
+              ? 'min-h-[65px] h-[65px]'
+              : 'min-h-[32px] h-[32px] top-[10px] relative'
+          )}
+        >
+          {!isLVDS ? (
+            <>
+              <BackButton
+                title=""
+                onClick={() => {
+                  soundManager.play('button');
+                  goTo('mirega-products', previousId ?? '', selectedType ?? '');
+                }}
+              />
+              <CloseButton
+                width="69.33px"
+                height="64px"
+                onClick={() => soundManager.play('button')}
+              />
+            </>
+          ) : (
+            <>
+              <BackButton
+                title=""
+                width="28px"
+                height="28px"
+                onClick={() => {
+                  soundManager.play('button');
+                  goTo('mirega-products', previousId ?? '', selectedType ?? '');
+                }}
+              />
+              <CloseButton
+                className="relative top-[-2px]"
+                width="52px"
+                height="48px"
+                onClick={() => soundManager.play('button')}
+              />
+            </>
+          )}
         </header>
-        <main className="flex-1 flex items-center justify-center  px-[84px]  ">
+        <main
+          className={clsx(
+            `flex-1 flex items-center justify-center  px-[84px]`,
+            isLVDS && `pb-[32px]`
+          )}
+        >
           <ProductCardById
-            idRoom={productoSeleccionado?.id ?? 0}
+            idRoom={productoSeleccionado?.id_articulo ?? 0}
             producto={productoSeleccionado}
+            disableButton={disableButton}
           />
         </main>
-        <footer className="min-h-[62px] flex items-center justify-center border-b-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px]">
-          <BtnCasinoOnline
-            minWidth="115px"
-            label="CANJEAR"
-            disabled={disableButton}
-            onClick={() => {
-              soundManager.play('button');
-              !disableButton &&
-                useUIStore.getState().toggle('confirmRedeem', true);
-            }}
-          ></BtnCasinoOnline>
-        </footer>
+        {!isLVDS && (
+          <footer className="min-h-[62px] flex items-center justify-center border-b-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px]">
+            <BtnCasinoOnline
+              minWidth="115px"
+              label="CANJEAR"
+              disabled={disableButton}
+              onClick={() => {
+                soundManager.play('button');
+                if (!disableButton) {
+                  useUIStore.getState().toggle('confirmRedeem', true);
+                }
+              }}
+            ></BtnCasinoOnline>
+          </footer>
+        )}
       </div>
     </>
   );

@@ -33,11 +33,11 @@ const ProductCardById: FC<ProductCardByIdProps> = ({
 
   useEffect(() => {
     const getImg = async () => {
-      const result = await fetchImgBase64(producto.nombreImagen);
+      const result = await fetchImgBase64(producto?.nombreImagen);
       setImgBase64(result);
     };
     getImg();
-  }, [producto.nombreImagen]);
+  }, [producto?.nombreImagen]);
 
   return (
     <div
@@ -116,10 +116,13 @@ const ProductCardById: FC<ProductCardByIdProps> = ({
           <BtnCasinoOnline
             minWidth="93px"
             label="CANJEAR"
+            disabled={disableButton}
             onClick={() => {
               soundManager.play('button');
-              setSelectedId(producto.id);
-              useUIStore.getState().toggle('confirmRedeem', true);
+              if (!disableButton) {
+                useViewStore.getState().setSelectedId(producto.id_articulo);
+                useUIStore.getState().toggle('confirmRedeem', true);
+              }
             }}
           ></BtnCasinoOnline>
         )}

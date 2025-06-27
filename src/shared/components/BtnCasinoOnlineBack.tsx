@@ -20,7 +20,9 @@ const BtnCasinoOnlineBack: FC<BtnCasinoOnlineBackProps> = ({
  transition-all text-[14px] uppercase text-center font-bold cursor-pointer active:bg-[#E7DA82]  hover:bg-[#F7F5D4] rounded-lg border-2 border-white hover:text-black active:text-black`}
     >
       <MdOutlineChevronLeft className="size-6" />
-      {label}
+      <p className="min-h-[24px] flex items-center justify-center leading-none tracking-none">
+        {label}
+      </p>
     </button>
   );
 };

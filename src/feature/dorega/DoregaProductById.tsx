@@ -29,10 +29,9 @@ const DoregaProductById: FC<DoregaProductByIdProps> = ({ id }) => {
 
   const beneficio = useUserStore((s) => s.selectedBeneficioData);
   const index = Number(selectedId);
-  const productoSeleccionado =
-    index >= 0 && beneficio?.lista_Regalos?.[index]
-      ? beneficio.lista_Regalos[index]
-      : null;
+  const productoSeleccionado = beneficio?.lista_Regalos?.find(
+    (item) => item.id_articulo === index
+  );
 
   const confirmRedeem = useUIStore((s) => s.confirmRedeem);
   const goTo = useViewStore((s) => s.goTo);
@@ -111,7 +110,7 @@ const DoregaProductById: FC<DoregaProductByIdProps> = ({ id }) => {
           )}
         >
           <ProductCardById
-            idRoom={productoSeleccionado?.id ?? 0}
+            idRoom={productoSeleccionado?.id_articulo ?? 0}
             producto={productoSeleccionado}
             disableButton={disableButton}
           />

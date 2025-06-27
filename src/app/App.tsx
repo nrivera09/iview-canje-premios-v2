@@ -21,8 +21,12 @@ import PostExchangeDay from '@/shared/components/PostExchangeDay';
 
 import { HelmetProvider } from 'react-helmet-async';
 import clsx from 'clsx';
+import { useStockSignalR } from '@/shared/hooks/useStockSignalR';
+import { useUserStore } from '@/store/userStore';
+import { usePromocionesStore } from '@/store/promocionesStore';
 
 export default function App() {
+  const tarjetaId = useUserStore((s) => s.card);
   const resetUI = useUIStore((s) => s.resetUI);
   const loading = useUIStore((s) => s.loading);
   const { activeViews, selectedId, goTo } = useViewStore();
@@ -64,6 +68,11 @@ export default function App() {
   useEffect(() => {
     resetUI();
   }, [resetUI]);
+
+  useStockSignalR((data) => {
+    console.log('📦 Actualización de stock:', data);
+    usePromocionesStore.getState().loadPromociones();
+  });
 
   return (
     <>

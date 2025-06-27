@@ -20,8 +20,12 @@ import {
 import { useUserStore } from '@/store/userStore';
 import { calculatePuntosPorcentaje } from '@/shared/utils/Utils';
 import ProductCardTipoBeneficioGrid from '@/shared/components/ProductCardBeneficioGrid';
+import { useIsLVDS } from '@/shared/hooks/useDetectIview';
 
 const MiregaProducts = () => {
+  const isLVDS = useIsLVDS();
+  const [beneficioActual, setBeneficioActual] =
+    React.useState<IBeneficio | null>(null);
   const beneficio = useUserStore((s) => s.selectedBeneficioData);
   const loading = useUIStore((s) => s.loading);
   const selectedId = useViewStore((s) => s.selectedId);
@@ -40,7 +44,7 @@ const MiregaProducts = () => {
   const productos = useMemo(() => {
     if (!data || !selectedId || typeof selectedType !== 'string') return [];
 
-    const secciones = data.data; // ← tipo ISeccion[]
+    const secciones = data.data;
     switch (selectedType.toUpperCase()) {
       case 'MIREGA':
       case 'DOREGA': {
@@ -51,45 +55,39 @@ const MiregaProducts = () => {
           (item) => item.promocion_Tipo_Id.toString() === selectedId
         );
 
-        // ⏺️ Almacena el beneficio seleccionado en el store
-        useUserStore.getState().setSelectedBeneficioData(beneficio ?? null);
-
-        console.log('[BENEFICIO encontrado]', beneficio);
+        setBeneficioActual(beneficio ?? null); //
 
         return beneficio?.lista_Regalos ?? [];
       }
 
-      case 'TORNEO': {
-        const torneoList =
-          secciones.find((s) => s.nombre === 'Torneos')?.lista ?? [];
-
-        const filtrado = (torneoList as ITorneoItem[]).filter(
-          (item) => item.promocion_Id.toString() === selectedId
+      case 'TORNEO':
+        return (
+          secciones
+            .find((s) => s.nombre === 'Torneos')
+            ?.lista?.filter(
+              (item: ITorneoItem) => item.promocion_Id.toString() === selectedId
+            ) ?? []
         );
 
-        console.log('[TORNEO filtrado]', filtrado);
-
-        return filtrado;
-      }
-
-      case 'PROMOCIONES': {
-        const promoList =
-          secciones.find((s) => s.nombre === 'Promociones')?.lista ?? [];
-
-        const filtrado = (promoList as IPromocionItem[]).filter(
-          (item) => item.id.toString() === selectedId
+      case 'PROMOCIONES':
+        return (
+          secciones
+            .find((s) => s.nombre === 'Promociones')
+            ?.lista?.filter(
+              (item: IPromocionItem) => item.id.toString() === selectedId
+            ) ?? []
         );
-
-        console.log('[PROMOCIONES filtradas]', filtrado);
-
-        return filtrado;
-      }
 
       default:
-        console.warn('[TIPO no reconocido]', selectedType);
         return [];
     }
   }, [data, selectedId, selectedType]);
+
+  useEffect(() => {
+    if (beneficioActual) {
+      useUserStore.getState().setSelectedBeneficioData(beneficioActual);
+    }
+  }, [beneficioActual]);
 
   return (
     <div
@@ -99,21 +97,47 @@ const MiregaProducts = () => {
         backgroundPosition: 'center top',
       }}
     >
-      <header className="flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px] min-h-[65px] h-[65px] ">
-        <BackButton
-          title={`Miercoles regalones`}
-          onClick={() => {
-            soundManager.play('button');
-            goTo('rooms');
-          }}
-        />
-        <CloseButton
-          width="69.33px"
-          height="64px"
-          onClick={() => soundManager.play('button')}
-        />
+      <header
+        className={clsx(
+          'flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px]  ',
+          !isLVDS ? 'min-h-[65px] h-[65px]' : 'min-h-[44px] h-[44px]'
+        )}
+      >
+        {!isLVDS ? (
+          <>
+            <BackButton
+              title={`Miercoles regalones`}
+              onClick={() => {
+                soundManager.play('button');
+                goTo('rooms');
+              }}
+            />
+            <CloseButton
+              width="69.33px"
+              height="64px"
+              onClick={() => soundManager.play('button')}
+            />
+          </>
+        ) : (
+          <>
+            <BackButton
+              title={`Domingos regalones`}
+              width="28px"
+              height="28px"
+              onClick={() => {
+                soundManager.play('button');
+                goTo('rooms');
+              }}
+            />
+            <CloseButton
+              width="52px"
+              height="48px"
+              onClick={() => soundManager.play('button')}
+            />
+          </>
+        )}
       </header>
-      <div className=" h-[34px] bg-[#ffffff3d] flex items-center justify-between">
+      <div className=" h-[34px]  flex items-center justify-between">
         <HeaderProgressBar />
         <ProgressBar
           value={calculatePuntosPorcentaje(
@@ -124,11 +148,18 @@ const MiregaProducts = () => {
       </div>
       <main
         className={clsx(
-          `flex-1 p-[24px] overflow-y-auto scrollbar-none`,
-          productos.length > 4 && `flex items-center justify-center`
+          !isLVDS ? ' p-[24px] ' : 'px-[20px] py-[9px] ',
+          'flex-1 overflow-y-auto scrollbar-none'
         )}
       >
-        <div className="grid grid-cols-2 gap-[24px] max-w-[474px] mx-auto">
+        <div
+          className={clsx(
+            ` gap-[24px]  mx-auto`,
+            !isLVDS
+              ? 'grid grid-cols-2 max-w-[474px]'
+              : 'flex flex-row w-full flex-nowrap  scrollbar-none'
+          )}
+        >
           {loading
             ? productos.map((_, index) => <LoadingGrid key={index} />)
             : productos.map((item, index) => (
@@ -142,8 +173,9 @@ const MiregaProducts = () => {
                     useViewStore.getState().setPreviousId(selectedId ?? '');
                     useViewStore
                       .getState()
-                      .goTo('mirega-productbyid', index.toString(), 'MIREGA');
+                      .goTo('mirega-productbyid', item.id_articulo, 'MIREGA');
                   }}
+                  puntos={beneficio?.puntos_Min ?? 0}
                 />
               ))}
         </div>

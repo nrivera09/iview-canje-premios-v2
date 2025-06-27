@@ -1,12 +1,13 @@
 import { useEffect, useRef } from "react";
 import * as signalR from "@microsoft/signalr";
+import { ENV } from "../config/env";
 
 export const useStockSignalR = (onStockUpdate: (message: any) => void) => {
   const connectionRef = useRef<signalR.HubConnection | null>(null);
 
   useEffect(() => {
     const connection = new signalR.HubConnectionBuilder()
-      .withUrl(`${process.env.REACT_APP_ACITY_DOMAIN}/hub/stock`, {
+      .withUrl(`${ENV.API_BASE_URL}/hub/stock`, {
         transport: signalR.HttpTransportType.LongPolling,
       })
 

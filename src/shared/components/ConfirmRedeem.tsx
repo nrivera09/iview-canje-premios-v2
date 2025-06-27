@@ -19,13 +19,12 @@ interface ConfirmRedeemProps {
 
 const ConfirmRedeem: FC<ConfirmRedeemProps> = ({ id }) => {
   const isLVDS = useIsLVDS();
+    const resetUI = useUIStore((s) => s.resetUI);
   const selectedId = useViewStore((s) => s.selectedId);
   const beneficio = useUserStore((s) => s.selectedBeneficioData);
   const toggle = useUIStore((s) => s.toggle);
-  const resetUI = useUIStore((s) => s.resetUI);
-
+  console.log('el selectedId es:', selectedId);
   const disableButton = (beneficio?.puntos ?? 0) < (beneficio?.puntos_Min ?? 0);
-
   return (
     <div
       className="h-dvh w-full flex flex-col   absolute top-0 left-0 z-10 bg-no-repeat bg-cover"
@@ -56,20 +55,27 @@ const ConfirmRedeem: FC<ConfirmRedeemProps> = ({ id }) => {
         <BtnCasinoOnlineBack
           onClick={() => {
             soundManager.play('button');
-            toggle('confirmRedeem', false);
+            useUIStore.getState().toggle('confirmRedeem', false);
+            useViewStore
+              .getState()
+              .goTo('dorega-productbyid', selectedId, 'DOREGA');
+            // useViewStore .getState().goTo('dorega-productbyid', index.toString(), 'DOREGA');
           }}
           minWidth="115px"
           label="VOLVER"
         ></BtnCasinoOnlineBack>
         <BtnCasinoOnline
           minWidth="115px"
+          disabled={disableButton}
           label="CANJEAR"
           onClick={async () => {
             soundManager.play('button');
-            const success = await canjearPremio();
-            if (success) {
-              resetUI();
-              toggle('postRedeem', true);
+            if (!disableButton) {
+              const success = await canjearPremio();
+              if (success) {
+                resetUI();
+                toggle('postRedeem', true);
+              }
             }
           }}
         ></BtnCasinoOnline>

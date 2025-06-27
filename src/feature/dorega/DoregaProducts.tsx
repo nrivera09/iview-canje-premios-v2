@@ -173,7 +173,7 @@ const DoregaProducts = () => {
                     useViewStore.getState().setPreviousId(selectedId ?? '');
                     useViewStore
                       .getState()
-                      .goTo('dorega-productbyid', index.toString(), 'DOREGA');
+                      .goTo('dorega-productbyid', item.id_articulo, 'DOREGA');
                   }}
                   puntos={beneficio?.puntos_Min ?? 0}
                 />

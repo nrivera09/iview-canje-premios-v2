@@ -53,7 +53,9 @@ export const fetchImgBase64 = async (nombre: string) => {
 };
 
 export const canjearPremio = async (): Promise<boolean> => {
+  const resetUI = useUIStore.getState().resetUI;
   const selectedId = useViewStore.getState().selectedId;
+
   try {
     const user = useUserStore.getState();
     const beneficio = user.selectedBeneficioData;
@@ -63,29 +65,42 @@ export const canjearPremio = async (): Promise<boolean> => {
       return false;
     }
 
-    const payload: CanjeRequest = {
+    /*const payload: CanjeRequest = {
       promocionid: beneficio.promocion_Tipo_Id,
       tarjeta: Number(user.getEffectiveCard()),
       regalo: Number(selectedId),
       asset: user.getEffectiveAsset(),
       puntos: beneficio.puntos,
+    };*/
+
+    const payload: CanjeRequest = {
+      tarjeta: user.getEffectiveCard(),
+      id_articulo: Number(selectedId),
+      id_promocion: beneficio.promocion_Tipo_Id,
+      puntos: 150,
+      asset: user.getEffectiveAsset().toString(),
+      usuario_registro: 'front',
     };
-    debugger;
-    const response = await fetch(`${ENV.API_BASE_URL}Regalos/canjear`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
+
+    const response = await fetch(
+      `${ENV.API_BASE_URL}Regalos/canje-regalo-reservar`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      }
+    );
 
     if (!response.ok) throw new Error('Error en el canje del premio');
 
     const result = await response.json();
 
     if (result === true) {
-      usePromocionesStore.getState().loadPromociones(); // recarga
+      usePromocionesStore.getState().loadPromociones();
       useUIStore.getState().toggle('confirmRedeem', true);
+      resetUI();
     }
 
     return result === true;

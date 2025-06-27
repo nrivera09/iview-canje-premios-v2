@@ -48,7 +48,7 @@ export interface IViewResponse {
 // src/shared/types/promociones.types.ts
 
 export interface IBeneficioRegalo {
-  id: number;
+  id_articulo: number;
   nombre: string;
   nombreImagen: string;
   stock: number;
@@ -69,7 +69,7 @@ export interface IBeneficio {
 }
 
 export interface IBeneficioGRID {
-  id: number;
+  id_articulo: number;
   nombre: string;
   nombreImagen: string;
   stock: number;
@@ -152,9 +152,10 @@ export interface ISeccion<T = any> {
 }
 
 export interface CanjeRequest {
-  promocionid: number;
-  tarjeta: number;
-  regalo: number;
-  asset: number;
+  tarjeta: string;
+  id_articulo: number;
+  id_promocion: number;
   puntos: number;
+  asset: string;
+  usuario_registro: string;
 }
