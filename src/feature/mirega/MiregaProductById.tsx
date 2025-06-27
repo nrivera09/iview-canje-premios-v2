@@ -2,6 +2,8 @@ import BackButton from '@/shared/components/BackButton';
 import BtnCasinoOnline from '@/shared/components/BtnCasinoOnline';
 import CloseButton from '@/shared/components/CloseButton';
 import ConfirmRedeem from '@/shared/components/ConfirmRedeem';
+import bgDorega from '@/shared/assets/img/btnMiregaDorega/bgDorega.png';
+import bgDoregaVIP from '@/shared/assets/img/btnMiregaDorega/bgDoregaVIP.png';
 import NotDayExchange from '@/shared/components/NotDayExchange';
 import ProductCardById from '@/shared/components/ProductCardById';
 import { getPromoImage } from '@/shared/utils/getPromoImage';
@@ -10,8 +12,7 @@ import { useUIStore } from '@/store/uiStore';
 import { useUserStore } from '@/store/userStore';
 import { useViewStore } from '@/store/viewStore';
 import React, { FC, useEffect } from 'react';
-import bgMirega from '@/shared/assets/img/btnMiregaDorega/bgMirega.png';
-import bgMiregaVIP from '@/shared/assets/img/btnMiregaDorega/bgMiregaVIP.png';
+import PostRedeem from '../../shared/components/PostRedeem';
 
 interface MiregaProductByIdProps {
   id: string;
@@ -24,7 +25,6 @@ const MiregaProductById: FC<MiregaProductByIdProps> = ({ id }) => {
   const selectedType = useViewStore((s) => s.selectedType);
 
   const beneficio = useUserStore((s) => s.selectedBeneficioData);
-
   const index = Number(selectedId);
   const productoSeleccionado =
     index >= 0 && beneficio?.lista_Regalos?.[index]
@@ -46,6 +46,7 @@ const MiregaProductById: FC<MiregaProductByIdProps> = ({ id }) => {
 
   useEffect(() => {
     beneficio?.canjeado && useUIStore.getState().toggle('postRedeem', true);
+    //useUIStore.getState().toggle('postRedeem', true);
   }, []);
 
   return (
@@ -53,7 +54,7 @@ const MiregaProductById: FC<MiregaProductByIdProps> = ({ id }) => {
       <div
         className="h-dvh w-full flex flex-col  bg-no-repeat bg-cover"
         style={{
-          backgroundImage: `url(${bgMirega})`,
+          backgroundImage: `url(${bgDorega})`,
           backgroundPosition: 'center top',
         }}
       >
@@ -62,7 +63,7 @@ const MiregaProductById: FC<MiregaProductByIdProps> = ({ id }) => {
             title=""
             onClick={() => {
               soundManager.play('button');
-              goTo('mirega-products', previousId ?? '', selectedType ?? '');
+              goTo('dorega-products', previousId ?? '', selectedType ?? '');
             }}
           />
           <CloseButton

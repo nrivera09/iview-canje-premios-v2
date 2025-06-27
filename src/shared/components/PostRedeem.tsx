@@ -20,6 +20,7 @@ interface PostRedeemProps {
 
 const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
   const { goTo } = useViewStore();
+  const { isExchange } = useUIStore();
   const selectedId = useViewStore((s) => s.selectedId);
   const previousId = useViewStore((s) => s.previousId);
 
@@ -32,7 +33,7 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
     index >= 0 && beneficio?.lista_Regalos?.[index]
       ? beneficio.lista_Regalos[index]
       : null;
-  const isExchange = true;
+
   const resetUI = useUIStore((s) => s.resetUI);
   return (
     <div
@@ -62,7 +63,7 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
               </div>
               <div className="info flex items-start justify-start flex-col gap-[8px] px-[24px]">
                 <p className="font-bold text-[24px] text-left text-white">
-                  {isExchange ? `¡Ya canjeaste tu regalo!` : `Product name`}
+                  {isExchange ? `¡Ya canjeaste tu regalo!` : `¡Canje exitoso!`}
                 </p>
                 {isExchange ? (
                   <span className="text-white text-left font-light">

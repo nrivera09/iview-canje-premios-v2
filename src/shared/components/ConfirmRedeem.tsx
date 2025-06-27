@@ -8,6 +8,7 @@ import React, { FC } from 'react';
 import BtnCasinoOnlineBack from './BtnCasinoOnlineBack';
 import { useUIStore } from '@/store/uiStore';
 import { getPromoImage } from '../utils/getPromoImage';
+import { useUserStore } from '@/store/userStore';
 
 interface ConfirmRedeemProps {
   id: string;
@@ -15,8 +16,11 @@ interface ConfirmRedeemProps {
 
 const ConfirmRedeem: FC<ConfirmRedeemProps> = ({ id }) => {
   const selectedId = useViewStore((s) => s.selectedId);
+  const beneficio = useUserStore((s) => s.selectedBeneficioData);
   const toggle = useUIStore((s) => s.toggle);
   const resetUI = useUIStore((s) => s.resetUI);
+
+  const disableButton = (beneficio?.puntos ?? 0) < (beneficio?.puntos_Min ?? 0);
 
   return (
     <div
@@ -36,14 +40,19 @@ const ConfirmRedeem: FC<ConfirmRedeemProps> = ({ id }) => {
       </main>
       <footer className="min-h-[62px] gap-[16px] flex flex-row items-center justify-center border-b-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px]">
         <BtnCasinoOnlineBack
-          onClick={() => toggle('confirmRedeem', false)}
+          onClick={() => {
+            soundManager.play('button');
+            toggle('confirmRedeem', false);
+          }}
           minWidth="115px"
           label="VOLVER"
         ></BtnCasinoOnlineBack>
         <BtnCasinoOnline
           minWidth="115px"
+          disabled={disableButton}
           label="CANJEAR"
           onClick={() => {
+            soundManager.play('button');
             resetUI();
             toggle('postRedeem', true);
           }}

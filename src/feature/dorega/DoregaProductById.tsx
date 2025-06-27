@@ -45,8 +45,8 @@ const DoregaProductById: FC<DoregaProductByIdProps> = ({ id }) => {
   }, []);
 
   useEffect(() => {
-    //beneficio?.canjeado && useUIStore.getState().toggle('postRedeem', true);
-    useUIStore.getState().toggle('postRedeem', true);
+    beneficio?.canjeado && useUIStore.getState().toggle('postRedeem', true);
+    //useUIStore.getState().toggle('postRedeem', true);
   }, []);
 
   return (
