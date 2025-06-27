@@ -22,7 +22,6 @@ const ProductCardTipoBeneficioGrid: FC<ProductCardTipoBeneficioGridProps> = ({
   onClick,
   puntos,
 }) => {
-  console.log('bene}ficio', beneficio);
   const isLVDS = useIsLVDS();
   const [imgBase64, setImgBase64] = useState<any>(null);
   const goTo = useViewStore((s) => s.goTo);

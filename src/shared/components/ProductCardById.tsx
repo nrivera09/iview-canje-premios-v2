@@ -21,7 +21,6 @@ const ProductCardById: FC<ProductCardByIdProps> = ({
   producto,
   disableButton = false,
 }) => {
-  console.log('producto', producto);
   const setSelectedId = useViewStore((state) => state.setSelectedId);
   const isLVDS = useIsLVDS();
   const [imgBase64, setImgBase64] = useState<any>(null);

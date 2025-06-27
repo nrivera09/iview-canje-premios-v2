@@ -23,7 +23,6 @@ const ConfirmRedeem: FC<ConfirmRedeemProps> = ({ id }) => {
   const selectedId = useViewStore((s) => s.selectedId);
   const beneficio = useUserStore((s) => s.selectedBeneficioData);
   const toggle = useUIStore((s) => s.toggle);
-  console.log('el selectedId es:', selectedId);
   const disableButton = (beneficio?.puntos ?? 0) < (beneficio?.puntos_Min ?? 0);
   return (
     <div
