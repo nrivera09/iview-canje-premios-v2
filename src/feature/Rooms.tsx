@@ -12,9 +12,11 @@ import { useViewStore } from '@/store/viewStore';
 import ProductCardTipoBeneficio from '@/shared/components/ProductCardTipoBeneficio';
 import { useIsLVDS } from '@/shared/hooks/useDetectIview';
 import clsx from 'clsx';
+import { useUserStore } from '@/store/userStore';
 
 const Rooms = () => {
   const { data, loading, loadPromociones } = usePromocionesStore();
+  const setAssets = useUserStore((s) => s.setUserDataPoints);
   const goTo = useViewStore((s) => s.goTo);
   const toggle = useUIStore((s) => s.toggle);
 
@@ -28,14 +30,27 @@ const Rooms = () => {
     ? (data!.data as ISeccion[])
     : [];
 
-  const goRoomProducts = (beneficio: string, idRoom: number) => {
+  const goRoomProducts = (
+    beneficio: string,
+    idRoom: number,
+    item: IBeneficio
+  ) => {
+    console.log('el beneficio es: ', item);
     soundManager.play('button');
+    useUserStore.getState().setUserDataPoints([item]);
+
     useUIStore.getState().toggle('loading', true);
     setTimeout(() => {
-      beneficio === 'MIREGA'
-        ? goTo('mirega-products', idRoom.toString(), beneficio ?? '')
-        : goTo('dorega-products', idRoom.toString(), beneficio ?? '');
-    }, 2000);
+      if (beneficio === 'MIREGA') {
+        goTo('mirega-products', idRoom.toString(), beneficio ?? '');
+      } else if (beneficio === 'DOREGA') {
+        goTo('dorega-products', idRoom.toString(), beneficio ?? '');
+      } else if (beneficio === 'DERBY') {
+        goTo('derby', idRoom.toString(), beneficio ?? '');
+      } else if (beneficio.trim().startsWith('MULTIPLICADOR')) {
+        goTo('multiplicador', idRoom.toString(), beneficio ?? '');
+      }
+    }, 1000);
   };
 
   /*useEffect(() => {
@@ -97,10 +112,10 @@ const Rooms = () => {
               >
                 {loading
                   ? seccion.lista
-                      .filter((item) => item.estado === 0)
+                      .filter((item) => item.estado === 1)
                       .map((_, index) => <LoadingGrid key={index} />)
                   : seccion.lista
-                      .filter((item) => item.estado === 0)
+                      .filter((item) => item.estado === 1)
                       .map((item: any, index: number) => {
                         return (
                           <ProductCardTipoBeneficio
@@ -124,7 +139,8 @@ const Rooms = () => {
                                   ? item.promocion_Tipo_Id
                                   : seccion.nombre === 'Torneos'
                                   ? item.promocion_Id
-                                  : 0
+                                  : 0,
+                                item
                               )
                             }
                           />

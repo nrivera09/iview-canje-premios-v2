@@ -9,7 +9,7 @@ const LoadingGrid = () => {
       className={clsx(
         `backdrop-blur-[80px] bg-[linear-gradient(230.99deg,_rgba(255,255,255,0)_0%,_rgba(255,255,255,0.6)_100%)]
  w-full rounded-md xs:min-w-full  flex items-center justify-center animate-pulse`,
-        !isLVDS ? `min-w-[225px] min-h-[200px]` : `min-w-[160px] min-h-[144px]`
+        !isLVDS ? `min-w-[225px] min-h-[200px]` : `w-[160px] h-[150px]`
       )}
     ></div>
   );

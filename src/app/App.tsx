@@ -24,6 +24,8 @@ import clsx from 'clsx';
 import { useStockSignalR } from '@/shared/hooks/useStockSignalR';
 import { useUserStore } from '@/store/userStore';
 import { usePromocionesStore } from '@/store/promocionesStore';
+import MultiplicadorPromo from '@/feature/multiplicador/MultiplicadorPromo';
+import DerbyPromo from '@/feature/derby/DerbyPromo';
 
 export default function App() {
   const tarjetaId = useUserStore((s) => s.card);
@@ -87,6 +89,9 @@ export default function App() {
       {activeViews['dorega-productbyid'] && selectedId && (
         <DoregaProductById id={selectedId} />
       )}
+
+      {activeViews.multiplicador && <MultiplicadorPromo />}
+      {activeViews.derby && <DerbyPromo />}
 
       {activeViews['no-tournaments'] && <WithOurTournaments />}
       {activeViews.loading && <Loading />}

@@ -19,6 +19,11 @@ interface UserStore {
   oldasset: number;
   oldview: string;
 
+  userDataPoints: IBeneficio[];
+  setUserDataPoints: (value: IBeneficio[]) => void;
+  addUserDataPoint: (value: IBeneficio) => void;
+  clearUserDataPoints: () => void;
+
   setCard: (value: string) => void;
   setAsset: (value: number) => void;
   setView: (value: string) => void;
@@ -61,6 +66,14 @@ export const useUserStore = create<UserStore>()(
       oldasset: 0,
       oldview: '',
 
+      userDataPoints: [],
+      setUserDataPoints: (value) => set({ userDataPoints: value }),
+      addUserDataPoint: (value) =>
+        set((state) => ({
+          userDataPoints: [...state.userDataPoints, value],
+        })),
+      clearUserDataPoints: () => set({ userDataPoints: [] }),
+
       setCard: (value) => set({ card: value }),
       setAsset: (value) => set({ asset: value }),
       setView: (value) => set({ view: value }),
@@ -91,6 +104,7 @@ export const useUserStore = create<UserStore>()(
           oldcard: '',
           oldasset: 0,
           oldview: '',
+          userDataPoints: [],
         }),
 
       resetFakes: () =>

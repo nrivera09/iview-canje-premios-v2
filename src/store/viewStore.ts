@@ -12,7 +12,9 @@ type View =
   | 'no-tournaments'
   | 'loading'
   | 'rooms'
-  | 'post-exchange-day';
+  | 'post-exchange-day'
+  | 'multiplicador'
+  | 'derby';
 
 interface ViewStore {
   activeViews: Record<View, boolean>;
@@ -41,6 +43,8 @@ export const useViewStore = create<ViewStore>()(
         'no-tournaments': false,
         loading: false,
         rooms: false,
+        multiplicador: false,
+        derby: false,
         'post-exchange-day': false,
       },
       previousId: undefined,
