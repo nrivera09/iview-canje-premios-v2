@@ -88,7 +88,7 @@ const ProductCardById: FC<ProductCardByIdProps> = ({
               <p className="text-white font-light">
                 Le faltan{' '}
                 <span className="font-bold">
-                  {beneficio.puntos_Min - beneficio.puntos}
+                  {beneficio.puntos_Min - beneficio.puntos} puntos
                 </span>{' '}
                 para canjear
               </p>

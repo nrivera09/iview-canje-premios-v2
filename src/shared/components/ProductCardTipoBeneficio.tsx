@@ -19,6 +19,13 @@ import logoMiregaGrandeVIP from '@/shared/assets/img/btnMiregaDorega/logoMiregaG
 import logoMiregaPequeno from '@/shared/assets/img/btnMiregaDorega/logoMiregaPequeno.png';
 import logoMiregaPequenoVIP from '@/shared/assets/img/btnMiregaDorega/logoMiregaPequenoVIP.png';
 import { useIsLVDS } from '../hooks/useDetectIview';
+import { useEffect, useState } from 'react';
+import {
+  getGroupedAssetsByCodigo,
+  getImageBase64FromAssets,
+} from '../utils/getImageBase64FromAssets';
+import LoadingGrid from './LoadingGrid';
+import { groupAssetFiles } from '../utils/groupAssetFiles';
 
 interface ProductCardTipoBeneficioProps {
   idRoom: number;
@@ -32,8 +39,16 @@ const ProductCardTipoBeneficio = ({
   onClick,
 }: ProductCardTipoBeneficioProps) => {
   const isLVDS = useIsLVDS();
+  const [logoBase64, setLogoBase64] = useState<string | null>(null);
+  const [bgBase64, setBgBase64] = useState<string | null>(null);
+  const [assets, setAssets] = useState<Awaited<
+    ReturnType<typeof getGroupedAssetsByCodigo>
+  > | null>(null);
+
   const typePromo = beneficio.promocion;
-  const isReadyToExchange = beneficio.puntos >= beneficio.puntos_Min;
+  const isReadyToExchange =
+    beneficio.puntos >= beneficio.puntos_Min &&
+    (typePromo === 'MIREGA' || typePromo === 'DOREGA');
   const showPoints = beneficio.tipo === 'Informativo';
 
   const setBg = (vip: boolean = false) => {
@@ -79,53 +94,93 @@ const ProductCardTipoBeneficio = ({
       (showPoints && !isReadyToExchange) ||
       (isReadyToExchange && !showPoints)
     ) {
-      return `140px`;
+      return `120px`;
     } else {
       return `120px`;
     }
   };
 
+  useEffect(() => {
+    const fetchAssets = async () => {
+      const grouped = await getGroupedAssetsByCodigo(beneficio.promocionCodigo);
+      setAssets(grouped);
+      const background = grouped?.branding.find(
+        (item) => item.fileName === 'bg_logo.png'
+      )?.base64;
+      setBgBase64(background ?? null);
+      const logo = grouped?.branding.find(
+        (item) => item.fileName === 'logo.png'
+      )?.base64;
+      setLogoBase64(logo ?? null);
+    };
+    fetchAssets();
+  }, [beneficio.promocionCodigo]);
+
+  if (!assets && !bgBase64 && !logoBase64) {
+    return <LoadingGrid />;
+  }
   return (
-    <div
-      onMouseLeave={() => soundManager.play('pin')}
-      onClick={onClick}
-      style={{ backgroundImage: `url(${setBg(false)})` }}
-      className={clsx(
-        'cursor-pointer bg-white rounded-xl bg-center xs:min-w-full  relative overflow-hidden bg-cover',
-        !isLVDS ? `min-w-[225px] min-h-[200px]` : `min-w-[160px] min-h-[144px]`
-      )}
-    >
-      <div className={clsx(`card flex flex-col justify-start items-center `)}>
-        <div className="w-full relative flex items-center justify-center">
-          {isReadyToExchange && (
-            <span className="points text-white font-bold min-w-[140px] min-h-[28px] bg-[linear-gradient(90deg,_#306A24_0%,_#459A33_100%)] text-[14px] flex items-center justify-center absolute top-0 left-0 rounded-br-md rounded-tl-md  ">
-              ¡Listo para canjear!<div className="!hidden"> - {idRoom}</div>
-            </span>
+    <>
+      {assets && (
+        <div
+          onMouseLeave={() => soundManager.play('pin')}
+          onClick={onClick}
+          style={{
+            backgroundImage: `url(${bgBase64})`,
+            backgroundSize: `103% 103%`,
+          }}
+          className={clsx(
+            'cursor-pointer bg-white rounded-xl bg-center xs:min-w-full  relative overflow-hidden ',
+            !isLVDS
+              ? `min-w-[225px] min-h-[200px]`
+              : `min-w-[160px] min-h-[144px]`
+          )}
+        >
+          <div
+            className={clsx(`card flex flex-col justify-start items-center `)}
+          >
+            <div className="w-full relative flex items-center justify-center">
+              {isReadyToExchange && (
+                <span className="points text-white font-bold min-w-[140px] min-h-[28px] bg-[linear-gradient(90deg,_#306A24_0%,_#459A33_100%)] text-[14px] flex items-center justify-center absolute top-0 left-0 rounded-br-md rounded-tl-md  ">
+                  ¡Listo para canjearx!
+                  <div className="!hidden"> - {idRoom}</div>
+                </span>
+              )}
+            </div>
+          </div>
+          <div className="w-full h-full flex items-center justify-center">
+            {!logoBase64 ? (
+              <div></div>
+            ) : (
+              <img
+                src={logoBase64}
+                alt="Logo"
+                className="object-contain"
+                style={{ width: setLogoSize(), height: setLogoSize() }}
+              />
+            )}
+          </div>
+
+          {showPoints && (
+            <div className="w-full bg-cover text-center absolute   bottom-0 mb-[-1px]">
+              <div
+                className="w-[129px] h-[29px] bg-contain text-center mx-auto flex items-center justify-center text-[14px] font-bold "
+                style={{ backgroundImage: `url(${imgPtsInferior})` }}
+              >
+                <p
+                  className={clsx(
+                    `font-bold text-black text-center w-full`,
+                    isLVDS && `text-[12px]`
+                  )}
+                >
+                  {beneficio.puntos_Min} ptos
+                </p>
+              </div>
+            </div>
           )}
         </div>
-      </div>
-      <div className="w-full h-full flex items-center justify-center">
-        <img src={setLogo()} alt="" style={{ width: setLogoSize() }} />
-      </div>
-
-      {showPoints && (
-        <div className="w-full bg-cover text-center absolute   bottom-0 mb-[-1px]">
-          <div
-            className="w-[129px] h-[29px] bg-contain text-center mx-auto flex items-center justify-center text-[14px] font-bold "
-            style={{ backgroundImage: `url(${imgPtsInferior})` }}
-          >
-            <p
-              className={clsx(
-                `font-bold text-black text-center w-full`,
-                isLVDS && `text-[12px]`
-              )}
-            >
-              {beneficio.puntos_Min} ptos
-            </p>
-          </div>
-        </div>
       )}
-    </div>
+    </>
   );
 };
 

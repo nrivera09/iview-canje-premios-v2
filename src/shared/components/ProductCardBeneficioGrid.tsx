@@ -8,6 +8,9 @@ import { useUIStore } from '@/store/uiStore';
 import { IBeneficio, IBeneficioGRID } from '../types/iview.types';
 import { fetchImgBase64 } from '../api/iviewApi';
 import { useIsLVDS } from '../hooks/useDetectIview';
+import LoadingGrid from './LoadingGrid';
+import Loading from '@/feature/Loading';
+import { getGroupedAssetsByCodigo } from '../utils/getImageBase64FromAssets';
 
 interface ProductCardTipoBeneficioGridProps {
   idRoom: number;
@@ -35,6 +38,7 @@ const ProductCardTipoBeneficioGrid: FC<ProductCardTipoBeneficioGridProps> = ({
     getImg();
   }, [beneficio.nombreImagen]);
 
+  /* if (!imgBase64) return <LoadingGrid />;*/
   return (
     <div
       onMouseLeave={() => soundManager.play('pin')}

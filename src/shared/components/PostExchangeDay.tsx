@@ -33,18 +33,42 @@ const PostExchangeDay: FC<PostExchangeDayProps> = ({ id }) => {
         backgroundPosition: 'center top',
       }}
     >
-      <header className="flex items-center justify-between w-full bg-opacity-5 backdrop-blur-[40px]min-h-[65px] h-[65px]">
-        <BackButton
-          title="Beneficios"
-          onClick={() => soundManager.play('button')}
-        />
-        <CloseButton
-          width="69.33px"
-          height="64px"
-          onClick={() => soundManager.play('button')}
-        />
-      </header>
-      <main className="flex-1 flex items-center flex-col justify-start p-[24px] gap-3  px-[64px] py-[60px]">
+      {!isLVDS ? (
+        <header className="flex items-center justify-between w-full   min-h-[65px] h-[65px]">
+          <BackButton
+            onClick={() => {
+              soundManager.play('button');
+              goTo('rooms');
+            }}
+          />
+          <CloseButton
+            width="69.33px"
+            height="64px"
+            onClick={() => soundManager.play('button')}
+          />
+        </header>
+      ) : (
+        <header className="flex items-center justify-between w-full absolute left-0 top-0   min-h-[48px] h-[48px]">
+          <BackButton
+            width="28px"
+            height="28px"
+            onClick={() => {
+              soundManager.play('button');
+              goTo('rooms');
+            }}
+          />
+          <CloseButton
+            width="52px"
+            height="48px"
+            onClick={() => soundManager.play('button')}
+          />
+        </header>
+      )}
+      <main
+        className={`flex-1 flex items-center flex-col justify-start p-[24px] gap-3  px-[64px] ${
+          !isLVDS ? `py-[60px]` : `py-[32px]`
+        }`}
+      >
         <img
           src={miercolesRegalones}
           alt=""
@@ -72,7 +96,7 @@ const PostExchangeDay: FC<PostExchangeDayProps> = ({ id }) => {
           </>
         )}
       </main>
-      <footer className="min-h-[62px] gap-[16px] flex flex-row items-center justify-center border-b-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px]">
+      <footer className="min-h-[62px] gap-[16px] flex flex-row items-center justify-center border-b-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px] !hidden">
         <BtnCasinoOnline
           minWidth="142px"
           label="IR A BENEFICIOS"

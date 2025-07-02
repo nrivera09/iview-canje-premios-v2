@@ -39,7 +39,7 @@ const Rooms = () => {
   };
 
   /*useEffect(() => {
-    toggle('postRedeem', true);
+    goTo('no-tournaments');
   }, [toggle]);*/
   return (
     <div
@@ -96,24 +96,16 @@ const Rooms = () => {
                 )}
               >
                 {loading
-                  ? seccion.lista.map((_, index) => <LoadingGrid key={index} />)
-                  : seccion.lista.map((item: any, index: number) => {
-                      return (
-                        <ProductCardTipoBeneficio
-                          key={item.id ?? index}
-                          idRoom={
-                            seccion.nombre === 'Promociones'
-                              ? item.promocionId
-                              : seccion.nombre === 'Beneficios'
-                              ? item.promocion_Tipo_Id
-                              : seccion.nombre === 'Torneos'
-                              ? item.promocion_Id
-                              : 0
-                          }
-                          beneficio={item}
-                          onClick={() =>
-                            goRoomProducts(
-                              item.promocion,
+                  ? seccion.lista
+                      .filter((item) => item.estado === 0)
+                      .map((_, index) => <LoadingGrid key={index} />)
+                  : seccion.lista
+                      .filter((item) => item.estado === 0)
+                      .map((item: any, index: number) => {
+                        return (
+                          <ProductCardTipoBeneficio
+                            key={item.id ?? index}
+                            idRoom={
                               seccion.nombre === 'Promociones'
                                 ? item.promocionId
                                 : seccion.nombre === 'Beneficios'
@@ -121,11 +113,23 @@ const Rooms = () => {
                                 : seccion.nombre === 'Torneos'
                                 ? item.promocion_Id
                                 : 0
-                            )
-                          }
-                        />
-                      );
-                    })}
+                            }
+                            beneficio={item}
+                            onClick={() =>
+                              goRoomProducts(
+                                item.promocion,
+                                seccion.nombre === 'Promociones'
+                                  ? item.promocionId
+                                  : seccion.nombre === 'Beneficios'
+                                  ? item.promocion_Tipo_Id
+                                  : seccion.nombre === 'Torneos'
+                                  ? item.promocion_Id
+                                  : 0
+                              )
+                            }
+                          />
+                        );
+                      })}
               </div>
             </div>
           ))}

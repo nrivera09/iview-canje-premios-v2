@@ -57,15 +57,19 @@ export interface IBeneficioRegalo {
 export interface IBeneficio {
   id: number;
   promocion: string;
+  promocionCodigo: string; // ✅ NUEVO
+  estado: number; // ✅ NUEVO
   puntos: number;
   puntos_Falta: number;
   puntos_Min: number;
   canjeado: boolean;
+  pendiente: boolean; // ✅ NUEVO
   promocion_Tipo_Id: number;
   tipo: string;
-  lista_Regalos: IBeneficioRegalo[];
-  fecha_ini: string;
-  fecha_fin: string;
+  lista_Regalos: IBeneficioRegalo[] | null;
+  lista_Derby: any[] | null; // ✅ NUEVO (ajustar tipo si se conoce)
+  fecha_ini: string | null;
+  fecha_fin: string | null;
 }
 
 export interface IBeneficioGRID {
