@@ -100,8 +100,8 @@ export default function App() {
       {postRedeem && <PostRedeem id={'1'}></PostRedeem>}
       {activeViews['post-exchange-day'] && <PostExchangeDay id={'1'} />}
 
-      {process.env.NODE_ENV === 'development' && <IViewDebug />}
-      {process.env.NODE_ENV === 'development' && <IViewFakeId />}
+      {/*process.env.NODE_ENV === 'development' && <IViewDebug />}
+      {process.env.NODE_ENV === 'development' && <IViewFakeId />*/}
 
       <div className={clsx(loading ? 'block' : 'hidden')}>
         <Loading />

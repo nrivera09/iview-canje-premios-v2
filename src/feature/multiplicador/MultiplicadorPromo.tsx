@@ -65,13 +65,15 @@ const MultiplicadorPromo = () => {
   return (
     <>
       <div
-        className="h-dvh w-full flex flex-col  bg-no-repeat bg-cover"
+        className="h-dvh w-full flex flex-col  bg-no-repeat "
         style={{
           backgroundImage:
             bgBase64DM && bgBase64LVDS
               ? `url(${isLVDS ? bgBase64LVDS : bgBase64DM})`
               : undefined,
           backgroundPosition: 'center top',
+
+          backgroundSize: '100% 100%',
         }}
       >
         <header

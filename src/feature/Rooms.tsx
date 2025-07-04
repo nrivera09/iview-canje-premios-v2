@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import LoadingGrid from '@/shared/components/LoadingGrid';
 import { soundManager } from '@/shared/utils/SoundManager';
 import bg from '@/shared/assets/img/bgDM.png';
+import arrowBg from '@/shared/assets/img/bgFlechaLVDS.png';
+import arrowGIF from '@/shared/assets/img/arrowGif.gif';
 import CloseButton from '@/shared/components/CloseButton';
 import BackButton from '@/shared/components/BackButton';
 import ProductCardBeneficio from '@/shared/components/ProductCardBeneficio';
@@ -15,6 +17,7 @@ import clsx from 'clsx';
 import { useUserStore } from '@/store/userStore';
 
 const Rooms = () => {
+  const resetUI = useUIStore((s) => s.resetUI);
   const { data, loading, loadPromociones } = usePromocionesStore();
   const setAssets = useUserStore((s) => s.setUserDataPoints);
   const goTo = useViewStore((s) => s.goTo);
@@ -41,21 +44,43 @@ const Rooms = () => {
 
     useUIStore.getState().toggle('loading', true);
     setTimeout(() => {
-      if (beneficio === 'MIREGA') {
-        goTo('mirega-products', idRoom.toString(), beneficio ?? '');
-      } else if (beneficio === 'DOREGA') {
-        goTo('dorega-products', idRoom.toString(), beneficio ?? '');
-      } else if (beneficio === 'DERBY') {
-        goTo('derby', idRoom.toString(), beneficio ?? '');
-      } else if (beneficio.trim().startsWith('MULTIPLICADOR')) {
-        goTo('multiplicador', idRoom.toString(), beneficio ?? '');
+      if (item) {
+        if (beneficio === 'MIREGA') {
+          (item?.lista_Regalos ?? []).length > 0
+            ? goTo('mirega-products', idRoom.toString(), beneficio ?? '')
+            : goTo('post-exchange-day');
+        } else if (beneficio === 'DOREGA') {
+          (item?.lista_Regalos ?? []).length > 0
+            ? goTo('dorega-products', idRoom.toString(), beneficio ?? '')
+            : goTo('post-exchange-day');
+        } else if (beneficio === 'DERBY') {
+          goTo('derby', idRoom.toString(), beneficio ?? '');
+        } else if (beneficio.trim().startsWith('MULTIPLICADOR')) {
+          goTo('multiplicador', idRoom.toString(), beneficio ?? '');
+        }
       }
     }, 1000);
   };
 
-  /*useEffect(() => {
-    goTo('no-tournaments');
-  }, [toggle]);*/
+  const beneficiosDisplay = useMemo(() => {
+    const raw = secciones.find((seccion) => seccion.nombre === 'Beneficios');
+    if (!raw) return undefined;
+    return {
+      ...raw,
+      lista: raw.lista.filter((item: IBeneficio) => item.estado === 1),
+    };
+  }, [secciones]);
+
+  useEffect(() => {
+    if (!beneficiosDisplay) return;
+
+    if ((beneficiosDisplay.lista?.length ?? 0) === 0) {
+      goTo('no-tournaments');
+    } else {
+      resetUI();
+    }
+  }, [beneficiosDisplay, goTo, resetUI]);
+
   return (
     <div
       className="h-dvh w-full flex flex-col bg-cover bg-no-repeat bg-center"
@@ -92,7 +117,7 @@ const Rooms = () => {
       <main
         className={clsx(
           !isLVDS ? ' p-[24px] ' : 'px-[20px] py-[24px] ',
-          'flex-1 overflow-y-auto scrollbar-none'
+          'flex-1 overflow-y-auto scrollbar-none relative'
         )}
       >
         {secciones
@@ -150,6 +175,20 @@ const Rooms = () => {
             </div>
           ))}
       </main>
+      {isLVDS && (beneficiosDisplay?.lista?.length ?? 0) >= 4 && (
+        <div className="arrow absolute top-0 right-0 w-[52px] h-full flex pt-[44px]">
+          <div className="h-full w-full flex items-center justify-center bg-gradient-to-r from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.4)]">
+            <img src={arrowGIF} className="-rotate-90 opacity-80" alt="" />
+          </div>
+        </div>
+      )}
+      {!isLVDS && (beneficiosDisplay?.lista?.length ?? 0) >= 5 && (
+        <div className="arrow absolute bottom-0 left-0 w-full min-h-[52px] flex ">
+          <div className="h-full w-full flex items-center justify-center bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.4)] pb-3">
+            <img src={arrowGIF} className="w-14 opacity-80 " alt="" />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -15,7 +15,7 @@ export const calculatePuntosPorcentaje = (
 export const getTodayType = (): 'MIERCOLES' | 'VIERNES' | 'OTRO' => {
   const day = new Date().getDay(); // Domingo = 0, Miércoles = 3
 
-  if (day === 0) return 'VIERNES';
+  if (day === 5) return 'VIERNES';
   if (day === 3) return 'MIERCOLES';
   return 'OTRO';
 };

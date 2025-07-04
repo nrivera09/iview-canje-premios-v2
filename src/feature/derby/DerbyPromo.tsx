@@ -74,7 +74,6 @@ const DerbyPromo = () => {
           item.fileName.startsWith('LVDS/')
         );
         setBgBase64LVDS(assetLVDS?.base64 ?? null);*/
-
         if (tipoDia === 'MIERCOLES') {
           const assetDM = base64.assets.find((item) =>
             item.fileName.startsWith('DM/miercoles/')
@@ -114,13 +113,14 @@ const DerbyPromo = () => {
   return (
     <>
       <div
-        className="h-dvh w-full flex flex-col  bg-no-repeat bg-cover"
+        className="h-dvh w-full flex flex-col  bg-no-repeat relative"
         style={{
           backgroundImage:
             bgBase64DM && bgBase64LVDS
               ? `url(${isLVDS ? bgBase64LVDS : bgBase64DM})`
               : undefined,
           backgroundPosition: 'center top',
+          backgroundSize: '100% 100%',
         }}
       >
         <header
@@ -169,6 +169,42 @@ const DerbyPromo = () => {
             isLVDS && `pb-[32px]`
           )}
         ></main>
+        {!isLVDS ? (
+          <div className="mockDM absolute bottom-0 right-0 w-full">
+            <div className="div max-w-[81%] min-h-[160px] mx-auto  mb-[62px]">
+              <div className="flex flex-row gap-16px]">
+                <div className="w-[50%] min-h-[160px] flex flex-col items-center justify-items-center justify-center gap-3">
+                  <p className="w-full font-bold text-white text-center text-[16px]">
+                    40 puntos
+                  </p>
+                  <p className="w-full font-bold text-white text-center text-[16px]">
+                    200 opciones
+                  </p>
+                </div>
+                <div className="w-[50%] min-h-[160px] flex items-center justify-items-center justify-center ">
+                  <p className="w-full font-bold text-white text-center text-[16px]">
+                    40 puntos
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="mockLVDS absolute right-0 top-0 w-[50%] h-[50%]">
+            <div className="w-full h-full p-5 flex flex-col justify-between pt-[29px]">
+              <div className="h-[31px] flex items-center justify-center px-2 w-[113px]">
+                <p className="w-full font-bold text-black text-center text-[16px] ">
+                  40 puntos
+                </p>
+              </div>
+              <div className="h-[30px] relative top-[-2px] flex items-center justify-center px-2 w-[113px]">
+                <p className="w-full font-bold text-black text-center text-[16px]">
+                  40 puntos
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
