@@ -15,6 +15,7 @@ import ProductCardTipoBeneficio from '@/shared/components/ProductCardTipoBenefic
 import { useIsLVDS } from '@/shared/hooks/useDetectIview';
 import clsx from 'clsx';
 import { useUserStore } from '@/store/userStore';
+import { closeIframe } from '@/shared/utils/iframeMessenger';
 
 const Rooms = () => {
   const resetUI = useUIStore((s) => s.resetUI);
@@ -87,24 +88,30 @@ const Rooms = () => {
       style={{ backgroundImage: `url(${bg})` }}
     >
       {!isLVDS ? (
-        <header className="flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px] min-h-[65px] h-[65px]">
+        <header className="flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px] min-h-[56px] h-[56px]">
           <BackButton
             title="Beneficios"
-            onClick={() => soundManager.play('button')}
+            onClick={() => {
+              soundManager.play('button');
+              closeIframe();
+            }}
           />
           <CloseButton
-            width="69.33px"
-            height="64px"
+            width="60px"
+            height="55px"
             onClick={() => soundManager.play('button')}
           />
         </header>
       ) : (
-        <header className="flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px] min-h-[44px] h-[44px]">
+        <header className="flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px] min-h-[48px] h-[48px]">
           <BackButton
             width="28px"
             height="28px"
             title="Beneficios"
-            onClick={() => soundManager.play('button')}
+            onClick={() => {
+              soundManager.play('button');
+              closeIframe();
+            }}
           />
           <CloseButton
             width="52px"

@@ -127,7 +127,7 @@ const DerbyPromo = () => {
           className={clsx(
             'flex items-center justify-between w-full  ',
             !isLVDS
-              ? 'min-h-[65px] h-[65px]'
+              ? 'min-h-[56px] h-[56px]'
               : 'min-h-[32px] h-[32px] top-[10px] relative'
           )}
         >
@@ -141,8 +141,8 @@ const DerbyPromo = () => {
                 }}
               />
               <CloseButton
-                width="69.33px"
-                height="64px"
+                width="60px"
+                height="55px"
                 onClick={() => soundManager.play('button')}
               />
             </>

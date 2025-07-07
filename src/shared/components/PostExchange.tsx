@@ -10,23 +10,29 @@ import ProductCardBeneficio from '@/shared/components/ProductCardBeneficio';
 import BtnCasinoOnline from './BtnCasinoOnline';
 import { useUIStore } from '@/store/uiStore';
 import { getPromoImage } from '../utils/getPromoImage';
+import { useUserStore } from '@/store/userStore';
 
 const PostExchange = () => {
+  const { userDataPoints } = useUserStore();
+  const beneficio = useUserStore((s) => s.selectedBeneficioData);
   const toggle = useUIStore((s) => s.toggle);
   const resetUI = useUIStore((s) => s.resetUI);
   return (
     <div
       className="h-dvh w-full flex flex-col  bg-no-repeat bg-cover"
       style={{
-        backgroundImage: `url(${getPromoImage('mirega', 'vip')})`,
+        backgroundImage: `url(${getPromoImage(
+          String(userDataPoints[0].promocion.toLocaleLowerCase()),
+          userDataPoints[0].isVIP || false
+        )})`,
         backgroundPosition: 'center top',
       }}
     >
-      <header className="flex items-center justify-between w-full   min-h-[65px] h-[65px]">
+      <header className="flex items-center justify-between w-full   min-h-[56px] h-[56px]">
         <BackButton title="" onClick={() => soundManager.play('button')} />
         <CloseButton
-          width="69.33px"
-          height="64px"
+          width="60px"
+          height="55px"
           onClick={() => soundManager.play('button')}
         />
       </header>

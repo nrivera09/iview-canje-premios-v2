@@ -22,6 +22,7 @@ interface PostRedeemProps {
 
 const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
   const isLVDS = useIsLVDS();
+  const { userDataPoints } = useUserStore();
   const { goTo } = useViewStore();
   const { isExchange } = useUIStore();
   const selectedId = useViewStore((s) => s.selectedId);
@@ -43,8 +44,8 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
       className="h-dvh w-full flex flex-col  bg-cover absolute top-0 left-0 z-10 bg-no-repeat "
       style={{
         backgroundImage: `url(${getPromoImage(
-          selectedType?.toLocaleLowerCase() || 'mirega',
-          'novip'
+          String(userDataPoints[0].promocion.toLocaleLowerCase()),
+          userDataPoints[0].isVIP || false
         )})`,
         backgroundPosition: 'center top',
       }}

@@ -3,13 +3,30 @@ import bgDomingosPromoVIP from '@/shared/assets/img/bgDomingosPromoVIP.png';
 import bgMiercolesPromo from '@/shared/assets/img/bgMiercolesPromo.png';
 import bgMiercolesPromoVIP from '@/shared/assets/img/bgMiercolesPromoVIP.png';
 
-export const getPromoImage = (promo: string, status: string) => {
+import logoMirega from '@/shared/assets/img/mirega.png';
+import logoMiregaVIP from '@/shared/assets/img/miregaVIP.png';
+import logoDorega from '@/shared/assets/img/dorega.png';
+import logoDoregaVIP from '@/shared/assets/img/doregaVIP.png';
+
+export const getPromoImage = (promo: string, status: boolean) => {
   if (promo === 'mirega') {
-    return status === 'vip' ? bgMiercolesPromoVIP : bgMiercolesPromo;
+    return status === true ? bgMiercolesPromoVIP : bgMiercolesPromo;
   }
 
   if (promo === 'dorega') {
-    return status === 'vip' ? bgDomingosPromoVIP : bgDomingosPromo;
+    return status === true ? bgDomingosPromoVIP : bgDomingosPromo;
+  }
+
+  return null;
+};
+
+export const getPromoImageLogo = (promo: string, status: boolean) => {
+  if (promo === 'mirega') {
+    return status === true ? logoMiregaVIP : logoMirega;
+  }
+
+  if (promo === 'dorega') {
+    return status === true ? logoDoregaVIP : logoDorega;
   }
 
   return null;

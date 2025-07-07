@@ -6,27 +6,29 @@ import CloseButton from './CloseButton';
 import { soundManager } from '../utils/SoundManager';
 import { useIsLVDS } from '../hooks/useDetectIview';
 import { useViewStore } from '@/store/viewStore';
+import { closeIframe } from '@/shared/utils/iframeMessenger';
 
 const WithOurTournaments = () => {
   soundManager.play('button');
   const goTo = useViewStore((s) => s.goTo);
   const isLVDS = useIsLVDS();
+
   return (
     <div
       className="h-dvh w-full flex flex-col bg-no-repeat  bg-center bg-cover "
       style={{ backgroundImage: `url(${bg})` }}
     >
       {!isLVDS ? (
-        <header className="flex items-center justify-between w-full   min-h-[65px] h-[65px] z-10">
+        <header className="flex items-center justify-between w-full   min-h-[56px] h-[56px] z-10">
           <BackButton
             onClick={() => {
               soundManager.play('button');
-              goTo('rooms');
+              closeIframe();
             }}
           />
           <CloseButton
-            width="69.33px"
-            height="64px"
+            width="60px"
+            height="55px"
             onClick={() => soundManager.play('button')}
           />
         </header>
@@ -37,7 +39,7 @@ const WithOurTournaments = () => {
             height="28px"
             onClick={() => {
               soundManager.play('button');
-              goTo('rooms');
+              closeIframe();
             }}
           />
           <CloseButton

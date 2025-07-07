@@ -29,14 +29,14 @@ const MiregaScreen = () => {
 
   return (
     <div className="h-dvh w-full flex flex-col bg-purple-950">
-      <header className="flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white/5 backdrop-blur-[80px] min-h-[65px] h-[65px]">
+      <header className="flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white/5 backdrop-blur-[80px] min-h-[56px] h-[56px]">
         <BackButton
           title="Beneficios"
           onClick={() => soundManager.play('button')}
         />
         <CloseButton
-          width="69.33px"
-          height="64px"
+          width="60px"
+          height="55px"
           onClick={() => soundManager.play('button')}
         />
       </header>

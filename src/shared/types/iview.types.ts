@@ -57,19 +57,26 @@ export interface IBeneficioRegalo {
 export interface IBeneficio {
   id: number;
   promocion: string;
-  promocionCodigo: string; // ✅ NUEVO
-  estado: number; // ✅ NUEVO
+  promocionCodigo: string;
+  estado: number;
   puntos: number;
   puntos_Falta: number;
   puntos_Min: number;
   canjeado: boolean;
-  pendiente: boolean; // ✅ NUEVO
+  pendiente: boolean;
   promocion_Tipo_Id: number;
   tipo: string;
   lista_Regalos: IBeneficioRegalo[] | null;
-  lista_Derby: any[] | null; // ✅ NUEVO (ajustar tipo si se conoce)
   fecha_ini: string | null;
   fecha_fin: string | null;
+
+  // Faltantes:
+  isVIP: boolean;
+  isInformative: boolean;
+  id_articulo_canjeado: number;
+
+  // ⚠️ Si aplica:
+  lista_Derby?: any[] | null;
 }
 
 export interface IBeneficioGRID {

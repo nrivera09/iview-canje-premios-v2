@@ -24,6 +24,7 @@ import { useIsLVDS } from '@/shared/hooks/useDetectIview';
 
 const MiregaProducts = () => {
   const isLVDS = useIsLVDS();
+  const { userDataPoints } = useUserStore();
   const [beneficioActual, setBeneficioActual] =
     React.useState<IBeneficio | null>(null);
   const beneficio = useUserStore((s) => s.selectedBeneficioData);
@@ -86,6 +87,7 @@ const MiregaProducts = () => {
   useEffect(() => {
     if (beneficioActual) {
       useUserStore.getState().setSelectedBeneficioData(beneficioActual);
+      console.log('se activo mirega: ', beneficioActual);
     }
   }, [beneficioActual]);
 
@@ -93,14 +95,17 @@ const MiregaProducts = () => {
     <div
       className="h-dvh w-full flex flex-col bg-no-repeat bg-cover"
       style={{
-        backgroundImage: `url(${getPromoImage('mirega', 'novip')})`,
+        backgroundImage: `url(${getPromoImage(
+          String(userDataPoints[0].promocion.toLocaleLowerCase()),
+          userDataPoints[0].isVIP || false
+        )})`,
         backgroundPosition: 'center top',
       }}
     >
       <header
         className={clsx(
           'flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px]  ',
-          !isLVDS ? 'min-h-[65px] h-[65px]' : 'min-h-[44px] h-[44px]'
+          !isLVDS ? 'min-h-[56px] h-[56px]' : 'min-h-[48px] h-[48px]'
         )}
       >
         {!isLVDS ? (
@@ -113,8 +118,8 @@ const MiregaProducts = () => {
               }}
             />
             <CloseButton
-              width="69.33px"
-              height="64px"
+              width="60px"
+              height="55px"
               onClick={() => soundManager.play('button')}
             />
           </>

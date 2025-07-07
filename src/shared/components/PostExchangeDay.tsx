@@ -11,30 +11,42 @@ import { BackgroundProductExchange } from './BackgroundProductExchange';
 import { ProductExchangeLabel } from './ProductExchangeLabel';
 import imgDemo from '@/shared/assets/img/product-demo.jpg';
 import { LineaProductExchange } from './LineaProductExchange';
-import { getPromoImage } from '../utils/getPromoImage';
+import { getPromoImage, getPromoImageLogo } from '../utils/getPromoImage';
 import miercolesRegalones from '@/shared/assets/img/miercolesRegalones.png';
 import { useIsLVDS } from '../hooks/useDetectIview';
 import clsx from 'clsx';
+import { useUserStore } from '@/store/userStore';
 
 interface PostExchangeDayProps {
   id: string;
 }
 
 const PostExchangeDay: FC<PostExchangeDayProps> = ({ id }) => {
+  const beneficio = useUserStore((s) => s.selectedBeneficioData);
   const isLVDS = useIsLVDS();
   const { activeViews, selectedId, goTo } = useViewStore();
+  const { userDataPoints } = useUserStore();
   const isExchange = true;
   const resetUI = useUIStore((s) => s.resetUI);
+
+  const promoLogo = getPromoImageLogo(
+    String(userDataPoints[0]?.promocion?.toLowerCase?.() || ''),
+    userDataPoints[0]?.isVIP || false
+  );
+
   return (
     <div
       className="h-dvh w-full flex flex-col   absolute top-0 left-0 z-10 bg-no-repeat bg-cover"
       style={{
-        backgroundImage: `url(${getPromoImage('mirega', 'novip')})`,
+        backgroundImage: `url(${getPromoImage(
+          String(userDataPoints[0].promocion.toLocaleLowerCase()),
+          userDataPoints[0].isVIP || false
+        )})`,
         backgroundPosition: 'center top',
       }}
     >
       {!isLVDS ? (
-        <header className="flex items-center justify-between w-full   min-h-[65px] h-[65px]">
+        <header className="flex items-center justify-between w-full   min-h-[56px] h-[56px]">
           <BackButton
             onClick={() => {
               soundManager.play('button');
@@ -42,8 +54,8 @@ const PostExchangeDay: FC<PostExchangeDayProps> = ({ id }) => {
             }}
           />
           <CloseButton
-            width="69.33px"
-            height="64px"
+            width="60px"
+            height="55px"
             onClick={() => soundManager.play('button')}
           />
         </header>
@@ -69,13 +81,16 @@ const PostExchangeDay: FC<PostExchangeDayProps> = ({ id }) => {
           !isLVDS ? `py-[60px]` : `py-[32px]`
         }`}
       >
-        <img
-          src={miercolesRegalones}
-          alt=""
-          className={clsx(
-            !isLVDS ? `min-w-[189px] h-[119px]` : `min-w-[142px] h-[90px]`
-          )}
-        />
+        {promoLogo && (
+          <img
+            src={promoLogo}
+            alt=""
+            className={clsx(
+              !isLVDS ? `min-w-[189px] h-[119px]` : `min-w-[142px] h-[90px]`
+            )}
+          />
+        )}
+
         {!isLVDS ? (
           <>
             <p className="text-white font-bold text-[24px] text-center">

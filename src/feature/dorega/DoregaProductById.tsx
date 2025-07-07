@@ -22,6 +22,7 @@ interface DoregaProductByIdProps {
 
 const DoregaProductById: FC<DoregaProductByIdProps> = ({ id }) => {
   const isLVDS = useIsLVDS();
+  const { userDataPoints } = useUserStore();
   const selectedId = useViewStore((s) => s.selectedId);
   const previousId = useViewStore((s) => s.previousId);
 
@@ -56,7 +57,10 @@ const DoregaProductById: FC<DoregaProductByIdProps> = ({ id }) => {
       <div
         className="h-dvh w-full flex flex-col  bg-no-repeat bg-cover"
         style={{
-          backgroundImage: `url(${bgDorega})`,
+          backgroundImage: `url(${getPromoImage(
+            String(userDataPoints[0].promocion.toLocaleLowerCase()),
+            userDataPoints[0].isVIP || false
+          )})`,
           backgroundPosition: 'center top',
         }}
       >
@@ -64,7 +68,7 @@ const DoregaProductById: FC<DoregaProductByIdProps> = ({ id }) => {
           className={clsx(
             'flex items-center justify-between w-full  ',
             !isLVDS
-              ? 'min-h-[65px] h-[65px]'
+              ? 'min-h-[56px] h-[56px]'
               : 'min-h-[32px] h-[32px] top-[10px] relative'
           )}
         >
@@ -78,8 +82,8 @@ const DoregaProductById: FC<DoregaProductByIdProps> = ({ id }) => {
                 }}
               />
               <CloseButton
-                width="69.33px"
-                height="64px"
+                width="60px"
+                height="55px"
                 onClick={() => soundManager.play('button')}
               />
             </>

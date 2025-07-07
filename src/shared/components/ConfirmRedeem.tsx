@@ -19,7 +19,8 @@ interface ConfirmRedeemProps {
 
 const ConfirmRedeem: FC<ConfirmRedeemProps> = ({ id }) => {
   const isLVDS = useIsLVDS();
-    const resetUI = useUIStore((s) => s.resetUI);
+  const resetUI = useUIStore((s) => s.resetUI);
+  const { userDataPoints } = useUserStore();
   const selectedId = useViewStore((s) => s.selectedId);
   const beneficio = useUserStore((s) => s.selectedBeneficioData);
   const toggle = useUIStore((s) => s.toggle);
@@ -28,7 +29,10 @@ const ConfirmRedeem: FC<ConfirmRedeemProps> = ({ id }) => {
     <div
       className="h-dvh w-full flex flex-col   absolute top-0 left-0 z-10 bg-no-repeat bg-cover"
       style={{
-        backgroundImage: `url(${getPromoImage('mirega', 'novip')})`,
+        backgroundImage: `url(${getPromoImage(
+          String(userDataPoints[0].promocion.toLocaleLowerCase()),
+          userDataPoints[0].isVIP || false
+        )})`,
         backgroundPosition: 'center top',
       }}
     >
