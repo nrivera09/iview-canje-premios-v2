@@ -21,10 +21,10 @@ import { useUserStore } from '@/store/userStore';
 import { calculatePuntosPorcentaje } from '@/shared/utils/Utils';
 import ProductCardTipoBeneficioGrid from '@/shared/components/ProductCardBeneficioGrid';
 import { useIsLVDS } from '@/shared/hooks/useDetectIview';
-import MiregaPreExchange from './MiregaPreExchange';
 
-const MiregaProducts = () => {
+const DoregaPreExchange = () => {
   const isLVDS = useIsLVDS();
+
   const { userDataPoints } = useUserStore();
   const [beneficioActual, setBeneficioActual] =
     React.useState<IBeneficio | null>(null);
@@ -88,11 +88,10 @@ const MiregaProducts = () => {
   useEffect(() => {
     if (beneficioActual) {
       useUserStore.getState().setSelectedBeneficioData(beneficioActual);
-      //console.log('se activo miregax: ', beneficioActual?.tipo);
+      console.log('se activo dorega: ', beneficioActual);
     }
   }, [beneficioActual]);
 
-  if (beneficioActual?.tipo === 'Informativo') return <MiregaPreExchange />;
   return (
     <div
       className="h-dvh w-full flex flex-col bg-no-repeat bg-cover"
@@ -113,7 +112,7 @@ const MiregaProducts = () => {
         {!isLVDS ? (
           <>
             <BackButton
-              title={`Miercoles regalones`}
+              title={`Domingos regalones`}
               onClick={() => {
                 soundManager.play('button');
                 goTo('rooms');
@@ -128,7 +127,7 @@ const MiregaProducts = () => {
         ) : (
           <>
             <BackButton
-              title={`Miercoles regalones`}
+              title={`Domingos regalones`}
               width="28px"
               height="28px"
               onClick={() => {
@@ -180,7 +179,7 @@ const MiregaProducts = () => {
                     useViewStore.getState().setPreviousId(selectedId ?? '');
                     useViewStore
                       .getState()
-                      .goTo('mirega-productbyid', item.id_articulo, 'MIREGA');
+                      .goTo('dorega-productbyid', item.id_articulo, 'DOREGA');
                   }}
                   puntos={beneficio?.puntos_Min ?? 0}
                 />
@@ -191,4 +190,4 @@ const MiregaProducts = () => {
   );
 };
 
-export default MiregaProducts;
+export default DoregaPreExchange;

@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React, { FC } from 'react';
 
 interface BackButtonProps {
@@ -5,6 +6,7 @@ interface BackButtonProps {
   title?: string;
   width?: string;
   height?: string;
+  className?: string;
 }
 
 const BackButton: FC<BackButtonProps> = ({
@@ -12,11 +14,15 @@ const BackButton: FC<BackButtonProps> = ({
   title,
   width = 40,
   height = 40,
+  className,
 }) => {
   return (
     <button
       onClick={onClick}
-      className="flex items-center justify-center gap-2 pl-[16px]"
+      className={clsx(
+        `flex items-center justify-center gap-2 pl-[16px]`,
+        className
+      )}
     >
       <svg
         width={width}

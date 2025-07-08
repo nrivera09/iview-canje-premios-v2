@@ -21,9 +21,8 @@ import { useUserStore } from '@/store/userStore';
 import { calculatePuntosPorcentaje } from '@/shared/utils/Utils';
 import ProductCardTipoBeneficioGrid from '@/shared/components/ProductCardBeneficioGrid';
 import { useIsLVDS } from '@/shared/hooks/useDetectIview';
-import MiregaPreExchange from './MiregaPreExchange';
 
-const MiregaProducts = () => {
+const MiregaPreExchange = () => {
   const isLVDS = useIsLVDS();
   const { userDataPoints } = useUserStore();
   const [beneficioActual, setBeneficioActual] =
@@ -88,11 +87,10 @@ const MiregaProducts = () => {
   useEffect(() => {
     if (beneficioActual) {
       useUserStore.getState().setSelectedBeneficioData(beneficioActual);
-      //console.log('se activo miregax: ', beneficioActual?.tipo);
+      console.log('MiregaPreExchange: ', beneficioActual);
     }
   }, [beneficioActual]);
 
-  if (beneficioActual?.tipo === 'Informativo') return <MiregaPreExchange />;
   return (
     <div
       className="h-dvh w-full flex flex-col bg-no-repeat bg-cover"
@@ -106,14 +104,15 @@ const MiregaProducts = () => {
     >
       <header
         className={clsx(
-          'flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px]  ',
+          ' flex items-center justify-between w-full   backdrop-blur-[40px] ',
           !isLVDS ? 'min-h-[56px] h-[56px]' : 'min-h-[48px] h-[48px]'
         )}
       >
         {!isLVDS ? (
           <>
             <BackButton
-              title={`Miercoles regalones`}
+              className="relative top-[4px]"
+              title={``}
               onClick={() => {
                 soundManager.play('button');
                 goTo('rooms');
@@ -128,7 +127,7 @@ const MiregaProducts = () => {
         ) : (
           <>
             <BackButton
-              title={`Miercoles regalones`}
+              title={``}
               width="28px"
               height="28px"
               onClick={() => {
@@ -144,7 +143,7 @@ const MiregaProducts = () => {
           </>
         )}
       </header>
-      <div className=" h-[34px]  flex items-center justify-between">
+      <div className=" h-[34px]  flex items-center justify-between !hidden">
         <HeaderProgressBar />
         <ProgressBar
           value={calculatePuntosPorcentaje(
@@ -175,12 +174,7 @@ const MiregaProducts = () => {
                   idRoom={index}
                   beneficio={item as IBeneficioGRID}
                   onClick={() => {
-                    soundManager.play('button');
-                    useUIStore.getState().toggle('loading', true);
-                    useViewStore.getState().setPreviousId(selectedId ?? '');
-                    useViewStore
-                      .getState()
-                      .goTo('mirega-productbyid', item.id_articulo, 'MIREGA');
+                    soundManager.play('error');
                   }}
                   puntos={beneficio?.puntos_Min ?? 0}
                 />
@@ -191,4 +185,4 @@ const MiregaProducts = () => {
   );
 };
 
-export default MiregaProducts;
+export default MiregaPreExchange;
