@@ -165,7 +165,7 @@ const DerbyPromo = () => {
         </header>
         <main
           className={clsx(
-            `flex-1 flex items-center justify-center  px-[84px]`,
+            `flex-1 flex items-center justify-center  px-[80px]`,
             isLVDS && `pb-[32px]`
           )}
         ></main>

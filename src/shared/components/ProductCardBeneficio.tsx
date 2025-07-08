@@ -32,7 +32,7 @@ const ProductCardBeneficio: FC<ProductCardBeneficioProps> = ({
       onClick={onClick}
       style={{ backgroundImage: `url(${imgDemo})` }}
       className={clsx(
-        'cursor-pointer bg-white rounded-xl bg-center xs:min-w-full min-w-[225px] min-h-[200px] relative overflow-hidden bg-cover'
+        'cursor-pointer bg-white rounded-xl bg-center xs:min-w-full min-w-[160px] h-[144px] relative overflow-hidden bg-cover'
       )}
     >
       <div className={clsx(`card flex flex-col justify-start items-center `)}>

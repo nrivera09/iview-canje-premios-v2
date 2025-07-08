@@ -64,7 +64,7 @@ const HeaderProgressBar: FC<HeaderProgressBarProps> = ({
         <div
           className={clsx(
             `relative z-10 top-[5px] overflow-hidden`,
-            'w-[197px] h-[44px]'
+            'min-w-[188px] h-[44px]'
           )}
         >
           <svg

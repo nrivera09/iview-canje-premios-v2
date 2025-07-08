@@ -68,14 +68,12 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
             <div
               className={clsx(
                 'cont absolute top-0 left-0 w-full h-full flex items-center justify-center ',
-                !isLVDS ? `flex-col` : `flex-row`
+                !isLVDS ? `flex-col p-[24px]` : `flex-row`
               )}
             >
               <div
                 className={clsx(
-                  !isLVDS
-                    ? 'pt-[32px] pl-[24px] pr-[24px] w-full '
-                    : ' py-[8px] pl-[8px] pr-[16px]'
+                  !isLVDS ? 'w-full ' : ' py-[8px] pl-[8px] pr-[16px]'
                 )}
               >
                 <img
@@ -89,12 +87,17 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
               </div>
               <div
                 className={clsx(
-                  !isLVDS ? 'mx-auto py-[24px]' : 'mx-auto py-[0px]'
+                  !isLVDS ? 'mx-auto pt-[24px] pb-[15px]' : 'mx-auto py-[0px]'
                 )}
               >
                 <LineaProductExchange></LineaProductExchange>
               </div>
-              <div className="info flex items-start justify-start flex-col gap-[8px] px-[24px]">
+              <div
+                className={clsx(
+                  `info flex items-start justify-start flex-col gap-[8px]`,
+                  isLVDS && `pl-[16px] py-[8px] pr-[8px]`
+                )}
+              >
                 <p
                   className={clsx(
                     'font-bold text-left text-white',
@@ -107,7 +110,9 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
                   <span
                     className={clsx(
                       'text-white text-left font-light',
-                      isLVDS && `text-[16px] leading-[18px]`
+                      !isLVDS
+                        ? `text-[16px] leading-[20px]`
+                        : `text-[16px] leading-[18px]`
                     )}
                   >
                     Ya recibiste tu presente. El próximo {`miércoles`} tendremos
@@ -117,7 +122,9 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
                   <span
                     className={clsx(
                       'text-white text-left font-light',
-                      isLVDS && `text-[16px] leading-[18px]`
+                      !isLVDS
+                        ? `text-[16px] leading-[20px]`
+                        : `text-[16px] leading-[18px]`
                     )}
                   >
                     Tu regalo te espera en el counter de Atlantic Club. Ten en

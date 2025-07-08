@@ -89,14 +89,14 @@ const ProductCardTipoBeneficio = ({
 
   const setLogoSize = () => {
     if (!isReadyToExchange && !showPoints) {
-      return `150px`;
+      return `120px`;
     } else if (
       (showPoints && !isReadyToExchange) ||
       (isReadyToExchange && !showPoints)
     ) {
-      return `120px`;
+      return `100px`;
     } else {
-      return `120px`;
+      return `84px`;
     }
   };
 
@@ -131,9 +131,7 @@ const ProductCardTipoBeneficio = ({
           }}
           className={clsx(
             'cursor-pointer bg-white rounded-xl bg-center xs:min-w-full  relative overflow-hidden ',
-            !isLVDS
-              ? `min-w-[225px] min-h-[200px]`
-              : `min-w-[160px] min-h-[144px]`
+            !isLVDS ? `min-w-[160px] h-[144px]` : `min-w-[160px] h-[144px]`
           )}
         >
           <div

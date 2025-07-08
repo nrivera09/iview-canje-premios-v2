@@ -11,8 +11,10 @@ import BtnCasinoOnline from './BtnCasinoOnline';
 import { useUIStore } from '@/store/uiStore';
 import { getPromoImage } from '../utils/getPromoImage';
 import { useUserStore } from '@/store/userStore';
+import { useIsLVDS } from '../hooks/useDetectIview';
 
 const PostExchange = () => {
+  const isLVDS = useIsLVDS();
   const { userDataPoints } = useUserStore();
   const beneficio = useUserStore((s) => s.selectedBeneficioData);
   const toggle = useUIStore((s) => s.toggle);
@@ -37,12 +39,25 @@ const PostExchange = () => {
         />
       </header>
       <main className="flex-1 p-[24px] flex flex-col items-center justify-center py-[16px] px-[64px]">
-        <p className="font-bold text-[24px]  text-white text-center">
-          ¡Prepárate para el próximo Miércoles regalón!
-        </p>
-        <span className="text-white font-light text-center">
-          Vuelve pronto para descubrirlo.
-        </span>
+        {!isLVDS ? (
+          <>
+            <p className="font-bold text-[24px]  text-white text-center">
+              ¡Prepárate para el próximo Miércoles regalón!
+            </p>
+            <span className="text-white font-light text-center text-[18px]">
+              Vuelve pronto para descubrirlo.
+            </span>
+          </>
+        ) : (
+          <>
+            <p className="font-bold text-[20px]  text-white text-center">
+              ¡Prepárate para el próximo Miércoles regalón!
+            </p>
+            <span className="text-white font-light text-center text-[16px]">
+              Vuelve pronto para descubrirlo.
+            </span>
+          </>
+        )}
       </main>
       <footer className="min-h-[62px] gap-[16px] flex flex-row items-center justify-center border-b-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px]">
         <BtnCasinoOnline

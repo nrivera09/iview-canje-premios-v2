@@ -51,7 +51,7 @@ const ProductCardTipoBeneficioGrid: FC<ProductCardTipoBeneficioGridProps> = ({
       }}
       className={clsx(
         'cursor-pointer bg-white rounded-xl bg-center xs:min-w-full  relative overflow-hidden bg-cover p-1',
-        !isLVDS ? `min-w-[225px] min-h-[200px]` : `min-w-[160px] min-h-[144px]`
+        !isLVDS ? `min-w-[160px] h-[144px]` : `min-w-[160px] h-[144px]`
       )}
     >
       <div className={clsx(`card flex flex-col justify-start items-center `)}>
@@ -61,10 +61,10 @@ const ProductCardTipoBeneficioGrid: FC<ProductCardTipoBeneficioGridProps> = ({
       <div className="product flex flex-col w-full h-full">
         <img
           className={clsx(
-            `img w-full  bg-cover rounded-lg overflow-hidden`,
+            `img w-full  object-contain object-center rounded-lg overflow-hidden`,
             isLVDS
               ? 'min-h-[96px] h-[96px] max-h-[96px]'
-              : 'min-h-[154px] h-[154px] max-h-[154px]',
+              : 'min-h-[98px] h-[98px] max-h-[98px]',
             isOutStock && 'opacity-50'
           )}
           src={imgBase64 || imgDemo}

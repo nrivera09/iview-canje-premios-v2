@@ -4,13 +4,14 @@ import HeaderProgressBar from '@/shared/components/HeaderProgressBar';
 import LoadingGrid from '@/shared/components/LoadingGrid';
 import ProductCardBeneficio from '@/shared/components/ProductCardBeneficio';
 import ProgressBar from '@/shared/components/ProgressBar';
-import { getPromoImage } from '@/shared/utils/getPromoImage';
+import { getPromoImage, getPromoImageLogo } from '@/shared/utils/getPromoImage';
 import { soundManager } from '@/shared/utils/SoundManager';
 import { useUIStore } from '@/store/uiStore';
 import { useViewStore } from '@/store/viewStore';
 import { usePromocionesStore } from '@/store/promocionesStore';
 import clsx from 'clsx';
 import React, { useEffect, useMemo } from 'react';
+import bgInfo from '@/shared/assets/img/mirega_dorega_star.png';
 import {
   IBeneficio,
   ITorneoItem,
@@ -21,10 +22,11 @@ import { useUserStore } from '@/store/userStore';
 import { calculatePuntosPorcentaje } from '@/shared/utils/Utils';
 import ProductCardTipoBeneficioGrid from '@/shared/components/ProductCardBeneficioGrid';
 import { useIsLVDS } from '@/shared/hooks/useDetectIview';
+import ProductCardBeneficioGridNoClick from '@/shared/components/ProductCardBeneficioGridNoClick';
+import BackButton2 from '@/shared/components/BackButton2';
 
 const DoregaPreExchange = () => {
   const isLVDS = useIsLVDS();
-
   const { userDataPoints } = useUserStore();
   const [beneficioActual, setBeneficioActual] =
     React.useState<IBeneficio | null>(null);
@@ -35,6 +37,11 @@ const DoregaPreExchange = () => {
   const { data } = usePromocionesStore();
 
   const goTo = useViewStore((s) => s.goTo);
+
+  const promoLogo = getPromoImageLogo(
+    String(userDataPoints[0]?.promocion?.toLowerCase?.() || ''),
+    userDataPoints[0]?.isVIP || false
+  );
 
   useEffect(() => {
     if (loading) {
@@ -88,7 +95,7 @@ const DoregaPreExchange = () => {
   useEffect(() => {
     if (beneficioActual) {
       useUserStore.getState().setSelectedBeneficioData(beneficioActual);
-      console.log('se activo dorega: ', beneficioActual);
+      console.log('DoregaPreExchange: ', beneficioActual);
     }
   }, [beneficioActual]);
 
@@ -105,14 +112,15 @@ const DoregaPreExchange = () => {
     >
       <header
         className={clsx(
-          'flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px]  ',
+          ' flex items-center justify-between  z-30 absolute left-0 w-full',
           !isLVDS ? 'min-h-[56px] h-[56px]' : 'min-h-[48px] h-[48px]'
         )}
       >
         {!isLVDS ? (
           <>
             <BackButton
-              title={`Domingos regalones`}
+              className="relative top-[4px]"
+              title={``}
               onClick={() => {
                 soundManager.play('button');
                 goTo('rooms');
@@ -126,16 +134,15 @@ const DoregaPreExchange = () => {
           </>
         ) : (
           <>
-            <BackButton
-              title={`Domingos regalones`}
-              width="28px"
-              height="28px"
+            <BackButton2
+              className="absolute left-0 top-0"
               onClick={() => {
                 soundManager.play('button');
                 goTo('rooms');
               }}
             />
             <CloseButton
+              className="absolute right-0"
               width="52px"
               height="48px"
               onClick={() => soundManager.play('button')}
@@ -143,21 +150,91 @@ const DoregaPreExchange = () => {
           </>
         )}
       </header>
-      <div className=" h-[34px]  flex items-center justify-between">
-        <HeaderProgressBar />
-        <ProgressBar
-          value={calculatePuntosPorcentaje(
-            beneficio?.puntos ?? 0,
-            beneficio?.puntos_Min ?? 0
-          )}
-        />
-      </div>
       <main
         className={clsx(
-          !isLVDS ? ' p-[24px] ' : 'px-[20px] py-[9px] ',
-          'flex-1 overflow-y-auto scrollbar-none'
+          !isLVDS
+            ? ' p-[24px] flex items-center justify-center flex-col'
+            : 'px-[40px] py-[9px] ',
+          'flex-1 overflow-y-auto scrollbar-none relative z-10'
         )}
       >
+        {!isLVDS ? (
+          <div className="flex flex-row mb-5 items-center justify-center gap-[24px]">
+            <div className="w-[50%]">
+              {promoLogo && (
+                <img
+                  src={promoLogo}
+                  alt=""
+                  className={clsx(
+                    !isLVDS
+                      ? `w-[220px] top-[15%] left-[-1%]`
+                      : `min-w-[142px] h-[90px]`,
+                    `absolute`
+                  )}
+                />
+              )}
+            </div>
+            <div className="relative flex-1 flex flex-col">
+              <p className="bg-white rounded-full font-bold uppercase text-center text-[14px] z-10 relative">
+                23 DE ABRIL
+              </p>
+              <div
+                className="bg-no-repeat flex flex-col items-center justify-center bg-center bg-cover w-[120px] h-[120px] mx-auto z-0 relative top-[-15px]"
+                style={{ backgroundImage: `url(${bgInfo})` }}
+              >
+                <p className="text-white font-bold text-[40px] leading-0 mt-5 h-[45px] overflow-hidden">
+                  200
+                </p>
+                <p
+                  className="text-white font-bold leading-0 tracking-wider text-[18px] uppercase mt-1"
+                  style={{ letterSpacing: `1px` }}
+                >
+                  puntos
+                </p>
+              </div>
+
+              <span className="text-white leading-0 text-[11px] font-light text-center">
+                Acumula y canjea tu regalo de 8 AM a 4 AM (del lunes)
+              </span>
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-row mb-2 items-center justify-center gap-[24px]">
+            <div className="w-1/3 flex items-center justify-center">
+              <p className="bg-white rounded-full font-bold uppercase text-center text-[14px] z-10 relative w-fit px-4">
+                23 DE ABRIL
+              </p>
+            </div>
+            <div className="flex-1">
+              {promoLogo && (
+                <img
+                  src={promoLogo}
+                  alt=""
+                  className={clsx(
+                    !isLVDS
+                      ? `w-[220px] top-[6%] left-[-1%]`
+                      : `min-w-[142px] h-[90px]`,
+                    `mx-auto`
+                  )}
+                />
+              )}
+            </div>
+            <div className="relative flex-1 flex flex-col w1/3">
+              <div
+                className="bg-no-repeat flex flex-row items-center justify-startrelative top-[4px] bg-contain bg-left w-full h-[80px] mx-auto z-0 relative "
+                style={{ backgroundImage: `url(${bgInfo})` }}
+              >
+                <p className="text-white font-bold text-[30px] flex flex-row items-center justify-start gap-1 relative top-[6px] ml-[13px]">
+                  200{' '}
+                  <span className="!font-bold uppercase text-[14px]">
+                    {' '}
+                    puntos
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
         <div
           className={clsx(
             ` gap-[24px]  mx-auto`,
@@ -169,17 +246,12 @@ const DoregaPreExchange = () => {
           {loading
             ? productos.map((_, index) => <LoadingGrid key={index} />)
             : productos.map((item, index) => (
-                <ProductCardTipoBeneficioGrid
+                <ProductCardBeneficioGridNoClick
                   key={index}
                   idRoom={index}
                   beneficio={item as IBeneficioGRID}
                   onClick={() => {
-                    soundManager.play('button');
-                    useUIStore.getState().toggle('loading', true);
-                    useViewStore.getState().setPreviousId(selectedId ?? '');
-                    useViewStore
-                      .getState()
-                      .goTo('dorega-productbyid', item.id_articulo, 'DOREGA');
+                    soundManager.play('error');
                   }}
                   puntos={beneficio?.puntos_Min ?? 0}
                 />

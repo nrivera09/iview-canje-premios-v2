@@ -32,14 +32,14 @@ const ProgressBar: FC<ProgressBarProps> = ({
   }, [value]);
 
   return !isLVDS ? (
-    <div className="relative flex-1 z-0 top-[-1px] left-[-13px]">
+    <div className="relative flex-1 z-0 top-[-1px] left-[-13px] w-[180px]">
       <SvgRoundedBlurDM />
-      <div className="absolute top-0 left-0 flex items-center justify-center h-full w-full max-w-[283px] gap-[10px]">
+      <div className="absolute top-0 left-0 flex items-center justify-center h-full w-full max-w-full gap-[10px] pl-[12%]">
         <p className="text-[14px] text-white">
           {labelHave} <span className="font-bold">{beneficio?.puntos}</span>{' '}
           {labelFormat}
         </p>
-        <div className="relative min-w-[100px] max-w-full overflow-hidden h-[8px] rounded-full bg-neutral-700">
+        <div className="relative min-w-[55px] max-w-full overflow-hidden h-[8px] rounded-full bg-neutral-700">
           <div
             className="absolute top-0 left-0 h-full rounded-full bg-[linear-gradient(90deg,#9AEE88_0%,#52B43D_78.96%)] shadow-[0_0_10px_rgba(82,180,61,0.6)] transition-all duration-300 ease-in-out"
             style={{ width: `${percentage}%` }}
@@ -50,7 +50,7 @@ const ProgressBar: FC<ProgressBarProps> = ({
   ) : (
     <div className="relative flex-1 z-0 top-[-1px] left-[-13px]">
       <SvgRoundedBlur />
-      <div className="absolute top-0 left-0 flex items-center justify-center h-full w-full max-w-[283px] gap-[10px]">
+      <div className="absolute top-0 left-0 flex items-center justify-center h-full w-full max-w-full gap-[10px] pl-0 w-[283px]">
         <p className="text-[14px] text-white">
           {labelHave} <span className="font-bold">{beneficio?.puntos}</span>{' '}
           {labelFormat}

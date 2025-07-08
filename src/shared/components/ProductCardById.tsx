@@ -62,8 +62,8 @@ const ProductCardById: FC<ProductCardByIdProps> = ({
             src={imgBase64 || imgDemo}
             alt=""
             className={clsx(
-              !isLVDS ? ` w-full h-[251.74px]` : ` w-[244px] h-[176px]`,
-              `object-cover object-center rounded-xl overflow-hidden`
+              !isLVDS ? ` w-full h-[159px]` : ` w-[244px] h-[168px]`,
+              `object-contain object-center rounded-xl overflow-hidden`
             )}
           />
         </div>
