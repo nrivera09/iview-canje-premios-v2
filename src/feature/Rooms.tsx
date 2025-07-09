@@ -16,6 +16,7 @@ import { useIsLVDS } from '@/shared/hooks/useDetectIview';
 import clsx from 'clsx';
 import { useUserStore } from '@/store/userStore';
 import { closeIframe } from '@/shared/utils/iframeMessenger';
+import PostRedeem from '@/shared/components/PostRedeem';
 
 const Rooms = () => {
   const resetUI = useUIStore((s) => s.resetUI);

@@ -19,6 +19,9 @@ const CloseButton: FC<CloseButtonProps> = ({
     <button
       onClick={() => {
         onClick();
+        if (typeof (window as any).handleCloseClick === 'function') {
+          (window as any).handleCloseClick();
+        }
         closeIview();
       }}
       className={className}

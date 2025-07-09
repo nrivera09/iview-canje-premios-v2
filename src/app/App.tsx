@@ -26,11 +26,13 @@ import { useUserStore } from '@/store/userStore';
 import { usePromocionesStore } from '@/store/promocionesStore';
 import MultiplicadorPromo from '@/feature/multiplicador/MultiplicadorPromo';
 import DerbyPromo from '@/feature/derby/DerbyPromo';
+import NoStock from '@/shared/components/NoStock';
 
 export default function App() {
   const tarjetaId = useUserStore((s) => s.card);
   const resetUI = useUIStore((s) => s.resetUI);
   const loading = useUIStore((s) => s.loading);
+  const noStock = useUIStore((s) => s.noStock);
   const { activeViews, selectedId, goTo } = useViewStore();
   const confirmRedeem = useUIStore((s) => s.confirmRedeem);
   const postRedeem = useUIStore((s) => s.postRedeem);
@@ -99,6 +101,7 @@ export default function App() {
       {confirmRedeem && <ConfirmRedeem id={'1'} />}
       {postRedeem && <PostRedeem id={'1'}></PostRedeem>}
       {activeViews['post-exchange-day'] && <PostExchangeDay id={'1'} />}
+      {noStock && <NoStock />}
 
       {/*process.env.NODE_ENV === 'development' && <IViewDebug />}
       {process.env.NODE_ENV === 'development' && <IViewFakeId />*/}

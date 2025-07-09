@@ -19,7 +19,10 @@ import {
   IBeneficioGRID,
 } from '@/shared/types/iview.types';
 import { useUserStore } from '@/store/userStore';
-import { calculatePuntosPorcentaje } from '@/shared/utils/Utils';
+import {
+  calculatePuntosPorcentaje,
+  formatFechaLatina,
+} from '@/shared/utils/Utils';
 import ProductCardTipoBeneficioGrid from '@/shared/components/ProductCardBeneficioGrid';
 import { useIsLVDS } from '@/shared/hooks/useDetectIview';
 import ProductCardBeneficioGridNoClick from '@/shared/components/ProductCardBeneficioGridNoClick';
@@ -167,7 +170,7 @@ const MiregaPreExchange = () => {
                   alt=""
                   className={clsx(
                     !isLVDS
-                      ? `w-[220px] top-[15%] left-[-1%]`
+                      ? `w-[220px] top-[15%] left-[11%]`
                       : `min-w-[142px] h-[90px]`,
                     `absolute`
                   )}
@@ -176,14 +179,14 @@ const MiregaPreExchange = () => {
             </div>
             <div className="relative flex-1 flex flex-col">
               <p className="bg-white rounded-full font-bold uppercase text-center text-[14px] z-10 relative">
-                23 DE ABRIL
+                {formatFechaLatina(userDataPoints[0].fecha_ini)}
               </p>
               <div
                 className="bg-no-repeat flex flex-col items-center justify-center bg-center bg-cover w-[120px] h-[120px] mx-auto z-0 relative top-[-15px]"
                 style={{ backgroundImage: `url(${bgInfo})` }}
               >
                 <p className="text-white font-bold text-[40px] leading-0 mt-5 h-[45px] overflow-hidden">
-                  200
+                  {userDataPoints[0].puntos_Min}
                 </p>
                 <p
                   className="text-white font-bold leading-0 tracking-wider text-[18px] uppercase mt-1"
@@ -202,7 +205,7 @@ const MiregaPreExchange = () => {
           <div className="flex flex-row mb-2 items-center justify-center gap-[24px]">
             <div className="w-1/3 flex items-center justify-center">
               <p className="bg-white rounded-full font-bold uppercase text-center text-[14px] z-10 relative w-fit px-4">
-                23 DE ABRIL
+                {formatFechaLatina(userDataPoints[0].fecha_ini)}
               </p>
             </div>
             <div className="flex-1">
@@ -225,7 +228,7 @@ const MiregaPreExchange = () => {
                 style={{ backgroundImage: `url(${bgInfo})` }}
               >
                 <p className="text-white font-bold text-[30px] flex flex-row items-center justify-start gap-1 relative top-[6px] ml-[13px]">
-                  200{' '}
+                  {userDataPoints[0].puntos_Min}{' '}
                   <span className="!font-bold uppercase text-[14px]">
                     {' '}
                     puntos

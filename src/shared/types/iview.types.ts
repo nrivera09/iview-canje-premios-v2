@@ -52,6 +52,7 @@ export interface IBeneficioRegalo {
   nombre: string;
   nombreImagen: string;
   stock: number;
+  estado?: number;
 }
 
 export interface IBeneficio {

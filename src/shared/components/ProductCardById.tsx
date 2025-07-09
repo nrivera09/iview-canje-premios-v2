@@ -22,6 +22,7 @@ const ProductCardById: FC<ProductCardByIdProps> = ({
   disableButton = false,
 }) => {
   const setSelectedId = useViewStore((state) => state.setSelectedId);
+  const { userDataPoints } = useUserStore();
   const isLVDS = useIsLVDS();
   const [imgBase64, setImgBase64] = useState<any>(null);
   const beneficio = useUserStore((s) => s.selectedBeneficioData);
@@ -29,7 +30,6 @@ const ProductCardById: FC<ProductCardByIdProps> = ({
   const isOutStock = producto?.stock === 0;
 
   const confirmRedeem = useUIStore((s) => s.confirmRedeem);
-
   useEffect(() => {
     const getImg = async () => {
       const result = await fetchImgBase64(producto?.nombreImagen);
@@ -79,7 +79,7 @@ const ProductCardById: FC<ProductCardByIdProps> = ({
               !isLVDS ? `text-[24px] mt-[16px]` : `text-[20px]`
             )}
           >
-            {producto?.nombre}
+            {producto?.nombre} 
           </p>
           {beneficio &&
             typeof beneficio.puntos === 'number' &&

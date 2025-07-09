@@ -52,7 +52,7 @@ export const fetchImgBase64 = async (nombre: string) => {
   }
 };
 
-export const canjearPremio = async (): Promise<boolean> => {
+export const canjearPremio2 = async (): Promise<boolean> => {
   const resetUI = useUIStore.getState().resetUI;
   const selectedId = useViewStore.getState().selectedId;
 
@@ -78,6 +78,76 @@ export const canjearPremio = async (): Promise<boolean> => {
       id_articulo: Number(selectedId),
       id_promocion: beneficio.promocion_Tipo_Id,
       puntos: 150,
+      asset: user.getEffectiveAsset().toString(),
+      usuario_registro: 'front',
+    };
+
+    const response = await fetch(
+      `${ENV.API_BASE_URL}Regalos/canje-regalo-reservar`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      }
+    );
+
+    if (!response.ok) throw new Error('Error en el canje del premio');
+
+    const result = await response.json();
+
+    if (result === true) {
+      usePromocionesStore.getState().loadPromociones();
+      useUIStore.getState().toggle('confirmRedeem', true);
+      resetUI();
+    }
+
+    return result === true;
+  } catch (error) {
+    console.error('Error al canjear premio:', error);
+    return false;
+  }
+};
+
+export const canjearPremio = async (): Promise<boolean> => {
+  const resetUI = useUIStore.getState().resetUI;
+  const selectedId = useViewStore.getState().selectedId;
+
+  try {
+    const user = useUserStore.getState();
+    const beneficio = user.selectedBeneficioData;
+
+    if (!beneficio) {
+      console.error('No hay beneficio seleccionado para canje.');
+      return false;
+    }
+
+    const idPromocion = beneficio.promocion_Tipo_Id;
+    const idArticulo = Number(selectedId);
+
+    // 1. Validar stock
+    const stockRes = await fetch(
+      `${ENV.API_BASE_URL_V1}Regalos/obtener-stock?Id_promocion=${idPromocion}&Id_articulo=${idArticulo}`
+    );
+
+    if (!stockRes.ok) throw new Error('No se pudo verificar el stock');
+
+    const stockData = await stockRes.json();
+    const stock = stockData?.value?.stock ?? 0;
+
+    if (stock <= 0) {
+      console.warn('Producto sin stock disponible');
+      useUIStore.getState().toggle('noStock', true);
+      return false;
+    }
+
+    // 2. Realizar canje
+    const payload: CanjeRequest = {
+      tarjeta: user.getEffectiveCard(),
+      id_articulo: idArticulo,
+      id_promocion: idPromocion,
+      puntos: 150, // Usa beneficio.puntos si es dinámico
       asset: user.getEffectiveAsset().toString(),
       usuario_registro: 'front',
     };

@@ -6,9 +6,10 @@ interface UIStore {
   postRedeem: boolean;
   confirmRedeem: boolean;
   isExchange: boolean;
+  noStock: boolean;
 
   toggle: (
-    key: 'loading' | 'postRedeem' | 'confirmRedeem',
+    key: 'loading' | 'postRedeem' | 'confirmRedeem' | 'noStock',
     state?: boolean,
     isExchange?: boolean
   ) => void;
@@ -23,6 +24,7 @@ export const useUIStore = create<UIStore>()(
       postRedeem: false,
       confirmRedeem: false,
       isExchange: false,
+      noStock: false,
 
       toggle: (key, state, isExchange = false) => {
         set((prev) => {

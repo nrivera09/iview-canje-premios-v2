@@ -19,3 +19,12 @@ export const getTodayType = (): 'MIERCOLES' | 'VIERNES' | 'OTRO' => {
   if (day === 3) return 'MIERCOLES';
   return 'OTRO';
 };
+
+export const formatFechaLatina = (fecha: string | null): string => {
+  if (!fecha) return 'SIN FECHA';
+
+  const date = new Date(fecha);
+  const dia = date.getDate();
+  const mes = date.toLocaleString('es-PE', { month: 'long' }).toUpperCase();
+  return `${dia} DE ${mes}`;
+};

@@ -4,7 +4,7 @@ import CloseButton from '@/shared/components/CloseButton';
 import ProductCardById from '@/shared/components/ProductCardById';
 import { soundManager } from '@/shared/utils/SoundManager';
 import { useViewStore } from '@/store/viewStore';
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import BtnCasinoOnlineBack from './BtnCasinoOnlineBack';
 import { useUIStore } from '@/store/uiStore';
 import { BackgroundProductExchange } from './BackgroundProductExchange';
@@ -15,6 +15,8 @@ import { getPromoImage } from '../utils/getPromoImage';
 import { useUserStore } from '@/store/userStore';
 import clsx from 'clsx';
 import { useIsLVDS } from '../hooks/useDetectIview';
+import { fetchImgBase64 } from '../api/iviewApi';
+import { IBeneficioRegalo } from '../types/iview.types';
 
 interface PostRedeemProps {
   id: string;
@@ -24,7 +26,15 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
   const isLVDS = useIsLVDS();
   const { userDataPoints } = useUserStore();
   const { goTo } = useViewStore();
-  const { isExchange } = useUIStore();
+  //const { isExchange } = useUIStore();
+  const isExchange = userDataPoints[0]?.canjeado;
+  const isExchangeProductID = /*userDataPoints[0]?.id_articulo_canjeado*/ 1008;
+  const isExchangeProductGetData = userDataPoints
+    ? userDataPoints[0]?.lista_Regalos?.filter(
+        (item) => item.id_articulo === isExchangeProductID
+      )
+    : null;
+  const [imgBase64, setImgBase64] = useState<any>(null);
   const selectedId = useViewStore((s) => s.selectedId);
   const previousId = useViewStore((s) => s.previousId);
 
@@ -33,12 +43,24 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
   const beneficio = useUserStore((s) => s.selectedBeneficioData);
 
   const index = Number(selectedId);
-  const productoSeleccionado =
-    index >= 0 && beneficio?.lista_Regalos?.[index]
-      ? beneficio.lista_Regalos[index]
-      : null;
+
+  const productoSeleccionado: IBeneficioRegalo | undefined =
+    userDataPoints &&
+    userDataPoints[0]?.lista_Regalos?.find(
+      (item) => item.id_articulo === isExchangeProductID
+    );
 
   const resetUI = useUIStore((s) => s.resetUI);
+
+  useEffect(() => {
+    const getImg = async () => {
+      if (!productoSeleccionado?.nombreImagen) return;
+      const result = await fetchImgBase64(productoSeleccionado.nombreImagen);
+      setImgBase64(result);
+    };
+    getImg();
+  }, [productoSeleccionado?.nombreImagen]);
+
   return (
     <div
       className="h-dvh w-full flex flex-col  bg-cover absolute top-0 left-0 z-10 bg-no-repeat "
@@ -77,10 +99,10 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
                 )}
               >
                 <img
-                  src={imgDemo}
+                  src={!imgBase64 ? imgDemo : imgBase64}
                   alt=""
                   className={clsx(
-                    'overflow-hidden rounded-xl object-cover bg-center  ',
+                    'overflow-hidden rounded-xl object-contain bg-center  ',
                     !isLVDS ? `h-[215px] w-full` : ` min-w-[180px] h-[120px]`
                   )}
                 />
