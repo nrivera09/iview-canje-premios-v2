@@ -26,3 +26,7 @@ export const closeIframe = () => {
 export const sendDataToParent = (data: any) => {
   postToParent('ACTION_SEND_DATA', { action: 'SEND_DATA', data });
 };
+
+export const closeIview = () => {
+  postToParent('ACTION_TRIGGER_CLOSE_IFRAME', { action: 'CLOSE_IVIEW' });
+};
