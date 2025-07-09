@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { callHandleClose } from '../utils/iviewCoreHelpers';
+import { closeIview } from '../utils/iframeMessenger';
 
 interface CloseButtonProps {
   onClick: () => void;
@@ -18,7 +19,7 @@ const CloseButton: FC<CloseButtonProps> = ({
     <button
       onClick={() => {
         onClick();
-        callHandleClose();
+        closeIview();
       }}
       className={className}
     >
