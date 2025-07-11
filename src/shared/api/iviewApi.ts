@@ -129,7 +129,6 @@ export const canjearPremio = async (): Promise<boolean> => {
     const stockRes = await fetch(
       `${ENV.API_BASE_URL_V1}Regalos/obtener-stock?Id_promocion=${idPromocion}&Id_articulo=${idArticulo}`
     );
-    debugger;
 
     if (!stockRes.ok) throw new Error('No se pudo verificar el stock');
 
