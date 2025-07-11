@@ -111,9 +111,11 @@ export const canjearPremio2 = async (): Promise<boolean> => {
 };
 
 export const canjearPremio = async (): Promise<boolean> => {
+  const beneficio = useUserStore.getState().selectedBeneficioData;
+
   const resetUI = useUIStore.getState().resetUI;
   const selectedId = useViewStore.getState().selectedId;
-
+  debugger;
   try {
     const user = useUserStore.getState();
     const beneficio = user.selectedBeneficioData;
@@ -146,13 +148,13 @@ export const canjearPremio = async (): Promise<boolean> => {
       tarjeta: user.getEffectiveCard(),
       id_articulo: idArticulo,
       id_promocion: idPromocion,
-      puntos: 150, // Usa beneficio.puntos si es dinámico
+      puntos: beneficio?.puntos,
       asset: user.getEffectiveAsset().toString(),
       usuario_registro: 'front',
     };
-
+    //https://dev-api-canjeregalo-acity.com.pe/api/Regalos/canje-regalo-reservar
     const response = await fetch(
-      `${ENV.API_BASE_URL}Regalos/canje-regalo-reservar`,
+      `${ENV.API_BASE_URL_V1}Regalos/canje-regalo-reservar`,
       {
         method: 'POST',
         headers: {
@@ -166,10 +168,12 @@ export const canjearPremio = async (): Promise<boolean> => {
 
     const result = await response.json();
 
-    if (result === true) {
-      usePromocionesStore.getState().loadPromociones();
-      useUIStore.getState().toggle('confirmRedeem', true);
-      resetUI();
+    if (result) {
+      if (result.isSuccess) {
+        usePromocionesStore.getState().loadPromociones();
+        useUIStore.getState().toggle('confirmRedeem', true);
+        resetUI();
+      }
     }
 
     return result === true;

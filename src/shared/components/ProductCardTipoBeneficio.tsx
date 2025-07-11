@@ -140,7 +140,7 @@ const ProductCardTipoBeneficio = ({
             <div className="w-full relative flex items-center justify-center">
               {isReadyToExchange && (
                 <span className="points text-white font-bold min-w-[140px] min-h-[28px] bg-[linear-gradient(90deg,_#306A24_0%,_#459A33_100%)] text-[14px] flex items-center justify-center absolute top-0 left-0 rounded-br-md rounded-tl-md  ">
-                  ¡Listo para canjearx!
+                  ¡Listo para canjear!
                   <div className="!hidden"> - {idRoom}</div>
                 </span>
               )}

@@ -9,7 +9,7 @@ import BtnCasinoOnlineBack from './BtnCasinoOnlineBack';
 import { useUIStore } from '@/store/uiStore';
 import { BackgroundProductExchange } from './BackgroundProductExchange';
 import { ProductExchangeLabel } from './ProductExchangeLabel';
-import imgDemo from '@/shared/assets/img/product-demo.jpg';
+import imgDemo from '@/shared/assets/img/product-demo-overlay.png';
 import { LineaProductExchange } from './LineaProductExchange';
 import { getPromoImage } from '../utils/getPromoImage';
 import { useUserStore } from '@/store/userStore';
