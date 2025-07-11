@@ -117,19 +117,19 @@ export const canjearPremio = async (): Promise<boolean> => {
   try {
     const user = useUserStore.getState();
     const beneficio = user.selectedBeneficioData;
-
     if (!beneficio) {
       console.error('No hay beneficio seleccionado para canje.');
       return false;
     }
 
-    const idPromocion = beneficio.promocion_Tipo_Id;
+    const idPromocion = beneficio.id;
     const idArticulo = Number(selectedId);
 
     // 1. Validar stock
     const stockRes = await fetch(
       `${ENV.API_BASE_URL_V1}Regalos/obtener-stock?Id_promocion=${idPromocion}&Id_articulo=${idArticulo}`
     );
+    debugger;
 
     if (!stockRes.ok) throw new Error('No se pudo verificar el stock');
 

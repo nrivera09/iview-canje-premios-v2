@@ -170,7 +170,7 @@ const DoregaPreExchange = () => {
                   alt=""
                   className={clsx(
                     !isLVDS
-                      ? `w-[220px] top-[15%] left-[11%]`
+                      ? `w-[220px] top-[15%] left-0`
                       : `min-w-[142px] h-[90px]`,
                     `absolute`
                   )}
