@@ -30,7 +30,7 @@ const ProductCard: FC<ProductCardProps> = ({ idRoom }) => {
         <div className="w-full relative flex items-center justify-center">
           {!isOutStock && (
             <span className="points text-black font-bold min-w-[75px] min-h-[26px] bg-white text-[14px] flex items-center justify-center absolute top-0 left-0 rounded-br-[8px] rounded-tl-[8px] ml-[-4px] mt-[-4px]">
-              {idRoom} ptos
+              {idRoom} ptos.
             </span>
           )}
           <img

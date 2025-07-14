@@ -1,5 +1,6 @@
 import BackButton from '@/shared/components/BackButton';
 import CloseButton from '@/shared/components/CloseButton';
+import arrowGIF from '@/shared/assets/img/arrowGif.gif';
 import HeaderProgressBar from '@/shared/components/HeaderProgressBar';
 import LoadingGrid from '@/shared/components/LoadingGrid';
 import ProductCardBeneficio from '@/shared/components/ProductCardBeneficio';
@@ -113,7 +114,11 @@ const MiregaProducts = () => {
         {!isLVDS ? (
           <>
             <BackButton
-              title={`Miercoles regalones`}
+              title={
+                userDataPoints[0].isVIP
+                  ? `Miercoles regalones VIP`
+                  : `Miercoles regalones`
+              }
               onClick={() => {
                 soundManager.play('button');
                 goTo('rooms');
@@ -128,7 +133,11 @@ const MiregaProducts = () => {
         ) : (
           <>
             <BackButton
-              title={`Miercoles regalones`}
+              title={
+                userDataPoints[0].isVIP
+                  ? `Miercoles regalones VIP`
+                  : `Miercoles regalones`
+              }
               width="28px"
               height="28px"
               onClick={() => {
@@ -156,15 +165,15 @@ const MiregaProducts = () => {
       <main
         className={clsx(
           !isLVDS ? ' p-[24px] ' : 'px-[20px] py-[9px] flex items-center ',
-          'flex-1 overflow-y-auto scrollbar-none'
+          'flex-1 overflow-y-auto scrollbar-none w-full items-center flex justify-start'
         )}
       >
         <div
           className={clsx(
             ` gap-[24px]  mx-auto`,
             !isLVDS
-              ? 'grid grid-cols-2 max-w-[474px]'
-              : 'flex flex-row w-full flex-nowrap  scrollbar-none'
+              ? 'grid grid-cols-2 w-full'
+              : 'flex gap-[24px]  snap-x snap-mandatory scrollbar-none'
           )}
         >
           {loading
@@ -187,6 +196,20 @@ const MiregaProducts = () => {
               ))}
         </div>
       </main>
+      {isLVDS && (productos?.length ?? 0) >= 4 && (
+        <div className="arrow absolute top-0 right-0 w-[52px] h-full flex pt-[48px]">
+          <div className="h-full w-full flex items-center justify-center bg-gradient-to-r from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.4)]">
+            <img src={arrowGIF} className="-rotate-90 opacity-80" alt="" />
+          </div>
+        </div>
+      )}
+      {!isLVDS && (productos?.length ?? 0) >= 7 && (
+        <div className="arrow absolute bottom-0 left-0 w-full min-h-[52px] flex ">
+          <div className="h-full w-full flex items-center justify-center bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.4)] pb-3">
+            <img src={arrowGIF} className="w-14 opacity-80 " alt="" />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

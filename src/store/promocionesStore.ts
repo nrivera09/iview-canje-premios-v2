@@ -14,7 +14,6 @@ export interface PromocionesStore {
 export const usePromocionesStore = create<PromocionesStore>((set) => ({
   data: null,
   loading: false,
-
   loadPromociones: async () => {
     const tarjeta = useUserStore.getState().card;
     set({ loading: true });

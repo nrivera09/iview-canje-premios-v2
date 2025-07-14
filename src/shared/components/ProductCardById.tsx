@@ -55,14 +55,14 @@ const ProductCardById: FC<ProductCardByIdProps> = ({
         <div className="w-full relative flex items-center justify-center">
           {!isOutStock && (
             <span className="points text-black font-bold min-w-[75px] min-h-[26px] bg-white text-[14px] flex items-center justify-center absolute top-0 left-0 rounded-br-[8px] ">
-              {beneficio?.puntos_Min} ptos
+              {beneficio?.puntos_Min} ptos.
             </span>
           )}
           <img
             src={imgBase64 || imgDemo}
             alt=""
             className={clsx(
-              !isLVDS ? ` w-full h-[159px]` : ` w-[244px] h-[168px]`,
+              !isLVDS ? ` w-full h-[159px]` : ` min-w-[244px] h-[168px]`,
               `object-contain object-center rounded-xl overflow-hidden`
             )}
           />
@@ -70,7 +70,9 @@ const ProductCardById: FC<ProductCardByIdProps> = ({
       </div>
 
       <div
-        className={clsx(isLVDS && `flex flex-col gap-[24px] justify-between`)}
+        className={clsx(
+          isLVDS && `flex flex-col gap-[24px] justify-between min-w-[200px]`
+        )}
       >
         <div>
           <p
@@ -79,7 +81,7 @@ const ProductCardById: FC<ProductCardByIdProps> = ({
               !isLVDS ? `text-[24px] mt-[16px]` : `text-[20px]`
             )}
           >
-            {producto?.nombre} 
+            {producto?.nombre}
           </p>
           {beneficio &&
             typeof beneficio.puntos === 'number' &&

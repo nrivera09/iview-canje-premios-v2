@@ -8,7 +8,7 @@ interface LoadingProps {
   msj?: string;
 }
 
-const Loading: FC<LoadingProps> = ({ msj = 'Cargando...' }) => {
+const Loading: FC<LoadingProps> = ({ msj = 'Cargando regalos' }) => {
   return (
     <div
       className="h-dvh w-full flex flex-col gap-2  items-center justify-center bg-no-repeat bg-center bg-cover fixed top-0 left-0"

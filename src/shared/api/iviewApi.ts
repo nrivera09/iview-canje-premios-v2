@@ -52,7 +52,7 @@ export const fetchImgBase64 = async (nombre: string) => {
   }
 };
 
-export const canjearPremio2 = async (): Promise<boolean> => {
+export const canjearPremio_old = async (): Promise<boolean> => {
   const resetUI = useUIStore.getState().resetUI;
   const selectedId = useViewStore.getState().selectedId;
 
@@ -110,12 +110,12 @@ export const canjearPremio2 = async (): Promise<boolean> => {
   }
 };
 
-export const canjearPremio = async (): Promise<boolean> => {
+export const canjearPremio = async () => {
   const beneficio = useUserStore.getState().selectedBeneficioData;
 
   const resetUI = useUIStore.getState().resetUI;
   const selectedId = useViewStore.getState().selectedId;
-  debugger;
+
   try {
     const user = useUserStore.getState();
     const beneficio = user.selectedBeneficioData;
@@ -135,12 +135,12 @@ export const canjearPremio = async (): Promise<boolean> => {
     if (!stockRes.ok) throw new Error('No se pudo verificar el stock');
 
     const stockData = await stockRes.json();
-    const stock = stockData?.value?.stock ?? 0;
+    const stock = stockData?.value === null ? 0 : stockData?.value?.stock ?? 0;
+    const errorApi = stockData?.error === '' ? true : false;
 
-    if (stock <= 0) {
+    if (stock <= 0 || errorApi) {
       console.warn('Producto sin stock disponible');
-      useUIStore.getState().toggle('noStock', true);
-      return false;
+      return 'no-stock';
     }
 
     // 2. Realizar canje
@@ -152,6 +152,7 @@ export const canjearPremio = async (): Promise<boolean> => {
       asset: user.getEffectiveAsset().toString(),
       usuario_registro: 'front',
     };
+
     //https://dev-api-canjeregalo-acity.com.pe/api/Regalos/canje-regalo-reservar
     const response = await fetch(
       `${ENV.API_BASE_URL_V1}Regalos/canje-regalo-reservar`,
@@ -169,16 +170,17 @@ export const canjearPremio = async (): Promise<boolean> => {
     const result = await response.json();
 
     if (result) {
-      if (result.isSuccess) {
+      // Si el usuario ya tiene un canje en curso
+      if (result?.isSuccess && result?.value < 1) {
         usePromocionesStore.getState().loadPromociones();
-        useUIStore.getState().toggle('confirmRedeem', true);
-        resetUI();
+        return 'no-canje';
+      }
+      if (result.isSuccess && result?.value > 0) {
+        usePromocionesStore.getState().loadPromociones();
+        return 'canje';
       }
     }
-
-    return result === true;
   } catch (error) {
     console.error('Error al canjear premio:', error);
-    return false;
   }
 };

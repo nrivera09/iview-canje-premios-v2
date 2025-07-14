@@ -36,7 +36,7 @@ const ConfirmRedeem: FC<ConfirmRedeemProps> = ({ id }) => {
         backgroundPosition: 'center top',
       }}
     >
-      <main className="flex-1 flex items-center flex-col justify-center  p-[24px]  ">
+      <main className="flex-1 flex items-center flex-col justify-center  p-[64px]  ">
         <p
           className={clsx(
             'text-white text-center font-bold  ',
@@ -47,7 +47,7 @@ const ConfirmRedeem: FC<ConfirmRedeemProps> = ({ id }) => {
         </p>
         <span
           className={clsx(
-            '!text-white text-center font-normal ',
+            '!text-white text-center font-light ',
             isLVDS ? ' text-[16px]' : ' text-[18px]'
           )}
         >
@@ -75,10 +75,11 @@ const ConfirmRedeem: FC<ConfirmRedeemProps> = ({ id }) => {
             soundManager.play('button');
             if (!disableButton) {
               const success = await canjearPremio();
-              if (success) {
-                resetUI();
-                toggle('postRedeem', true);
-              }
+              console.log('success es: ', success);
+              if (success === 'no-stock') return toggle('noStock', true);
+              if (success === 'canje') return toggle('postRedeem', true);
+              if (success === 'no-canje')
+                return toggle('postRedeem', true, true);
             }
           }}
         ></BtnCasinoOnline>

@@ -27,8 +27,9 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
   const { userDataPoints } = useUserStore();
   const { goTo } = useViewStore();
   //const { isExchange } = useUIStore();
-  const isExchange = userDataPoints[0]?.canjeado;
-  const isExchangeProductID = /*userDataPoints[0]?.id_articulo_canjeado*/ 1008;
+  const isExchange = useUIStore((s) => s.isExchange);
+
+  const isExchangeProductID = userDataPoints[0]?.id_articulo_canjeado;
   const isExchangeProductGetData = userDataPoints
     ? userDataPoints[0]?.lista_Regalos?.filter(
         (item) => item.id_articulo === isExchangeProductID
@@ -47,9 +48,8 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
   const productoSeleccionado: IBeneficioRegalo | undefined =
     userDataPoints &&
     userDataPoints[0]?.lista_Regalos?.find(
-      (item) => item.id_articulo === isExchangeProductID
+      (item) => item.id_articulo === Number(selectedId)
     );
-
   const resetUI = useUIStore((s) => s.resetUI);
 
   useEffect(() => {
@@ -137,8 +137,11 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
                         : `text-[16px] leading-[18px]`
                     )}
                   >
-                    Ya recibiste tu presente. El próximo {`miércoles`} tendremos
-                    nuevos regalos para ti.
+                    Ya recibiste tu presente. El próximo{' '}
+                    {beneficio?.promocion.toLowerCase() === 'mirega'
+                      ? `Miercoles`
+                      : `Domingo`}{' '}
+                    tendremos nuevos regalos para ti.
                   </span>
                 ) : (
                   <span

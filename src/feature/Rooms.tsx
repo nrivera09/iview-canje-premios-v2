@@ -125,13 +125,16 @@ const Rooms = () => {
       <main
         className={clsx(
           !isLVDS ? ' p-[24px] ' : 'px-[20px] py-[24px] ',
-          'flex-1 overflow-y-auto scrollbar-none relative'
+          'flex-1 overflow-y-auto scrollbar-none relative w-full flex flex-col items-start justify-center'
         )}
       >
         {secciones
           .filter((seccion) => seccion.nombre === 'Beneficios')
           .map((seccion, sectionIndex) => (
-            <div key={sectionIndex} className={!isLVDS ? 'mb-8' : 'mb-0'}>
+            <div
+              key={sectionIndex}
+              className={!isLVDS ? 'mb-0 w-full' : 'mb-0'}
+            >
               <h2 className="text-white text-lg font-semibold mb-4 !hidden">
                 {seccion.nombre}
               </h2>
@@ -190,7 +193,7 @@ const Rooms = () => {
           </div>
         </div>
       )}
-      {!isLVDS && (beneficiosDisplay?.lista?.length ?? 0) >= 5 && (
+      {!isLVDS && (beneficiosDisplay?.lista?.length ?? 0) >= 7 && (
         <div className="arrow absolute bottom-0 left-0 w-full min-h-[52px] flex ">
           <div className="h-full w-full flex items-center justify-center bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.4)] pb-3">
             <img src={arrowGIF} className="w-14 opacity-80 " alt="" />

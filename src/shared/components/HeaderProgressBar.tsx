@@ -103,7 +103,7 @@ const HeaderProgressBar: FC<HeaderProgressBarProps> = ({
               fillOpacity="0.2"
             />
           </svg>
-          <span className="font-normal min-w-[197px] min-h-[44px] text-white flex items-center justify-start pl-[15px] absolute left-0 top-0  z-10">
+          <span className="font-light w-full min-h-[44px] text-white flex items-center justify-center  absolute left-0 top-0  z-10">
             {label}
           </span>
         </div>

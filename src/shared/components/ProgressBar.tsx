@@ -34,8 +34,8 @@ const ProgressBar: FC<ProgressBarProps> = ({
   return !isLVDS ? (
     <div className="relative flex-1 z-0 top-[-1px] left-[-13px] w-[180px]">
       <SvgRoundedBlurDM />
-      <div className="absolute top-0 left-0 flex items-center justify-center h-full  w-[283px] gap-[10px] pl-[13px]">
-        <p className="text-[14px] text-white">
+      <div className="absolute top-0 left-0 flex items-center justify-center h-full  w-full gap-2 pl-[26px]">
+        <p className="text-[14px] text-white font-light">
           {labelHave} <span className="font-bold">{beneficio?.puntos}</span>{' '}
           {labelFormat}
         </p>
@@ -51,7 +51,7 @@ const ProgressBar: FC<ProgressBarProps> = ({
     <div className="relative flex-1 z-0 top-[-1px] left-[-13px]">
       <SvgRoundedBlur />
       <div className="absolute top-0 left-0 flex items-center justify-center h-full  gap-[10px] pl-0 w-[283px]">
-        <p className="text-[14px] text-white">
+        <p className="text-[14px] text-white font-light">
           {labelHave} <span className="font-bold">{beneficio?.puntos}</span>{' '}
           {labelFormat}
         </p>

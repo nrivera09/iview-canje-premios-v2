@@ -70,8 +70,8 @@ const ProductCardTipoBeneficioGrid: FC<ProductCardTipoBeneficioGridProps> = ({
           src={imgBase64 || imgDemo}
           alt=""
         />
-        <div className="title flex-1 pt-1">
-          <span className="text-[14px] text-black font-bold line-clamp-2">
+        <div className="title flex-1 pt-1 h-[34px] flex items-center justify-start">
+          <span className="text-[14px] text-black font-bold truncate-2-lines">
             {beneficio.nombre}
           </span>
         </div>

@@ -112,7 +112,11 @@ const DoregaProducts = () => {
         {!isLVDS ? (
           <>
             <BackButton
-              title={`Domingos regalones`}
+              title={
+                userDataPoints[0].isVIP
+                  ? `Domingo regalones VIP`
+                  : `Domingo regalones`
+              }
               onClick={() => {
                 soundManager.play('button');
                 goTo('rooms');
@@ -127,7 +131,11 @@ const DoregaProducts = () => {
         ) : (
           <>
             <BackButton
-              title={`Domingos regalones`}
+              title={
+                userDataPoints[0].isVIP
+                  ? `Domingo regalones VIP`
+                  : `Domingo regalones`
+              }
               width="28px"
               height="28px"
               onClick={() => {
@@ -155,15 +163,15 @@ const DoregaProducts = () => {
       <main
         className={clsx(
           !isLVDS ? ' p-[24px] ' : 'px-[20px] py-[9px] flex items-center ',
-          'flex-1 overflow-y-auto scrollbar-none'
+          'flex-1 overflow-y-auto scrollbar-none w-full items-center flex'
         )}
       >
         <div
           className={clsx(
             ` gap-[24px]  mx-auto`,
             !isLVDS
-              ? 'grid grid-cols-2 max-w-[474px]'
-              : 'flex flex-row w-full flex-nowrap  scrollbar-none'
+              ? 'grid grid-cols-2 w-full'
+              : 'flex gap-[24px]  snap-x snap-mandatory scrollbar-none'
           )}
         >
           {loading

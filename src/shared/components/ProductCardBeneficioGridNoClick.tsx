@@ -72,7 +72,7 @@ const ProductCardBeneficioGridNoClick: FC<
       <div className="title flex-1 pt-1">
         <span
           className={clsx(
-            `text-white text-center font-bold line-clamp-2 uppercase`,
+            `text-white text-center font-bold truncate-2-lines uppercase`,
             !isLVDS ? `text-[14px]` : `text-[10px]`
           )}
         >

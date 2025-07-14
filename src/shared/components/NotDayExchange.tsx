@@ -22,7 +22,7 @@ const NotDayExchange: FC<NotDayExchangeProps> = ({ id }) => {
 
   return (
     <div className="h-dvh w-full flex flex-col  bg-purple-950 absolute top-0 left-0 z-10 ">
-      <main className="flex-1 flex items-center flex-col justify-center  p-[24px]  ">
+      <main className="flex-1 flex items-center flex-col justify-center  p-[64px]  ">
         <p
           className={clsx(
             'text-white text-center font-bold  ',
@@ -33,7 +33,7 @@ const NotDayExchange: FC<NotDayExchangeProps> = ({ id }) => {
         </p>
         <span
           className={clsx(
-            '!text-white text-center font-normal ',
+            '!text-white text-center font-light ',
             isLVDS ? ' text-[16px]' : ' text-[18px]'
           )}
         >
