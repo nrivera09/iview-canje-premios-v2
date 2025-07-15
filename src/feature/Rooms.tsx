@@ -40,7 +40,6 @@ const Rooms = () => {
     idRoom: number,
     item: IBeneficio
   ) => {
-    console.log('el beneficio es: ', item);
     soundManager.play('button');
     useUserStore.getState().setUserDataPoints([item]);
 

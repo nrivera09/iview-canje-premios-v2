@@ -9,6 +9,7 @@ import { fetchImgBase64 } from '../api/iviewApi';
 import { useIsLVDS } from '../hooks/useDetectIview';
 import BtnCasinoOnline from './BtnCasinoOnline';
 import { useUIStore } from '@/store/uiStore';
+import { usePromocionesStore } from '@/store/promocionesStore';
 
 interface ProductCardByIdProps {
   idRoom: number;
@@ -18,7 +19,6 @@ interface ProductCardByIdProps {
 
 const ProductCardById: FC<ProductCardByIdProps> = ({
   idRoom,
-  producto,
   disableButton = false,
 }) => {
   const setSelectedId = useViewStore((state) => state.setSelectedId);
@@ -27,14 +27,25 @@ const ProductCardById: FC<ProductCardByIdProps> = ({
   const [imgBase64, setImgBase64] = useState<any>(null);
   const beneficio = useUserStore((s) => s.selectedBeneficioData);
   const goTo = useViewStore((s) => s.goTo);
+
+  // 🔥 Leer producto en tiempo real desde Zustand
+  const producto = usePromocionesStore((state) =>
+    state.getProductoCanjeableById(idRoom)
+  );
+
+  console.log('ojo: ', idRoom, producto);
   const isOutStock = producto?.stock === 0;
 
   const confirmRedeem = useUIStore((s) => s.confirmRedeem);
+
   useEffect(() => {
     const getImg = async () => {
-      const result = await fetchImgBase64(producto?.nombreImagen);
+      if (!producto?.nombreImagen) return;
+
+      const result = await fetchImgBase64(producto.nombreImagen);
       setImgBase64(result);
     };
+
     getImg();
   }, [producto?.nombreImagen]);
 
@@ -102,7 +113,12 @@ const ProductCardById: FC<ProductCardByIdProps> = ({
               `stock text-[14px] font-normal bg-white/10 text-white rounded max-w-[103px] min-h-[26px] flex items-center justify-center`
             )}
           >
-            Stock: {producto?.stock} {producto?.stock > 1 ? `uds.` : `ud.`}
+            Stock: {typeof producto?.stock === 'number' ? producto.stock : '-'}{' '}
+            {typeof producto?.stock === 'number'
+              ? producto.stock > 1
+                ? 'uds.'
+                : 'ud.'
+              : ''}
           </div>
 
           {isOutStock && (
@@ -120,8 +136,11 @@ const ProductCardById: FC<ProductCardByIdProps> = ({
             disabled={disableButton}
             onClick={() => {
               soundManager.play('button');
-              if (!disableButton) {
-                useViewStore.getState().setSelectedId(producto.id_articulo);
+              if (!disableButton && producto) {
+                useViewStore
+                  .getState()
+                  .setSelectedId(producto.id_articulo.toString());
+
                 useUIStore.getState().toggle('confirmRedeem', true);
               }
             }}

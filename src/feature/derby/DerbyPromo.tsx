@@ -32,28 +32,12 @@ const DerbyPromo = () => {
 
   const tarjetaId = useUserStore((s) => s.card);
 
-  console.log(
-    'beneficio: ',
-    beneficio,
-    selectedId,
-    selectedType,
-    productoSeleccionado
-  );
-
   const confirmRedeem = useUIStore((s) => s.confirmRedeem);
   const goTo = useViewStore((s) => s.goTo);
 
   const disableButton =
     (beneficio?.puntos ?? 0) < (beneficio?.puntos_Min ?? 0) ||
     productoSeleccionado?.stock === 0;
-  console.log(
-    'data: ',
-    selectedId,
-    previousId,
-    selectedType,
-    beneficio,
-    productoSeleccionado
-  );
 
   useEffect(() => {
     beneficio?.canjeado && useUIStore.getState().toggle('postRedeem', true);

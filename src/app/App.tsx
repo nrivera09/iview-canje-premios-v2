@@ -74,8 +74,14 @@ export default function App() {
   }, [resetUI]);
 
   useStockSignalR((data) => {
-    console.log('📦 Actualización de stock:', data);
-    usePromocionesStore.getState().loadPromociones();
+    if (data?.id_articulo && typeof data.stock === 'number') {
+      usePromocionesStore
+        .getState()
+        .updateStockById(data.id_articulo, data.stock);
+      console.log(
+        `📦 Stock actualizado para ID ${data.id_articulo}: ${data.stock}`
+      );
+    }
   });
 
   return (

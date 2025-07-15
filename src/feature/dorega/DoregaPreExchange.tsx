@@ -17,6 +17,7 @@ import {
   ITorneoItem,
   IPromocionItem,
   IBeneficioGRID,
+  ISeccion,
 } from '@/shared/types/iview.types';
 import { useUserStore } from '@/store/userStore';
 import {
@@ -56,18 +57,20 @@ const DoregaPreExchange = () => {
   const productos = useMemo(() => {
     if (!data || !selectedId || typeof selectedType !== 'string') return [];
 
-    const secciones = data.data;
+    const secciones = data.data as ISeccion[];
+
     switch (selectedType.toUpperCase()) {
       case 'MIREGA':
       case 'DOREGA': {
         const beneficioList =
-          secciones.find((s) => s.nombre === 'Beneficios')?.lista ?? [];
+          secciones.find((s: ISeccion) => s.nombre === 'Beneficios')?.lista ??
+          [];
 
         const beneficio = (beneficioList as IBeneficio[]).find(
           (item) => item.promocion_Tipo_Id.toString() === selectedId
         );
 
-        setBeneficioActual(beneficio ?? null); //
+        setBeneficioActual(beneficio ?? null);
 
         return beneficio?.lista_Regalos ?? [];
       }
@@ -75,7 +78,7 @@ const DoregaPreExchange = () => {
       case 'TORNEO':
         return (
           secciones
-            .find((s) => s.nombre === 'Torneos')
+            .find((s: ISeccion) => s.nombre === 'Torneos')
             ?.lista?.filter(
               (item: ITorneoItem) => item.promocion_Id.toString() === selectedId
             ) ?? []
@@ -84,7 +87,7 @@ const DoregaPreExchange = () => {
       case 'PROMOCIONES':
         return (
           secciones
-            .find((s) => s.nombre === 'Promociones')
+            .find((s: ISeccion) => s.nombre === 'Promociones')
             ?.lista?.filter(
               (item: IPromocionItem) => item.id.toString() === selectedId
             ) ?? []
@@ -98,7 +101,6 @@ const DoregaPreExchange = () => {
   useEffect(() => {
     if (beneficioActual) {
       useUserStore.getState().setSelectedBeneficioData(beneficioActual);
-      console.log('DoregaPreExchange: ', beneficioActual);
     }
   }, [beneficioActual]);
 

@@ -98,7 +98,6 @@ const MiregaPreExchange = () => {
   useEffect(() => {
     if (beneficioActual) {
       useUserStore.getState().setSelectedBeneficioData(beneficioActual);
-      console.log('MiregaPreExchange: ', beneficioActual);
     }
   }, [beneficioActual]);
 

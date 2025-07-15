@@ -10,7 +10,7 @@ export const useStockSignalR = (onStockUpdate: (message: any) => void) => {
       .withUrl(`${ENV.REACT_APP_ACITY_SOCKET}hub/stock`, {
         transport: signalR.HttpTransportType.LongPolling,
       })
-
+      .withAutomaticReconnect()
       .configureLogging(signalR.LogLevel.Information)
       .build();
 

@@ -89,7 +89,6 @@ const MiregaProducts = () => {
   useEffect(() => {
     if (beneficioActual) {
       useUserStore.getState().setSelectedBeneficioData(beneficioActual);
-      //console.log('se activo miregax: ', beneficioActual?.tipo);
     }
   }, [beneficioActual]);
 
