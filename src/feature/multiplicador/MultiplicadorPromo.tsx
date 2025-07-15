@@ -36,10 +36,6 @@ const MultiplicadorPromo = () => {
     productoSeleccionado?.stock === 0;
 
   useEffect(() => {
-    beneficio?.canjeado && useUIStore.getState().toggle('postRedeem', true);
-  }, [beneficio?.canjeado]);
-
-  useEffect(() => {
     const fetchBackground = async () => {
       const base64 = await fetchPromoBackground(
         userDataPoints[0].promocionCodigo ?? '',

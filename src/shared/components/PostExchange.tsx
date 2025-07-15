@@ -42,7 +42,9 @@ const PostExchange = () => {
         {!isLVDS ? (
           <>
             <p className="font-bold text-[24px]  text-white text-center">
-              ¡Prepárate para el próximo Miércoles regalón!
+              ¡Prepárate para el próximo{' '}
+              {beneficio?.promocion === 'MIREGA' ? `Miércoles` : `Domingo`}{' '}
+              regalón!
             </p>
             <span className="text-white font-light text-center text-[18px]">
               Vuelve pronto para descubrirlo.
@@ -51,7 +53,9 @@ const PostExchange = () => {
         ) : (
           <>
             <p className="font-bold text-[20px]  text-white text-center">
-              ¡Prepárate para el próximo Miércoles regalón!
+              ¡Prepárate para el próximo{' '}
+              {beneficio?.promocion === 'MIREGA' ? `Miércoles` : `Domingo`}{' '}
+              regalón!
             </p>
             <span className="text-white font-light text-center text-[16px]">
               Vuelve pronto para descubrirlo.

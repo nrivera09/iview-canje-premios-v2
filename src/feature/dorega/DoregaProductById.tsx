@@ -48,10 +48,14 @@ const DoregaProductById: FC<DoregaProductByIdProps> = ({ id }) => {
   }, []);
 
   useEffect(() => {
-    beneficio?.canjeado && useUIStore.getState().toggle('postRedeem', true);
-    //useUIStore.getState().toggle('postRedeem', true);
-  }, []);
-
+    if (beneficio?.reservado && !beneficio?.canjeado) {
+      beneficio?.reservado && useUIStore.getState().toggle('postRedeem', true);
+    }
+    if (beneficio?.reservado && beneficio?.canjeado) {
+      beneficio?.reservado &&
+        useUIStore.getState().toggle('postRedeem', true, true);
+    }
+  }, [beneficio]);
   return (
     <>
       <div

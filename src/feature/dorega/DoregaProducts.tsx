@@ -22,6 +22,7 @@ import { useUserStore } from '@/store/userStore';
 import { calculatePuntosPorcentaje } from '@/shared/utils/Utils';
 import ProductCardTipoBeneficioGrid from '@/shared/components/ProductCardBeneficioGrid';
 import { useIsLVDS } from '@/shared/hooks/useDetectIview';
+import DoregaPreExchange from './DoregaPreExchange';
 
 const DoregaProducts = () => {
   const isLVDS = useIsLVDS();
@@ -92,6 +93,7 @@ const DoregaProducts = () => {
     }
   }, [beneficioActual]);
 
+  if (beneficioActual?.tipo === 'Informativo') return <DoregaPreExchange />;
   return (
     <div
       className="h-dvh w-full flex flex-col bg-no-repeat bg-cover"

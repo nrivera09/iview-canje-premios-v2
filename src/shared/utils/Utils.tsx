@@ -28,3 +28,7 @@ export const formatFechaLatina = (fecha: string | null): string => {
   const mes = date.toLocaleString('es-PE', { month: 'long' }).toUpperCase();
   return `${dia} DE ${mes}`;
 };
+
+export const removeExtension = (filename: string): string => {
+  return filename.split('.').slice(0, -1).join('.');
+};

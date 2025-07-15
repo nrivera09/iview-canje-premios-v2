@@ -94,7 +94,9 @@ const PostExchangeDay: FC<PostExchangeDayProps> = ({ id }) => {
         {!isLVDS ? (
           <>
             <p className="text-white font-bold text-[24px] text-center">
-              ¡Prepárate para el próximo Miércoles regalón!
+              ¡Prepárate para el próximo{' '}
+              {beneficio?.promocion === 'MIREGA' ? `Miércoles` : `Domingo`}{' '}
+              regalón!
             </p>
             <span className="text-white text-[18px] font-light text-center">
               Vuelve pronto para descubrirlo.
@@ -103,7 +105,9 @@ const PostExchangeDay: FC<PostExchangeDayProps> = ({ id }) => {
         ) : (
           <>
             <p className="text-white font-bold text-[20px] text-center">
-              ¡Prepárate para el próximo Miércoles regalón!
+              ¡Prepárate para el próximo{' '}
+              {beneficio?.promocion === 'MIREGA' ? `Miércoles` : `Domingo`}{' '}
+              regalón!
             </p>
             <span className="text-white text-[16px] font-light text-center">
               Vuelve pronto para descubrirlo.

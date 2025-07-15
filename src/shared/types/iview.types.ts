@@ -64,6 +64,7 @@ export interface IBeneficio {
   puntos_Falta: number;
   puntos_Min: number;
   canjeado: boolean;
+  reservado: boolean;
   pendiente: boolean;
   promocion_Tipo_Id: number;
   tipo: string;

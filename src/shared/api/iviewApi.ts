@@ -8,6 +8,7 @@ import {
 import { usePromocionesStore } from '@/store/promocionesStore';
 import { useUserStore } from '@/store/userStore';
 import { useViewStore } from '@/store/viewStore';
+import { removeExtension } from '../utils/Utils';
 
 export const fetchPromociones = async (
   tarjeta: string
@@ -36,7 +37,7 @@ export const fetchPromociones = async (
 export const fetchImgBase64 = async (nombre: string) => {
   try {
     const response = await fetch(
-      `${ENV.API_BASE_URL_V1}Regalos/imagen?nombre=1658`
+      `${ENV.API_BASE_URL_V1}Regalos/imagen?nombre=${removeExtension(nombre)}`
     );
 
     const blob = await response.blob();
