@@ -115,8 +115,8 @@ const MiregaProducts = () => {
             <BackButton
               title={
                 userDataPoints[0].isVIP
-                  ? `Miercoles regalones VIP`
-                  : `Miercoles regalones`
+                  ? `Miércoles regalones VIP`
+                  : `Miércoles regalones`
               }
               onClick={() => {
                 soundManager.play('button');
@@ -134,8 +134,8 @@ const MiregaProducts = () => {
             <BackButton
               title={
                 userDataPoints[0].isVIP
-                  ? `Miercoles regalones VIP`
-                  : `Miercoles regalones`
+                  ? `Miércoles regalones VIP`
+                  : `Miércoles regalones`
               }
               width="28px"
               height="28px"

@@ -3,6 +3,7 @@ import CloseButton from '@/shared/components/CloseButton';
 import HeaderProgressBar from '@/shared/components/HeaderProgressBar';
 import LoadingGrid from '@/shared/components/LoadingGrid';
 import ProductCardBeneficio from '@/shared/components/ProductCardBeneficio';
+import arrowGIF from '@/shared/assets/img/arrowGif.gif';
 import ProgressBar from '@/shared/components/ProgressBar';
 import { getPromoImage } from '@/shared/utils/getPromoImage';
 import { soundManager } from '@/shared/utils/SoundManager';
@@ -193,6 +194,20 @@ const DoregaProducts = () => {
               ))}
         </div>
       </main>
+      {isLVDS && (productos?.length ?? 0) >= 4 && (
+        <div className="arrow absolute top-0 right-0 w-[52px] h-full flex pt-[48px]">
+          <div className="h-full w-full flex items-center justify-center bg-gradient-to-r from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.4)]">
+            <img src={arrowGIF} className="-rotate-90 opacity-80" alt="" />
+          </div>
+        </div>
+      )}
+      {!isLVDS && (productos?.length ?? 0) >= 7 && (
+        <div className="arrow absolute bottom-0 left-0 w-full min-h-[52px] flex ">
+          <div className="h-full w-full flex items-center justify-center bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.4)] pb-3">
+            <img src={arrowGIF} className="w-14 opacity-80 " alt="" />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

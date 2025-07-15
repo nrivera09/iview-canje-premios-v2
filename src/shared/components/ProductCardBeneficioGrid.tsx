@@ -51,7 +51,9 @@ const ProductCardTipoBeneficioGrid: FC<ProductCardTipoBeneficioGridProps> = ({
       }}
       className={clsx(
         'cursor-pointer bg-white rounded-xl bg-center xs:min-w-full  relative overflow-hidden bg-cover p-1',
-        !isLVDS ? `min-w-[160px] h-[144px]` : `min-w-[160px] h-[144px]`
+        !isLVDS
+          ? `w-[160px] min-w-[160px] h-[144px]`
+          : `w-[160px] min-w-[160px] h-[144px] `
       )}
     >
       <div className={clsx(`card flex flex-col justify-start items-center `)}>
@@ -59,32 +61,35 @@ const ProductCardTipoBeneficioGrid: FC<ProductCardTipoBeneficioGridProps> = ({
       </div>
 
       <div className="product flex flex-col w-full h-full">
-        <img
-          className={clsx(
-            `img w-full  object-contain object-center rounded-lg overflow-hidden`,
-            isLVDS
-              ? 'min-h-[96px] h-[96px] max-h-[96px]'
-              : 'min-h-[98px] h-[98px] max-h-[98px]',
-            isOutStock && 'opacity-50'
+        <div className="relative">
+          <img
+            className={clsx(
+              `img w-full  object-contain object-center rounded-lg overflow-hidden`,
+              isLVDS
+                ? 'min-h-[96px] h-[96px] max-h-[96px]'
+                : 'min-h-[98px] h-[98px] max-h-[98px]',
+              isOutStock && 'opacity-50'
+            )}
+            src={imgBase64 || imgDemo}
+            alt=""
+          />
+          {isOutStock && (
+            <div className="absolute top-0 left-0 w-full h-full bg-transparent bg-opacity-70 flex items-center justify-center ">
+              <span className=" text-[14px] text-[#E81B00] bg-[#FBE4E4] font-bold min-w-[73px] h-[26px] flex items-center justify-center rounded-lg overflow-hidden z-30">
+                Agotado
+              </span>
+            </div>
           )}
-          src={imgBase64 || imgDemo}
-          alt=""
-        />
+        </div>
         <div className="title flex-1 pt-1 h-[34px] flex items-center justify-start">
           <span className="text-[14px] text-black font-bold truncate-2-lines">
             {beneficio.nombre}
           </span>
         </div>
       </div>
-
       {isOutStock && (
-        <div className="absolute top-0 left-0 w-full h-full bg-white/50 bg-opacity-70 flex items-center justify-center ">
-          <span className=" text-[14px] text-[#E81B00] bg-[#FBE4E4] font-bold min-w-[73px] h-[26px] flex items-center justify-center rounded-lg overflow-hidden z-30">
-            Agotado
-          </span>
-        </div>
+        <div className="absolute top-0 left-0 w-full h-full bg-white/50 bg-opacity-70 flex items-center justify-center "></div>
       )}
-
       {!isOutStock && (
         <span className="flex items-center justify-center pts absolute left-0 top-0 min-w-[78px] h-[26px] bg-white font-bold text-black text-[14px] px-[8px] rounded-br-lg z-0">
           {puntos} ptos.

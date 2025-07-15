@@ -131,7 +131,9 @@ const ProductCardTipoBeneficio = ({
           }}
           className={clsx(
             'cursor-pointer bg-white rounded-xl bg-center xs:min-w-full  relative overflow-hidden ',
-            !isLVDS ? `min-w-[160px] h-[144px]` : `min-w-[160px] h-[144px]`
+            !isLVDS
+              ? `w-[160px] min-w-[160px] h-[144px]`
+              : `w-[160px] min-w-[160px] h-[144px] `
           )}
         >
           <div
