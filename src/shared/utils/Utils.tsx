@@ -32,3 +32,31 @@ export const formatFechaLatina = (fecha: string | null): string => {
 export const removeExtension = (filename: string): string => {
   return filename.split('.').slice(0, -1).join('.');
 };
+
+export const isPeruTimeAfterAPI = (apiDateStr: string): boolean => {
+  // Convertir la fecha del API a objeto Date
+  const apiDate = new Date(apiDateStr);
+
+  // Obtener la hora actual en Lima, Perú (UTC-5) usando Intl.DateTimeFormat
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/Lima',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+  });
+
+  const parts = formatter.formatToParts(new Date());
+  const get = (type: string) => parts.find((p) => p.type === type)?.value;
+
+  const peruDateStr = `${get('year')}-${get('month')}-${get('day')}T${get(
+    'hour'
+  )}:${get('minute')}:${get('second')}`;
+  const peruDate = new Date(peruDateStr);
+
+  // Comparación
+  return peruDate > apiDate;
+};

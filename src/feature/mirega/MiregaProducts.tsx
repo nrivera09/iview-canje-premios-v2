@@ -19,7 +19,10 @@ import {
   IBeneficioGRID,
 } from '@/shared/types/iview.types';
 import { useUserStore } from '@/store/userStore';
-import { calculatePuntosPorcentaje } from '@/shared/utils/Utils';
+import {
+  calculatePuntosPorcentaje,
+  isPeruTimeAfterAPI,
+} from '@/shared/utils/Utils';
 import ProductCardTipoBeneficioGrid from '@/shared/components/ProductCardBeneficioGrid';
 import { useIsLVDS } from '@/shared/hooks/useDetectIview';
 import MiregaPreExchange from './MiregaPreExchange';
@@ -36,12 +39,6 @@ const MiregaProducts = () => {
   const { data } = usePromocionesStore();
 
   const goTo = useViewStore((s) => s.goTo);
-
-  useEffect(() => {
-    if (loading) {
-      useUIStore.getState().toggle('loading', false);
-    }
-  }, [loading]);
 
   // 🔍 Filtrado dinámico según el tipo
   const productos = useMemo(() => {
@@ -85,6 +82,22 @@ const MiregaProducts = () => {
         return [];
     }
   }, [data, selectedId, selectedType]);
+
+  useEffect(() => {
+    if (
+      beneficio?.tipo === 'Informativo' &&
+      typeof beneficio?.fecha_fin === 'string' &&
+      isPeruTimeAfterAPI(beneficio.fecha_fin)
+    ) {
+      goTo('post-exchange-day');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (loading) {
+      useUIStore.getState().toggle('loading', false);
+    }
+  }, [loading]);
 
   useEffect(() => {
     if (beneficioActual) {

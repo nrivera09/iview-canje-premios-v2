@@ -19,7 +19,10 @@ import {
   IBeneficioGRID,
 } from '@/shared/types/iview.types';
 import { useUserStore } from '@/store/userStore';
-import { calculatePuntosPorcentaje } from '@/shared/utils/Utils';
+import {
+  calculatePuntosPorcentaje,
+  isPeruTimeAfterAPI,
+} from '@/shared/utils/Utils';
 import ProductCardTipoBeneficioGrid from '@/shared/components/ProductCardBeneficioGrid';
 import { useIsLVDS } from '@/shared/hooks/useDetectIview';
 import DoregaPreExchange from './DoregaPreExchange';
@@ -37,6 +40,16 @@ const DoregaProducts = () => {
   const { data } = usePromocionesStore();
 
   const goTo = useViewStore((s) => s.goTo);
+
+  useEffect(() => {
+    if (
+      beneficio?.tipo === 'Informativo' &&
+      typeof beneficio?.fecha_fin === 'string' &&
+      isPeruTimeAfterAPI(beneficio.fecha_fin)
+    ) {
+      goTo('post-exchange-day');
+    }
+  }, []);
 
   useEffect(() => {
     if (loading) {
