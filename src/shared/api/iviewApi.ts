@@ -112,9 +112,6 @@ export const canjearPremio_old = async (): Promise<boolean> => {
 };
 
 export const canjearPremio = async () => {
-  const beneficio = useUserStore.getState().selectedBeneficioData;
-
-  const resetUI = useUIStore.getState().resetUI;
   const selectedId = useViewStore.getState().selectedId;
 
   try {

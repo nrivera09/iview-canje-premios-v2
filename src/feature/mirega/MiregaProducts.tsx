@@ -82,6 +82,19 @@ const MiregaProducts = () => {
         return [];
     }
   }, [data, selectedId, selectedType]);
+  console.log('beneficio: ', beneficio);
+  useEffect(() => {
+    if (beneficio?.promocion === 'MIREGA') {
+      if (beneficio?.reservado && !beneficio?.canjeado) {
+        beneficio?.reservado &&
+          useUIStore.getState().toggle('postRedeem', true);
+      }
+      if (beneficio?.reservado && beneficio?.canjeado) {
+        beneficio?.reservado &&
+          useUIStore.getState().toggle('postRedeem', true, true);
+      }
+    }
+  }, [beneficio]);
 
   useEffect(() => {
     if (beneficio?.tipo === 'Post_Informativo') {

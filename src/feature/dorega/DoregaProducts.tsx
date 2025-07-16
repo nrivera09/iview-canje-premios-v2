@@ -42,6 +42,19 @@ const DoregaProducts = () => {
   const goTo = useViewStore((s) => s.goTo);
 
   useEffect(() => {
+    if (beneficio?.promocion === 'DOREGA') {
+      if (beneficio?.reservado && !beneficio?.canjeado) {
+        beneficio?.reservado &&
+          useUIStore.getState().toggle('postRedeem', true);
+      }
+      if (beneficio?.reservado && beneficio?.canjeado) {
+        beneficio?.reservado &&
+          useUIStore.getState().toggle('postRedeem', true, true);
+      }
+    }
+  }, [beneficio]);
+
+  useEffect(() => {
     if (beneficio?.tipo === 'Post_Informativo') {
       goTo('post-exchange-day');
     }

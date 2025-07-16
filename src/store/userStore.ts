@@ -94,16 +94,7 @@ export const useUserStore = create<UserStore>()(
 
       resetUser: () =>
         set({
-          card: '',
-          asset: 0,
-          view: '',
-          cardFake: null,
-          assetFake: null,
-          viewFake: null,
-          forceRedeemFake: null,
-          oldcard: '',
-          oldasset: 0,
-          oldview: '',
+          selectedBeneficioData: null,
           userDataPoints: [],
         }),
 

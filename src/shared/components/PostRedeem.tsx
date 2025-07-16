@@ -63,7 +63,7 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
 
   return (
     <div
-      className="h-dvh w-full flex flex-col  bg-cover absolute top-0 left-0 z-10 bg-no-repeat "
+      className="h-dvh w-full flex flex-col  bg-cover absolute top-0 left-0 z-10 bg-no-repeat z-40 "
       style={{
         backgroundImage: `url(${getPromoImage(
           String(userDataPoints[0].promocion.toLocaleLowerCase()),
@@ -138,11 +138,12 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
                         : `text-[16px] leading-[18px]`
                     )}
                   >
-                    Ya recibiste tu presente. El próximo{' '}
+                    El próximo{' '}
                     {beneficio?.promocion.toLowerCase() === 'mirega'
-                      ? `Miercoles`
+                      ? `Miércoles`
                       : `Domingo`}{' '}
-                    tendremos nuevos regalos para ti.
+                    tendremos nuevas opciones para ti. Recuerda que Atlantic
+                    siempre te premia.
                   </span>
                 ) : (
                   <span

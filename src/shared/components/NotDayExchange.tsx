@@ -21,7 +21,7 @@ const NotDayExchange: FC<NotDayExchangeProps> = ({ id }) => {
   const resetUI = useUIStore((s) => s.resetUI);
 
   return (
-    <div className="h-dvh w-full flex flex-col  bg-purple-950 absolute top-0 left-0 z-10 ">
+    <div className="h-dvh w-full flex flex-col  bg-purple-950 absolute top-0 left-0 z-50 ">
       <main className="flex-1 flex items-center flex-col justify-center  p-[64px]  ">
         <p
           className={clsx(

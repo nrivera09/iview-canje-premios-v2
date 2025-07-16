@@ -36,6 +36,7 @@ export default function App() {
   const { activeViews, selectedId, goTo } = useViewStore();
   const confirmRedeem = useUIStore((s) => s.confirmRedeem);
   const postRedeem = useUIStore((s) => s.postRedeem);
+  const resetUser = useUserStore((state) => state.resetUser);
 
   useInitUserStoreFromURL();
 
@@ -71,6 +72,7 @@ export default function App() {
 
   useEffect(() => {
     resetUI();
+    resetUser();
   }, [resetUI]);
 
   useStockSignalR((data) => {

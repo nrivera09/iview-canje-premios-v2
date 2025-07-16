@@ -245,7 +245,7 @@ const MiregaPreExchange = () => {
             ` gap-[24px]  mx-auto`,
             !isLVDS
               ? 'grid grid-cols-2 max-w-[474px]'
-              : 'flex flex-row w-full flex-nowrap  scrollbar-none'
+              : 'flex flex-row w-full flex-nowrap  scrollbar-none pl-[19px]'
           )}
         >
           {loading

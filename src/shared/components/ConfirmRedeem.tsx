@@ -27,7 +27,7 @@ const ConfirmRedeem: FC<ConfirmRedeemProps> = ({ id }) => {
   const disableButton = (beneficio?.puntos ?? 0) < (beneficio?.puntos_Min ?? 0);
   return (
     <div
-      className="h-dvh w-full flex flex-col   absolute top-0 left-0 z-10 bg-no-repeat bg-cover"
+      className="h-dvh w-full flex flex-col   absolute top-0 left-0  bg-no-repeat bg-cover z-50"
       style={{
         backgroundImage: `url(${getPromoImage(
           String(userDataPoints[0].promocion.toLocaleLowerCase()),

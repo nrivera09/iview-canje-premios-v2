@@ -37,7 +37,7 @@ const ProductCardBeneficioGridNoClick: FC<
 
   /* if (!imgBase64) return <LoadingGrid />;*/
   return (
-    <div className={clsx(`flex flex-col`, isLVDS && `w-1/4`)}>
+    <div className={clsx(`flex flex-col`, isLVDS && `min-w-[120px]`)}>
       <div
         onMouseLeave={() => soundManager.play('pin')}
         onClick={() => {
@@ -48,8 +48,8 @@ const ProductCardBeneficioGridNoClick: FC<
           }
         }}
         className={clsx(
-          'cursor-pointer bg-white/20 border-2  border-white/20 rounded-xl bg-center xs:min-w-full  relative overflow-hidden bg-cover flex items-center justify-center',
-          !isLVDS ? `min-w-[160px] h-[110px]` : `w-full h-[80px]`
+          'cursor-pointer bg-white/20 border-2  border-white/20 rounded-xl bg-center   relative overflow-hidden bg-cover flex items-center justify-center',
+          !isLVDS ? `w-[160px] min-w-[160px] h-[110px]` : `w-full h-[80px]`
         )}
       >
         <div className="backdrop-blur-sm h-auto flex items-center justify-center">

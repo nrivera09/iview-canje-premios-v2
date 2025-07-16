@@ -19,23 +19,17 @@ export const getPromoImage = (
   isLVDS: boolean
 ) => {
   if (promo === 'mirega') {
-    return status === true
-      ? isLVDS
-        ? bgMiercolesPromoLVDSVIP
-        : bgMiercolesPromoLVDS
-      : !isLVDS
-      ? bgMiercolesPromoVIP
-      : bgMiercolesPromo;
+    if (status && isLVDS) return bgMiercolesPromoLVDSVIP;
+    if (status && !isLVDS) return bgMiercolesPromoVIP;
+    if (!status && isLVDS) return bgMiercolesPromoLVDS;
+    return bgMiercolesPromo;
   }
 
   if (promo === 'dorega') {
-    return status === true
-      ? isLVDS
-        ? bgDomingosPromoLVDSVIP
-        : bgDomingosPromoLVDS
-      : !isLVDS
-      ? bgDomingosPromoVIP
-      : bgDomingosPromo;
+    if (status && isLVDS) return bgDomingosPromoLVDSVIP;
+    if (status && !isLVDS) return bgDomingosPromoVIP;
+    if (!status && isLVDS) return bgDomingosPromoLVDS;
+    return bgDomingosPromo;
   }
 
   return null;

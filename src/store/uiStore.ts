@@ -34,12 +34,16 @@ export const useUIStore = create<UIStore>()(
 
           if (key === 'postRedeem') {
             return {
+              ...prev,
               ...newState,
               isExchange,
             };
           }
 
-          return newState;
+          return {
+            ...prev,
+            ...newState,
+          };
         });
       },
 
