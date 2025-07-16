@@ -33,6 +33,21 @@ export const removeExtension = (filename: string): string => {
   return filename.split('.').slice(0, -1).join('.');
 };
 
+export const getDayOfWeek = (fechaISO: string) => {
+  const dias = [
+    'Domingo',
+    'Lunes',
+    'Martes',
+    'Miércoles',
+    'Jueves',
+    'Viernes',
+    'Sábado',
+  ];
+
+  const fecha = new Date(fechaISO);
+  return dias[fecha.getDay()];
+};
+
 export const isPeruTimeAfterAPI = (apiDateStr: string): boolean => {
   // Convertir la fecha del API a objeto Date
   const apiDate = new Date(apiDateStr);

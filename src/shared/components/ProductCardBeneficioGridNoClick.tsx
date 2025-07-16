@@ -25,7 +25,7 @@ const ProductCardBeneficioGridNoClick: FC<
   const isLVDS = useIsLVDS();
   const [imgBase64, setImgBase64] = useState<any>(null);
   const goTo = useViewStore((s) => s.goTo);
-  const isOutStock = beneficio.stock === 0;
+  const isOutStock = false;
 
   useEffect(() => {
     const getImg = async () => {

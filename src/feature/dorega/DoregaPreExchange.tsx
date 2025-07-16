@@ -23,6 +23,7 @@ import { useUserStore } from '@/store/userStore';
 import {
   calculatePuntosPorcentaje,
   formatFechaLatina,
+  getDayOfWeek,
 } from '@/shared/utils/Utils';
 import ProductCardTipoBeneficioGrid from '@/shared/components/ProductCardBeneficioGrid';
 import { useIsLVDS } from '@/shared/hooks/useDetectIview';
@@ -199,7 +200,8 @@ const DoregaPreExchange = () => {
               </div>
 
               <span className="text-white leading-0 text-[11px] font-light text-center">
-                Acumula y canjea tu regalo de 8 AM a 4 AM (del lunes)
+                Acumula y canjea tu regalo de 8 AM a 4 AM{' '}
+                {getDayOfWeek(userDataPoints[0].fecha_fin!)}
               </span>
             </div>
           </div>

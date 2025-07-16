@@ -22,6 +22,7 @@ import { useUserStore } from '@/store/userStore';
 import {
   calculatePuntosPorcentaje,
   formatFechaLatina,
+  getDayOfWeek,
 } from '@/shared/utils/Utils';
 import ProductCardTipoBeneficioGrid from '@/shared/components/ProductCardBeneficioGrid';
 import { useIsLVDS } from '@/shared/hooks/useDetectIview';
@@ -177,7 +178,7 @@ const MiregaPreExchange = () => {
               )}
             </div>
             <div className="relative flex-1 flex flex-col">
-              <p className="bg-white rounded-full font-bold uppercase text-center text-[14px] z-10 relative">
+              <p className="bg-white rounded-full font-bold uppercase text-center text-[14px] z-10 relative text-[#0e348a]">
                 {formatFechaLatina(userDataPoints[0].fecha_ini)}
               </p>
               <div
@@ -196,14 +197,15 @@ const MiregaPreExchange = () => {
               </div>
 
               <span className="text-white leading-0 text-[11px] font-light text-center">
-                Acumula y canjea tu regalo de 8 AM a 4 AM (del lunes)
+                Acumula y canjea tu regalo de 8 AM a 4 AM{' '}
+                {getDayOfWeek(userDataPoints[0].fecha_fin!)}
               </span>
             </div>
           </div>
         ) : (
           <div className="flex flex-row mb-2 items-center justify-center gap-[24px]">
             <div className="w-1/3 flex items-center justify-center">
-              <p className="bg-white rounded-full font-bold uppercase text-center text-[14px] z-10 relative w-fit px-4">
+              <p className="bg-white rounded-full font-bold uppercase text-center text-[14px] z-10 relative text-[#0e348a] w-fit px-4">
                 {formatFechaLatina(userDataPoints[0].fecha_ini)}
               </p>
             </div>
