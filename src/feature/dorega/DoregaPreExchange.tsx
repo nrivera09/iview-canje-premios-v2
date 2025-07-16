@@ -181,7 +181,7 @@ const DoregaPreExchange = () => {
               )}
             </div>
             <div className="relative flex-1 flex flex-col">
-              <p className="bg-white rounded-full font-bold uppercase text-center text-[14px] z-10 relative">
+              <p className="bg-white rounded-full font-bold uppercase text-center text-[14px] text-[#811b4a] z-10 relative">
                 {formatFechaLatina(userDataPoints[0].fecha_ini)}
               </p>
               <div
