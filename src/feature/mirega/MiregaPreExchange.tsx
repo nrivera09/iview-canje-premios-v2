@@ -162,7 +162,7 @@ const MiregaPreExchange = () => {
         )}
       >
         {!isLVDS ? (
-          <div className="flex flex-row mb-5 items-center justify-center gap-[24px]">
+          <div className="flex flex-row mb-5 items-center justify-center gap-[24px] w-full">
             <div className="w-[50%]">
               {promoLogo && (
                 <img
@@ -178,7 +178,7 @@ const MiregaPreExchange = () => {
               )}
             </div>
             <div className="relative flex-1 flex flex-col">
-              <p className="bg-white rounded-full font-bold uppercase text-center text-[14px] z-10 relative text-[#0e348a]">
+              <p className="bg-white rounded-full font-bold uppercase text-center text-[14px] z-10 relative text-[#0e348a] top-[8px]">
                 {formatFechaLatina(userDataPoints[0].fecha_ini)}
               </p>
               <div
