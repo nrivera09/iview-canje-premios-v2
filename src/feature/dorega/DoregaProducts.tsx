@@ -42,11 +42,7 @@ const DoregaProducts = () => {
   const goTo = useViewStore((s) => s.goTo);
 
   useEffect(() => {
-    if (
-      beneficio?.tipo === 'Informativo' &&
-      typeof beneficio?.fecha_fin === 'string' &&
-      isPeruTimeAfterAPI(beneficio.fecha_fin)
-    ) {
+    if (beneficio?.tipo === 'Post_Informativo') {
       goTo('post-exchange-day');
     }
   }, []);

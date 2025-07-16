@@ -33,7 +33,6 @@ const ProductCardById: FC<ProductCardByIdProps> = ({
     state.getProductoCanjeableById(idRoom)
   );
 
-  console.log('ojo: ', idRoom, producto);
   const isOutStock = producto?.stock === 0;
 
   const confirmRedeem = useUIStore((s) => s.confirmRedeem);

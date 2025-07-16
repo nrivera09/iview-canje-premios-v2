@@ -84,11 +84,7 @@ const MiregaProducts = () => {
   }, [data, selectedId, selectedType]);
 
   useEffect(() => {
-    if (
-      beneficio?.tipo === 'Informativo' &&
-      typeof beneficio?.fecha_fin === 'string' &&
-      isPeruTimeAfterAPI(beneficio.fecha_fin)
-    ) {
+    if (beneficio?.tipo === 'Post_Informativo') {
       goTo('post-exchange-day');
     }
   }, []);

@@ -20,7 +20,6 @@ export const getGroupedAssetsByCodigo = async (
 
     const res = await fetch(`${ENV.API_IMG64}asset?folder=${beneficioCodigo}`);
     const data = await res.json();
-
     if (!Array.isArray(data)) return null;
 
     folderCache[beneficioCodigo] = data;

@@ -75,7 +75,6 @@ const ConfirmRedeem: FC<ConfirmRedeemProps> = ({ id }) => {
             soundManager.play('button');
             if (!disableButton) {
               const success = await canjearPremio();
-              console.log('success es: ', success);
               if (success === 'no-stock') return toggle('noStock', true);
               if (success === 'canje') return toggle('postRedeem', true);
               if (success === 'no-canje')

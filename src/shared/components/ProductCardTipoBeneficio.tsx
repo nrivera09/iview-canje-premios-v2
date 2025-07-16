@@ -103,18 +103,25 @@ const ProductCardTipoBeneficio = ({
   useEffect(() => {
     const fetchAssets = async () => {
       const grouped = await getGroupedAssetsByCodigo(beneficio.promocionCodigo);
+
       setAssets(grouped);
+
       const background = grouped?.branding.find(
-        (item) => item.fileName === 'bg_logo.png'
+        (item) =>
+          item.fileName ===
+          (beneficio?.isVIP ? 'bg_logo_vip.png' : 'bg_logo.png')
       )?.base64;
       setBgBase64(background ?? null);
+
       const logo = grouped?.branding.find(
-        (item) => item.fileName === 'logo.png'
+        (item) =>
+          item.fileName === (beneficio?.isVIP ? 'logo_vip.png' : 'logo.png')
       )?.base64;
       setLogoBase64(logo ?? null);
     };
+
     fetchAssets();
-  }, [beneficio.promocionCodigo]);
+  }, [beneficio.promocionCodigo, beneficio?.isVIP]);
 
   if (!assets && !bgBase64 && !logoBase64) {
     return <LoadingGrid />;

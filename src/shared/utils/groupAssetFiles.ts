@@ -21,12 +21,12 @@ export const groupAssetFiles = (files: AssetItem[]): GroupedAssets => {
     const name = file.fileName;
 
     // Branding
-    if (name === 'logo.png') {
+    if (name === 'logo.png' || name === 'logo_vip.png') {
       branding.push(file);
       hasLogo = true;
       continue;
     }
-    if (name === 'bg_logo.png') {
+    if (name === 'bg_logo.png' || name === 'bg_logo_vip.png') {
       branding.push(file);
       hasBgLogo = true;
       continue;
