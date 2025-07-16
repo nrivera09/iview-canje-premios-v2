@@ -67,7 +67,8 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
       style={{
         backgroundImage: `url(${getPromoImage(
           String(userDataPoints[0].promocion.toLocaleLowerCase()),
-          userDataPoints[0].isVIP || false
+          userDataPoints[0].isVIP || false,
+          isLVDS
         )})`,
         backgroundPosition: 'center top',
       }}
