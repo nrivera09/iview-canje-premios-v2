@@ -78,8 +78,8 @@ const PostExchangeDay: FC<PostExchangeDayProps> = ({ id }) => {
         </header>
       )}
       <main
-        className={`flex-1 flex items-center flex-col justify-start p-[24px] gap-3  px-[64px] ${
-          !isLVDS ? `py-[60px]` : `py-[32px]`
+        className={`flex-1 flex items-center flex-col justify-start p-[24px]   px-[64px] ${
+          !isLVDS ? `py-[60px] gap-3` : `pt-[14px] pb-0 gap-2 min-h-[178px]`
         }`}
       >
         {promoLogo && (
@@ -95,7 +95,7 @@ const PostExchangeDay: FC<PostExchangeDayProps> = ({ id }) => {
         {!isLVDS ? (
           <>
             <p className="text-white font-bold text-[24px] text-center">
-              ¡Prepárate para el próximo{' '}
+              ¡Prepárate para el <br /> próximo <br />
               {beneficio?.promocion === 'MIREGA' ? `Miércoles` : `Domingo`}{' '}
               regalón!
             </p>
@@ -110,13 +110,13 @@ const PostExchangeDay: FC<PostExchangeDayProps> = ({ id }) => {
               {beneficio?.promocion === 'MIREGA' ? `Miércoles` : `Domingo`}{' '}
               regalón!
             </p>
-            <span className="text-white text-[16px] font-light text-center">
+            <span className="text-white text-[16px] font-light text-center relative top-1">
               Vuelve pronto para descubrirlo.
             </span>
           </>
         )}
       </main>
-      <footer className="min-h-[62px] gap-[16px] flex flex-row items-center justify-center border-b-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px] !hidden">
+      <footer className="min-h-[62px] gap-[16px] flex flex-row items-center justify-center border-b-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px] ">
         <BtnCasinoOnline
           minWidth="142px"
           label="IR A BENEFICIOS"

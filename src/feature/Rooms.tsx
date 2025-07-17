@@ -17,6 +17,7 @@ import clsx from 'clsx';
 import { useUserStore } from '@/store/userStore';
 import { closeIframe } from '@/shared/utils/iframeMessenger';
 import PostRedeem from '@/shared/components/PostRedeem';
+import PostExchangeDay from '@/shared/components/PostExchangeDay';
 
 const Rooms = () => {
   const resetUI = useUIStore((s) => s.resetUI);
@@ -25,7 +26,20 @@ const Rooms = () => {
   const goTo = useViewStore((s) => s.goTo);
   const toggle = useUIStore((s) => s.toggle);
 
+  const selectedBeneficioData = useUserStore((s) => s.selectedBeneficioData);
+  const userDataPoints = useUserStore((s) => s.userDataPoints);
+  const resetUser = useUserStore((s) => s.resetUser);
+
+  // Verificar si ambos son "vacíos"
+  const ambosVacios = !selectedBeneficioData || userDataPoints.length === 0;
+
   const isLVDS = useIsLVDS();
+
+  useEffect(() => {
+    if (!ambosVacios) {
+      resetUser();
+    }
+  }, [ambosVacios]);
 
   useEffect(() => {
     loadPromociones();

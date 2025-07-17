@@ -58,7 +58,7 @@ const DoregaProducts = () => {
     if (beneficio?.tipo === 'Post_Informativo') {
       goTo('post-exchange-day');
     }
-  }, []);
+  }, [beneficio, goTo]);
 
   useEffect(() => {
     if (loading) {
