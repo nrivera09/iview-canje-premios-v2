@@ -77,8 +77,8 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
     >
       <main
         className={clsx(
-          `flex-1 flex items-start flex-col justify-center`,
-          !isLVDS ? `px-[31px]` : `p-[20px] `
+          `flex-1 flex  flex-col justify-center`,
+          !isLVDS ? `px-[31px] items-start` : `p-[20px] items-center `
         )}
       >
         <div

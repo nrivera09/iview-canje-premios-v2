@@ -89,7 +89,7 @@ const ProductCardById: FC<ProductCardByIdProps> = ({
         <div>
           <p
             className={clsx(
-              `truncate-2-lines text-white  font-bold break-words text-left w-full  `,
+              `truncate-2-lines text-white  font-bold break-words text-left w-full capitalize  `,
               !isLVDS ? `text-[24px] mt-[16px]` : `text-[20px]`
             )}
           >
