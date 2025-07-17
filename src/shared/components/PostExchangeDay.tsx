@@ -110,7 +110,7 @@ const PostExchangeDay: FC<PostExchangeDayProps> = ({ id }) => {
               {beneficio?.promocion === 'MIREGA' ? `Miércoles` : `Domingo`}{' '}
               regalón!
             </p>
-            <span className="text-white text-[16px] font-light text-center relative top-1">
+            <span className="text-white text-[16px] font-light text-center relative -top-1">
               Vuelve pronto para descubrirlo.
             </span>
           </>
