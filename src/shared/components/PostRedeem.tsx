@@ -77,14 +77,14 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
     >
       <main
         className={clsx(
-          `flex-1 flex items-center flex-col justify-center`,
-          !isLVDS ? `px-[24px]` : `p-[20px] `
+          `flex-1 flex items-start flex-col justify-center`,
+          !isLVDS ? `px-[31px]` : `p-[20px] `
         )}
       >
         <div
           className={clsx(
             !isLVDS
-              ? `min-w-[340px] min-h-[448px] relative`
+              ? `min-w-[338px] min-h-[300px] relative`
               : `min-w-[340px]  relative`
           )}
         >
@@ -92,7 +92,7 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
             {!isLVDS ? (
               <img
                 src="/assets/DM.png"
-                className="w-[338px] h-[445px] backdrop-blur-xl "
+                className="w-full backdrop-blur-xl "
                 alt=""
               />
             ) : (
@@ -105,7 +105,7 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
             <div
               className={clsx(
                 'cont absolute top-0 left-0 w-full h-full flex items-center justify-center ',
-                !isLVDS ? `flex-col p-[24px]` : `flex-row`
+                !isLVDS ? `flex-col py-[32px] px-[24px]` : `flex-row`
               )}
             >
               <div
@@ -118,13 +118,13 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
                   alt=""
                   className={clsx(
                     'overflow-hidden rounded-xl object-contain bg-center  ',
-                    !isLVDS ? `h-[215px] w-full` : ` min-w-[180px] h-[120px]`
+                    !isLVDS ? `h-[216px] w-full` : ` min-w-[180px] h-[120px]`
                   )}
                 />
               </div>
               <div
                 className={clsx(
-                  !isLVDS ? 'mx-auto pt-[24px] pb-[15px]' : 'mx-auto py-[0px]'
+                  !isLVDS ? 'mx-auto pt-[24px] pb-[24px]' : 'mx-auto py-[0px]'
                 )}
               >
                 <LineaProductExchange></LineaProductExchange>
@@ -132,7 +132,8 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
               <div
                 className={clsx(
                   `info flex items-start justify-start flex-col gap-[8px]`,
-                  isLVDS && `pl-[16px] py-[8px] pr-[8px]`
+                  isLVDS && `pl-[16px] py-[8px] pr-[8px]`,
+                  !isLVDS ? `min-h-[117px] !items-start !justify-start` : ``
                 )}
               >
                 <p

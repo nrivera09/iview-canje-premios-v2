@@ -5,6 +5,7 @@ export const LineaProductExchange: React.FC = () => {
   const isLVDS = useIsLVDS();
   return !isLVDS ? (
     <svg
+      className="!hidden"
       width="292"
       height="2"
       viewBox="0 0 292 2"
