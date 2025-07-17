@@ -17,6 +17,8 @@ import clsx from 'clsx';
 import { useIsLVDS } from '../hooks/useDetectIview';
 import { fetchImgBase64 } from '../api/iviewApi';
 import { IBeneficioRegalo } from '../types/iview.types';
+import bgDM from '@/shared/assets/img/DM.png';
+import bgLVDS from '@/shared/assets/img/LVDS.png';
 
 interface PostRedeemProps {
   id: string;
@@ -86,8 +88,20 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
               : `min-w-[340px]  relative`
           )}
         >
-          <div className="relative">
-            <BackgroundProductExchange />
+          <div className="relative ">
+            {!isLVDS ? (
+              <img
+                src="/assets/DM.png"
+                className="w-[338px] h-[445px] backdrop-blur-xl "
+                alt=""
+              />
+            ) : (
+              <img
+                src="/assets/LVDS.png"
+                className="w-[534px] h-[138px] backdrop-blur-xl "
+                alt=""
+              />
+            )}
             <div
               className={clsx(
                 'cont absolute top-0 left-0 w-full h-full flex items-center justify-center ',
