@@ -4,7 +4,7 @@ import CloseButton from '@/shared/components/CloseButton';
 import ProductCardById from '@/shared/components/ProductCardById';
 import { soundManager } from '@/shared/utils/SoundManager';
 import { useViewStore } from '@/store/viewStore';
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import BtnCasinoOnlineBack from './BtnCasinoOnlineBack';
 import { useUIStore } from '@/store/uiStore';
 import { getPromoImage } from '../utils/getPromoImage';
@@ -25,6 +25,7 @@ const ConfirmRedeem: FC<ConfirmRedeemProps> = ({ id }) => {
   const beneficio = useUserStore((s) => s.selectedBeneficioData);
   const toggle = useUIStore((s) => s.toggle);
   const disableButton = (beneficio?.puntos ?? 0) < (beneficio?.puntos_Min ?? 0);
+  const [canjePogress, setCanjeProgress] = useState<boolean>(false);
   return (
     <div
       className="h-dvh w-full flex flex-col   absolute top-0 left-0  bg-no-repeat bg-cover z-50"
@@ -70,10 +71,12 @@ const ConfirmRedeem: FC<ConfirmRedeemProps> = ({ id }) => {
         ></BtnCasinoOnlineBack>
         <BtnCasinoOnline
           minWidth="115px"
-          disabled={disableButton}
+          disabled={disableButton || canjePogress}
           label="CANJEAR"
           onClick={async () => {
+            resetUI();
             soundManager.play('button');
+            setCanjeProgress(true);
             if (!disableButton) {
               const success = await canjearPremio();
               if (success === 'no-stock') return toggle('noStock', true);

@@ -27,6 +27,7 @@ const CloseButton: FC<CloseButtonProps> = ({
       className={className}
     >
       <svg
+        className="relative top-[-1px] right-[-1px]"
         width={width}
         height={height}
         viewBox="0 0 72 65"

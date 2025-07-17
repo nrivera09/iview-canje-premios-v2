@@ -138,6 +138,8 @@ export const canjearPremio = async () => {
 
     if (stock <= 0 || errorApi) {
       console.warn('Producto sin stock disponible');
+
+      usePromocionesStore.getState().loadPromociones();
       return 'no-stock';
     }
 

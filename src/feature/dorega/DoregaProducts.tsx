@@ -208,7 +208,6 @@ const DoregaProducts = () => {
                   beneficio={item as IBeneficioGRID}
                   onClick={() => {
                     soundManager.play('button');
-                    useUIStore.getState().toggle('loading', true);
                     useViewStore.getState().setPreviousId(selectedId ?? '');
                     useViewStore
                       .getState()

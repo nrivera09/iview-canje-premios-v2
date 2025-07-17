@@ -63,7 +63,7 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
 
   return (
     <div
-      className="h-dvh w-full flex flex-col  bg-cover absolute top-0 left-0 z-10 bg-no-repeat z-40 "
+      className="h-dvh w-full flex flex-col  bg-cover absolute top-0 left-0  bg-no-repeat z-50 "
       style={{
         backgroundImage: `url(${getPromoImage(
           String(userDataPoints[0].promocion.toLocaleLowerCase()),

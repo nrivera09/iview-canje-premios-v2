@@ -37,6 +37,8 @@ const ProductCardById: FC<ProductCardByIdProps> = ({
 
   const confirmRedeem = useUIStore((s) => s.confirmRedeem);
 
+  useEffect(() => {}, []);
+
   useEffect(() => {
     const getImg = async () => {
       if (!producto?.nombreImagen) return;
@@ -52,8 +54,8 @@ const ProductCardById: FC<ProductCardByIdProps> = ({
     <div
       onMouseLeave={() => soundManager.play('pin')}
       className={clsx(
-        `cursor-pointer  xs:min-w-full min-w-[362px] min-h-[154px] relative overflow-hidden`,
-        isLVDS && `flex flex-row gap-[16px]`
+        `cursor-pointer  xs:min-w-full min-w-[362px] min-h-[154px] relative overflow-hidden `,
+        isLVDS ? `flex flex-row gap-[16px]` : ` -top-8`
       )}
     >
       <div
@@ -121,7 +123,7 @@ const ProductCardById: FC<ProductCardByIdProps> = ({
           </div>
 
           {isOutStock && (
-            <div className="xs:min-w-full min-w-[225px] min-h-[154px] flex items-center justify-center absolute mt-[24px]">
+            <div className="xs:min-w-full min-w-[225px] min-h-[154px] flex items-center justify-center absolute mt-[24px] !hidden">
               <span className="bg-[#FBE4E4]  text-[#E81B00]  z-10 text-[14px] py-[4.5px] px-[8px] rounded-[8px] font-bold">
                 Agotado
               </span>
