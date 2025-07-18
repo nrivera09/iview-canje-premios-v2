@@ -61,7 +61,7 @@ const MultiplicadorPromo = () => {
   return (
     <>
       <div
-        className="h-dvh w-full flex flex-col  bg-no-repeat "
+        className="h-dvh w-full flex flex-col overflow-hidden  bg-no-repeat "
         style={{
           backgroundImage:
             bgBase64DM && bgBase64LVDS

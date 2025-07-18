@@ -36,7 +36,7 @@ const PostExchangeDay: FC<PostExchangeDayProps> = ({ id }) => {
 
   return (
     <div
-      className="h-dvh w-full flex flex-col   absolute top-0 left-0 z-10 bg-no-repeat bg-cover"
+      className="h-dvh w-full flex flex-col overflow-hidden   absolute top-0 left-0 z-10 bg-no-repeat bg-cover"
       style={{
         backgroundImage: `url(${getPromoImage(
           String(userDataPoints[0].promocion.toLocaleLowerCase()),

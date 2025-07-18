@@ -29,6 +29,7 @@ import DerbyPromo from '@/feature/derby/DerbyPromo';
 import NoStock from '@/shared/components/NoStock';
 
 export default function App() {
+  const { userDataPoints } = useUserStore();
   const tarjetaId = useUserStore((s) => s.card);
   const resetUI = useUIStore((s) => s.resetUI);
   const loading = useUIStore((s) => s.loading);
@@ -59,6 +60,14 @@ export default function App() {
       '/assets/backScreen.png',
       '/assets/product-demo.jpg',
       '/assets/trofeopng.png',
+      '/assets/bgDomingosPromo.png',
+      '/assets/bgDomingosPromoVIP.png',
+      '/assets/bgMiercolesPromo.png',
+      '/assets/bgMiercolesPromoVIP.png',
+      '/assets/bgDomingosPromoLVDS.png',
+      '/assets/bgDomingosPromoVIPLVDS.png',
+      '/assets/bgMiercolesPromoLVDS.png',
+      '/assets/bgMiercolesPromoVIPLVDS.png',
     ];
 
     urls.forEach((url) => {
@@ -107,7 +116,7 @@ export default function App() {
       {activeViews.loading && <Loading />}
       {activeViews.rooms && <Rooms />}
       {confirmRedeem && <ConfirmRedeem id={'1'} />}
-      {postRedeem && <PostRedeem id={'1'}></PostRedeem>}
+      {/*postRedeem && <PostRedeem id={'1'}></PostRedeem>*/}
       {activeViews['post-exchange-day'] && <PostExchangeDay id={'1'} />}
       {noStock && <NoStock />}
 
@@ -116,6 +125,9 @@ export default function App() {
 
       <div className={clsx(loading ? 'block' : 'hidden')}>
         <Loading />
+      </div>
+      <div className={clsx(postRedeem ? 'block' : 'hidden')}>
+        {userDataPoints.length > 0 && <PostRedeem id={'1'}></PostRedeem>}
       </div>
     </>
   );

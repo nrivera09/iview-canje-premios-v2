@@ -93,7 +93,7 @@ const DerbyPromo = () => {
   return (
     <>
       <div
-        className="h-dvh w-full flex flex-col  bg-no-repeat relative"
+        className="h-dvh w-full flex flex-col overflow-hidden  bg-no-repeat relative"
         style={{
           backgroundImage:
             bgBase64DM && bgBase64LVDS

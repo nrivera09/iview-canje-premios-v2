@@ -14,7 +14,7 @@ const Loading: FC<LoadingProps> = ({ msj = 'Cargando regalos' }) => {
   const isLVDS = useIsLVDS();
   return (
     <div
-      className="h-dvh w-full flex flex-col gap-2  items-center justify-center bg-no-repeat bg-center bg-cover fixed top-0 left-0"
+      className="h-dvh w-full flex flex-col overflow-hidden gap-2  items-center justify-center bg-no-repeat bg-center bg-cover fixed top-0 left-0"
       style={{ backgroundImage: `url(${isLVDS ? bglvds : bg})` }}
     >
       <div className="relative flex items-center justify-center">

@@ -101,7 +101,7 @@ const Rooms = () => {
 
   return (
     <div
-      className="h-dvh w-full flex flex-col bg-cover bg-no-repeat bg-center"
+      className="h-dvh w-full flex flex-col overflow-hidden bg-cover bg-no-repeat bg-center"
       style={{ backgroundImage: `url(${isLVDS ? bglvds : bgDM})` }}
     >
       {!isLVDS ? (

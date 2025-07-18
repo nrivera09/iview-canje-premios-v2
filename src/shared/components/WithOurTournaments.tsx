@@ -15,7 +15,7 @@ const WithOurTournaments = () => {
 
   return (
     <div
-      className="h-dvh w-full flex flex-col bg-no-repeat  bg-center bg-cover "
+      className="h-dvh w-full flex flex-col overflow-hidden bg-no-repeat  bg-center bg-cover "
       style={{ backgroundImage: `url(${bg})` }}
     >
       {!isLVDS ? (

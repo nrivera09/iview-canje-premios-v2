@@ -117,7 +117,7 @@ const MiregaProducts = () => {
   if (beneficioActual?.tipo === 'Informativo') return <MiregaPreExchange />;
   return (
     <div
-      className="h-dvh w-full flex flex-col bg-no-repeat bg-cover"
+      className="h-dvh w-full flex flex-col overflow-hidden bg-no-repeat bg-cover"
       style={{
         backgroundImage: `url(${getPromoImage(
           String(userDataPoints[0].promocion.toLocaleLowerCase()),

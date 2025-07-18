@@ -28,7 +28,7 @@ const ConfirmRedeem: FC<ConfirmRedeemProps> = ({ id }) => {
   const [canjePogress, setCanjeProgress] = useState<boolean>(false);
   return (
     <div
-      className="h-dvh w-full flex flex-col   absolute top-0 left-0  bg-no-repeat bg-cover z-50"
+      className="h-dvh w-full flex flex-col overflow-hidden   absolute top-0 left-0  bg-no-repeat bg-cover z-50"
       style={{
         backgroundImage: `url(${getPromoImage(
           String(userDataPoints[0].promocion.toLocaleLowerCase()),
