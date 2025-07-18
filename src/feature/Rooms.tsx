@@ -19,6 +19,9 @@ import { closeIframe } from '@/shared/utils/iframeMessenger';
 import PostRedeem from '@/shared/components/PostRedeem';
 import PostExchangeDay from '@/shared/components/PostExchangeDay';
 
+import bgDM from '@/shared/assets/img/loaderDM.png';
+import bglvds from '@/shared/assets/img/loaderLVDS.png';
+
 const Rooms = () => {
   const resetUI = useUIStore((s) => s.resetUI);
   const { data, loading, loadPromociones } = usePromocionesStore();
@@ -99,7 +102,7 @@ const Rooms = () => {
   return (
     <div
       className="h-dvh w-full flex flex-col bg-cover bg-no-repeat bg-center"
-      style={{ backgroundImage: `url(${bg})` }}
+      style={{ backgroundImage: `url(${isLVDS ? bglvds : bgDM})` }}
     >
       {!isLVDS ? (
         <header className="flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px] min-h-[56px] h-[56px]">
