@@ -40,7 +40,6 @@ const MiregaProducts = () => {
 
   const goTo = useViewStore((s) => s.goTo);
 
-  // 🔍 Filtrado dinámico según el tipo
   const productos = useMemo(() => {
     if (!data || !selectedId || typeof selectedType !== 'string') return [];
 
@@ -82,14 +81,26 @@ const MiregaProducts = () => {
         return [];
     }
   }, [data, selectedId, selectedType]);
-  console.log('beneficio: ', beneficio);
+
   useEffect(() => {
     if (beneficio?.promocion === 'MIREGA') {
-      if (beneficio?.reservado && !beneficio?.canjeado) {
+      if (
+        beneficio?.reservado &&
+        !beneficio?.canjeado &&
+        beneficioActual?.tipo !== 'Informativo' &&
+        beneficio?.tipo !== 'Post_Informativo' &&
+        beneficio?.tipo === 'Canje'
+      ) {
         beneficio?.reservado &&
           useUIStore.getState().toggle('postRedeem', true);
       }
-      if (beneficio?.reservado && beneficio?.canjeado) {
+      if (
+        beneficio?.reservado &&
+        beneficio?.canjeado &&
+        beneficioActual?.tipo !== 'Informativo' &&
+        beneficio?.tipo !== 'Post_Informativo' &&
+        beneficio?.tipo === 'Canje'
+      ) {
         beneficio?.reservado &&
           useUIStore.getState().toggle('postRedeem', true, true);
       }
@@ -97,7 +108,10 @@ const MiregaProducts = () => {
   }, [beneficio]);
 
   useEffect(() => {
-    if (beneficio?.tipo === 'Post_Informativo') {
+    if (
+      beneficio?.tipo === 'Post_Informativo' &&
+      (beneficio?.reservado || beneficio?.canjeado)
+    ) {
       goTo('post-exchange-day');
     }
   }, [beneficio, goTo]);
@@ -114,7 +128,11 @@ const MiregaProducts = () => {
     }
   }, [beneficioActual]);
 
-  if (beneficioActual?.tipo === 'Informativo') return <MiregaPreExchange />;
+  if (
+    beneficioActual?.tipo === 'Informativo' &&
+    (beneficio?.reservado || beneficio?.canjeado)
+  )
+    return <MiregaPreExchange />;
   return (
     <div
       className="h-dvh w-full flex flex-col overflow-hidden bg-no-repeat bg-cover"

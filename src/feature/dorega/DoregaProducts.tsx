@@ -43,19 +43,32 @@ const DoregaProducts = () => {
 
   useEffect(() => {
     if (beneficio?.promocion === 'DOREGA') {
-      if (beneficio?.reservado && !beneficio?.canjeado) {
+      if (
         beneficio?.reservado &&
-          useUIStore.getState().toggle('postRedeem', true);
+        !beneficio?.canjeado &&
+        beneficioActual?.tipo !== 'Informativo' &&
+        beneficio?.tipo !== 'Post_Informativo' &&
+        beneficio?.tipo === 'Canje'
+      ) {
+        useUIStore.getState().toggle('postRedeem', true);
       }
-      if (beneficio?.reservado && beneficio?.canjeado) {
+      if (
         beneficio?.reservado &&
-          useUIStore.getState().toggle('postRedeem', true, true);
+        beneficio?.canjeado &&
+        beneficioActual?.tipo !== 'Informativo' &&
+        beneficio?.tipo !== 'Post_Informativo' &&
+        beneficio?.tipo === 'Canje'
+      ) {
+        useUIStore.getState().toggle('postRedeem', true, true);
       }
     }
   }, [beneficio]);
 
   useEffect(() => {
-    if (beneficio?.tipo === 'Post_Informativo') {
+    if (
+      beneficio?.tipo === 'Post_Informativo' &&
+      (beneficio?.reservado || beneficio?.canjeado)
+    ) {
       goTo('post-exchange-day');
     }
   }, [beneficio, goTo]);
@@ -115,7 +128,11 @@ const DoregaProducts = () => {
     }
   }, [beneficioActual]);
 
-  if (beneficioActual?.tipo === 'Informativo') return <DoregaPreExchange />;
+  if (
+    beneficioActual?.tipo === 'Informativo' &&
+    (beneficio?.reservado || beneficio?.canjeado)
+  )
+    return <DoregaPreExchange />;
   return (
     <div
       className="h-dvh w-full flex flex-col overflow-hidden bg-no-repeat bg-cover"
