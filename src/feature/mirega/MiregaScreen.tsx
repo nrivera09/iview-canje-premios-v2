@@ -41,7 +41,7 @@ const MiregaScreen = () => {
         />
       </header>
 
-      <main className="flex-1 p-[24px] overflow-y-auto scrollbar-none overflow-x-hidden">
+      <main className="flex-1 p-[24px] overflow-y-auto scrollbar-none ">
         <div className="grid grid-cols-2 gap-[24px] max-w-[474px] mx-auto">
           {loading
             ? listaMirega.map((_, index) => <LoadingGrid key={index} />)

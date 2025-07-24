@@ -7,12 +7,15 @@ interface UIStore {
   confirmRedeem: boolean;
   isExchange: boolean;
   noStock: boolean;
+  loadingLabel?: string;
 
   toggle: (
     key: 'loading' | 'postRedeem' | 'confirmRedeem' | 'noStock',
     state?: boolean,
     isExchange?: boolean
   ) => void;
+
+  setLoadingLabel: (label?: string) => void;
 
   resetUI: () => void;
 }
@@ -25,6 +28,7 @@ export const useUIStore = create<UIStore>()(
       confirmRedeem: false,
       isExchange: false,
       noStock: false,
+      loadingLabel: undefined,
 
       toggle: (key, state, isExchange = false) => {
         set((prev) => {
@@ -47,12 +51,19 @@ export const useUIStore = create<UIStore>()(
         });
       },
 
+      setLoadingLabel: (label) =>
+        set(() => ({
+          loadingLabel: label,
+        })),
+
       resetUI: () =>
         set({
           loading: false,
+          loadingLabel: undefined,
           postRedeem: false,
           confirmRedeem: false,
           isExchange: false,
+          noStock: false,
         }),
     }),
     {

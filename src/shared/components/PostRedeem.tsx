@@ -60,10 +60,11 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
       if (!productoSeleccionado?.nombreImagen) return;
       const result = await fetchImgBase64(productoSeleccionado.nombreImagen);
       setImgBase64(result);
-
+      /*useUIStore.getState().toggle('loading', false);*/
       setTimeout(() => {
         useUIStore.getState().toggle('loading', false);
-      }, 2000);
+        useUIStore.getState().setLoadingLabel();
+      }, 1500);
     };
     getImg();
   }, [productoSeleccionado?.nombreImagen]);

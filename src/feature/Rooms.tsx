@@ -141,7 +141,7 @@ const Rooms = () => {
       <main
         className={clsx(
           !isLVDS ? ' p-[24px] ' : 'px-[20px] py-[24px] ',
-          'flex-1 overflow-y-auto scrollbar-none overflow-x-hidden  relative w-full flex flex-col items-start justify-center'
+          'flex-1 overflow-y-auto scrollbar-none   relative w-full flex flex-col items-start justify-center'
         )}
       >
         {secciones

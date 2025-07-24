@@ -211,7 +211,7 @@ const MiregaProducts = () => {
       <main
         className={clsx(
           !isLVDS ? ' p-[24px] ' : 'px-[20px] py-[9px] flex items-center ',
-          'flex-1 overflow-y-auto scrollbar-none overflow-x-hidden w-full items-center flex justify-start'
+          'flex-1 overflow-y-auto scrollbar-none  w-full items-center flex justify-start'
         )}
       >
         <div

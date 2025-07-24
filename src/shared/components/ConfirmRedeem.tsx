@@ -78,14 +78,18 @@ const ConfirmRedeem: FC<ConfirmRedeemProps> = ({ id }) => {
             resetUI();
             soundManager.play('button');
             useUIStore.getState().toggle('loading', true);
+            useUIStore.getState().setLoadingLabel('Cargando ...');
             setCanjeProgress(true);
             if (!disableButton) {
               const success = await canjearPremio();
               if (success === 'no-stock') return toggle('noStock', true);
-              if (success === 'canje') return toggle('postRedeem', true);
+              if (success === 'canje')
+                return useUIStore.getState().toggle('postRedeem', true);
               if (success === 'no-canje')
                 return toggle('postRedeem', true, true);
             }
+
+            toggle('loading', false);
           }}
         ></BtnCasinoOnline>
       </footer>

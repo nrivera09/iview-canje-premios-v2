@@ -5,6 +5,7 @@ import imgLoading3 from '@/shared/assets/img/loading3.png';
 import bg from '@/shared/assets/img/loaderDM.png';
 import bglvds from '@/shared/assets/img/loaderLVDS.png';
 import { useIsLVDS } from '@/shared/hooks/useDetectIview';
+import { useUIStore } from '@/store/uiStore';
 
 interface LoadingProps {
   msj?: string;
@@ -12,9 +13,11 @@ interface LoadingProps {
 
 const Loading: FC<LoadingProps> = ({ msj = 'Cargando regalos' }) => {
   const isLVDS = useIsLVDS();
+  const label = useUIStore((s) => s.loadingLabel);
+
   return (
     <div
-      className="h-dvh w-full flex flex-col overflow-hidden gap-2  items-center justify-center bg-no-repeat bg-center bg-cover fixed top-0 left-0 z-[9999]"
+      className="h-dvh w-full flex flex-col overflow-hidden gap-2 items-center justify-center bg-no-repeat bg-center bg-cover fixed top-0 left-0 z-[9999]"
       style={{ backgroundImage: `url(${isLVDS ? bglvds : bg})` }}
     >
       <div className="relative flex items-center justify-center">
@@ -31,7 +34,7 @@ const Loading: FC<LoadingProps> = ({ msj = 'Cargando regalos' }) => {
         <img src={imgLoading3} alt="" className="w-[30px] absolute" />
       </div>
 
-      <p className="font-medium text-white">{msj}</p>
+      <p className="font-medium text-white">{label || msj}</p>
     </div>
   );
 };

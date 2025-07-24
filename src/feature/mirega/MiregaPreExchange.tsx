@@ -159,7 +159,7 @@ const MiregaPreExchange = () => {
           !isLVDS
             ? ' p-[24px] flex items-center justify-center flex-col'
             : 'px-[40px] py-[9px] ',
-          'flex-1 overflow-y-auto scrollbar-none overflow-x-hidden relative z-10'
+          'flex-1 overflow-y-auto scrollbar-none  relative z-10'
         )}
       >
         {!isLVDS ? (

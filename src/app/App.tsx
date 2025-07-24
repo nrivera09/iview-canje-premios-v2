@@ -113,10 +113,10 @@ export default function App() {
       {activeViews.derby && <DerbyPromo />}
 
       {activeViews['no-tournaments'] && <WithOurTournaments />}
-      {activeViews.loading && <Loading />}
+      {/*activeViews.loading && <Loading />*/}
       {activeViews.rooms && <Rooms />}
       {confirmRedeem && <ConfirmRedeem id={'1'} />}
-      {/*postRedeem && <PostRedeem id={'1'}></PostRedeem>*/}
+      {postRedeem && <PostRedeem id={'1'}></PostRedeem>}
       {activeViews['post-exchange-day'] && <PostExchangeDay id={'1'} />}
       {noStock && <NoStock />}
 
@@ -126,9 +126,11 @@ export default function App() {
       <div className={clsx(loading ? 'block' : 'hidden')}>
         <Loading />
       </div>
+      {/*
       <div className={clsx(postRedeem ? 'block' : 'hidden')}>
         {userDataPoints.length > 0 && <PostRedeem id={'1'}></PostRedeem>}
       </div>
+      */}
     </>
   );
 }
