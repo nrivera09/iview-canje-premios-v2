@@ -31,6 +31,7 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
   //const { isExchange } = useUIStore();
   const isExchange = useUIStore((s) => s.isExchange);
 
+  const resetUI = useUIStore((s) => s.resetUI);
   const isExchangeProductID = userDataPoints[0]?.id_articulo_canjeado;
   const isExchangeProductGetData = userDataPoints
     ? userDataPoints[0]?.lista_Regalos?.filter(
@@ -38,6 +39,7 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
       )
     : null;
   const [imgBase64, setImgBase64] = useState<any>(null);
+  const toggle = useUIStore((s) => s.toggle);
   const selectedId = useViewStore((s) => s.selectedId);
   const previousId = useViewStore((s) => s.previousId);
 
@@ -52,13 +54,16 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
     userDataPoints[0]?.lista_Regalos?.find(
       (item) => item.id_articulo === Number(selectedId)
     );
-  const resetUI = useUIStore((s) => s.resetUI);
 
   useEffect(() => {
     const getImg = async () => {
       if (!productoSeleccionado?.nombreImagen) return;
       const result = await fetchImgBase64(productoSeleccionado.nombreImagen);
       setImgBase64(result);
+
+      setTimeout(() => {
+        useUIStore.getState().toggle('loading', false);
+      }, 2000);
     };
     getImg();
   }, [productoSeleccionado?.nombreImagen]);
