@@ -6,7 +6,7 @@ import LoadingGrid from '@/shared/components/LoadingGrid';
 const DoregaScreen = () => {
   return (
     <div className="h-dvh w-full flex flex-col overflow-hidden  bg-purple-950">
-      <header className="overflow-hidden flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/10 bg-white/5 backdrop-blur-[80px]">
+      <header className="flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/10 bg-white/5 backdrop-blur-[80px]">
         <button className="flex items-center justify-center flex-row gap-2 px-[16px]">
           <img src={backScreen} alt="" />
           <p className="text-white font-semibold">Beneficios</p>

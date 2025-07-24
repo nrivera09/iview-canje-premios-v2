@@ -119,7 +119,7 @@ const DoregaPreExchange = () => {
     >
       <header
         className={clsx(
-          'overflow-hidden flex items-center justify-between  z-30 absolute left-0 w-full',
+          ' flex items-center justify-between  z-30 absolute left-0 w-full',
           !isLVDS ? 'min-h-[56px] h-[56px]' : 'min-h-[48px] h-[48px]'
         )}
       >

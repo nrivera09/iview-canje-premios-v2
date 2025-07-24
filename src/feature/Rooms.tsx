@@ -105,7 +105,7 @@ const Rooms = () => {
       style={{ backgroundImage: `url(${isLVDS ? bglvds : bgDM})` }}
     >
       {!isLVDS ? (
-        <header className="overflow-hidden flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px] min-h-[56px] h-[56px]">
+        <header className="flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px] min-h-[56px] h-[56px]">
           <BackButton
             title="Beneficios"
             onClick={() => {
@@ -120,7 +120,7 @@ const Rooms = () => {
           />
         </header>
       ) : (
-        <header className="overflow-hidden flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px] min-h-[48px] h-[48px]">
+        <header className="flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px] min-h-[48px] h-[48px]">
           <BackButton
             width="28px"
             height="28px"

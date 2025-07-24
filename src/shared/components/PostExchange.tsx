@@ -31,7 +31,7 @@ const PostExchange = () => {
         backgroundPosition: 'center top',
       }}
     >
-      <header className="overflow-hidden flex items-center justify-between w-full   min-h-[56px] h-[56px]">
+      <header className="flex items-center justify-between w-full   min-h-[56px] h-[56px]">
         <BackButton title="" onClick={() => soundManager.play('button')} />
         <CloseButton
           width="60px"

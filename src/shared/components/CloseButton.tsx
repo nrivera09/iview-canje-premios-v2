@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { callHandleClose } from '../utils/iviewCoreHelpers';
 import { closeIview } from '../utils/iframeMessenger';
+import clsx from 'clsx';
 
 interface CloseButtonProps {
   onClick: () => void;
@@ -24,7 +25,7 @@ const CloseButton: FC<CloseButtonProps> = ({
         }
         closeIview();
       }}
-      className={className}
+      className={clsx(className, `!overflow-hidden relative top-[-1px]`)}
     >
       <svg
         className="relative top-[-1px] right-[-1px]"

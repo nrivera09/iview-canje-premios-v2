@@ -71,7 +71,7 @@ const MiregaProductById: FC<MiregaProductByIdProps> = ({ id }) => {
       >
         <header
           className={clsx(
-            'overflow-hidden flex items-center justify-between w-full  ',
+            'flex items-center justify-between w-full  ',
             !isLVDS
               ? 'min-h-[56px] h-[56px]'
               : 'min-h-[32px] h-[32px] top-[10px] relative'
