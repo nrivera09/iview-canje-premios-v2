@@ -66,8 +66,11 @@ const DoregaProducts = () => {
 
   useEffect(() => {
     if (
-      beneficio?.tipo === 'Post_Informativo' &&
-      (beneficio?.reservado || beneficio?.canjeado)
+      (beneficio?.tipo === 'Post_Informativo' &&
+        (beneficio?.reservado || beneficio?.canjeado)) ||
+      (beneficio?.tipo === 'Post_Informativo' &&
+        !beneficio?.reservado &&
+        !beneficio?.canjeado)
     ) {
       goTo('post-exchange-day');
     }
@@ -129,8 +132,11 @@ const DoregaProducts = () => {
   }, [beneficioActual]);
 
   if (
-    beneficioActual?.tipo === 'Informativo' &&
-    (beneficio?.reservado || beneficio?.canjeado)
+    (beneficioActual?.tipo === 'Informativo' &&
+      (beneficio?.reservado || beneficio?.canjeado)) ||
+    (beneficioActual?.tipo === 'Informativo' &&
+      !beneficio?.reservado &&
+      !beneficio?.canjeado)
   )
     return <DoregaPreExchange />;
   return (

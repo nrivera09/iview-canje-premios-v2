@@ -109,8 +109,11 @@ const MiregaProducts = () => {
 
   useEffect(() => {
     if (
-      beneficio?.tipo === 'Post_Informativo' &&
-      (beneficio?.reservado || beneficio?.canjeado)
+      (beneficio?.tipo === 'Post_Informativo' &&
+        (beneficio?.reservado || beneficio?.canjeado)) ||
+      (beneficio?.tipo === 'Post_Informativo' &&
+        !beneficio?.reservado &&
+        !beneficio?.canjeado)
     ) {
       goTo('post-exchange-day');
     }
@@ -129,8 +132,11 @@ const MiregaProducts = () => {
   }, [beneficioActual]);
 
   if (
-    beneficioActual?.tipo === 'Informativo' &&
-    (beneficio?.reservado || beneficio?.canjeado)
+    (beneficioActual?.tipo === 'Informativo' &&
+      (beneficio?.reservado || beneficio?.canjeado)) ||
+    (beneficioActual?.tipo === 'Informativo' &&
+      !beneficio?.reservado &&
+      !beneficio?.canjeado)
   )
     return <MiregaPreExchange />;
   return (
