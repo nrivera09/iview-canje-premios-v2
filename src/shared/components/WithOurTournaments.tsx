@@ -19,7 +19,7 @@ const WithOurTournaments = () => {
       style={{ backgroundImage: `url(${bg})` }}
     >
       {!isLVDS ? (
-        <header className="flex items-center justify-between w-full   min-h-[56px] h-[56px] z-10">
+        <header className=" overflow-hidden flex items-center justify-between w-full   min-h-[56px] h-[56px] z-10">
           <BackButton
             onClick={() => {
               soundManager.play('button');
@@ -33,7 +33,7 @@ const WithOurTournaments = () => {
           />
         </header>
       ) : (
-        <header className="flex items-center justify-between w-full absolute left-0 top-0   min-h-[48px] h-[48px] z-10">
+        <header className=" overflow-hidden flex items-center justify-between w-full absolute left-0 top-0   min-h-[48px] h-[48px] z-10">
           <BackButton
             width="28px"
             height="28px"

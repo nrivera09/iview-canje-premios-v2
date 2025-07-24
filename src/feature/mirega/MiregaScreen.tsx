@@ -29,7 +29,7 @@ const MiregaScreen = () => {
 
   return (
     <div className="h-dvh w-full flex flex-col overflow-hidden bg-purple-950">
-      <header className="flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white/5 backdrop-blur-[80px] min-h-[56px] h-[56px]">
+      <header className="overflow-hidden flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white/5 backdrop-blur-[80px] min-h-[56px] h-[56px]">
         <BackButton
           title="Beneficios"
           onClick={() => soundManager.play('button')}
@@ -41,7 +41,7 @@ const MiregaScreen = () => {
         />
       </header>
 
-      <main className="flex-1 p-[24px] overflow-y-auto scrollbar-none">
+      <main className="flex-1 p-[24px] overflow-y-auto scrollbar-none overflow-x-hidden">
         <div className="grid grid-cols-2 gap-[24px] max-w-[474px] mx-auto">
           {loading
             ? listaMirega.map((_, index) => <LoadingGrid key={index} />)

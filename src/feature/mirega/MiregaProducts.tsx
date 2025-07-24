@@ -153,7 +153,7 @@ const MiregaProducts = () => {
     >
       <header
         className={clsx(
-          'flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px]  ',
+          'overflow-hidden flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px]  ',
           !isLVDS ? 'min-h-[56px] h-[56px]' : 'min-h-[48px] h-[48px]'
         )}
       >
@@ -211,7 +211,7 @@ const MiregaProducts = () => {
       <main
         className={clsx(
           !isLVDS ? ' p-[24px] ' : 'px-[20px] py-[9px] flex items-center ',
-          'flex-1 overflow-y-auto scrollbar-none w-full items-center flex justify-start'
+          'flex-1 overflow-y-auto scrollbar-none overflow-x-hidden w-full items-center flex justify-start'
         )}
       >
         <div

@@ -47,7 +47,7 @@ const PostExchangeDay: FC<PostExchangeDayProps> = ({ id }) => {
       }}
     >
       {!isLVDS ? (
-        <header className="flex items-center justify-between w-full   min-h-[56px] h-[56px]">
+        <header className="overflow-hidden flex items-center justify-between w-full   min-h-[56px] h-[56px]">
           <BackButton
             onClick={() => {
               soundManager.play('button');
@@ -61,7 +61,7 @@ const PostExchangeDay: FC<PostExchangeDayProps> = ({ id }) => {
           />
         </header>
       ) : (
-        <header className="flex items-center justify-between w-full absolute left-0 top-0   min-h-[48px] h-[48px]">
+        <header className="overflow-hidden flex items-center justify-between w-full absolute left-0 top-0   min-h-[48px] h-[48px]">
           <BackButton
             width="28px"
             height="28px"

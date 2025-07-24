@@ -105,7 +105,7 @@ const Rooms = () => {
       style={{ backgroundImage: `url(${isLVDS ? bglvds : bgDM})` }}
     >
       {!isLVDS ? (
-        <header className="flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px] min-h-[56px] h-[56px]">
+        <header className="overflow-hidden flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px] min-h-[56px] h-[56px]">
           <BackButton
             title="Beneficios"
             onClick={() => {
@@ -120,7 +120,7 @@ const Rooms = () => {
           />
         </header>
       ) : (
-        <header className="flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px] min-h-[48px] h-[48px]">
+        <header className="overflow-hidden flex items-center justify-between w-full border-t-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px] min-h-[48px] h-[48px]">
           <BackButton
             width="28px"
             height="28px"
@@ -141,7 +141,7 @@ const Rooms = () => {
       <main
         className={clsx(
           !isLVDS ? ' p-[24px] ' : 'px-[20px] py-[24px] ',
-          'flex-1 overflow-y-auto scrollbar-none relative w-full flex flex-col items-start justify-center'
+          'flex-1 overflow-y-auto scrollbar-none overflow-x-hidden  relative w-full flex flex-col items-start justify-center'
         )}
       >
         {secciones

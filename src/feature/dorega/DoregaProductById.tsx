@@ -71,7 +71,7 @@ const DoregaProductById: FC<DoregaProductByIdProps> = ({ id }) => {
       >
         <header
           className={clsx(
-            'flex items-center justify-between w-full  ',
+            'overflow-hidden flex items-center justify-between w-full  ',
             !isLVDS
               ? 'min-h-[56px] h-[56px]'
               : 'min-h-[32px] h-[32px] top-[10px] relative'

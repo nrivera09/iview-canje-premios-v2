@@ -119,7 +119,7 @@ const DoregaPreExchange = () => {
     >
       <header
         className={clsx(
-          ' flex items-center justify-between  z-30 absolute left-0 w-full',
+          'overflow-hidden flex items-center justify-between  z-30 absolute left-0 w-full',
           !isLVDS ? 'min-h-[56px] h-[56px]' : 'min-h-[48px] h-[48px]'
         )}
       >
@@ -162,7 +162,7 @@ const DoregaPreExchange = () => {
           !isLVDS
             ? ' p-[24px] flex items-center justify-center flex-col'
             : 'px-[40px] py-[9px] ',
-          'flex-1 overflow-y-auto scrollbar-none relative z-10'
+          'flex-1 overflow-y-auto scrollbar-none overflow-x-hidden relative z-10'
         )}
       >
         {!isLVDS ? (
