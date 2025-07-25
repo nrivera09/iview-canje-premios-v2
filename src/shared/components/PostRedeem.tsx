@@ -19,9 +19,18 @@ import { fetchImgBase64 } from '../api/iviewApi';
 import { IBeneficioRegalo } from '../types/iview.types';
 import bgDM from '@/shared/assets/img/DM.png';
 import bgLVDS from '@/shared/assets/img/LVDS.png';
+import { usePromocionesStore } from '@/store/promocionesStore';
 
 interface PostRedeemProps {
   id: string;
+}
+
+interface IRegalo {
+  estado: number;
+  id_articulo: number;
+  nombre: string;
+  nombreImagen: string;
+  stock: number;
 }
 
 const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
@@ -32,12 +41,23 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
   const isExchange = useUIStore((s) => s.isExchange);
 
   const resetUI = useUIStore((s) => s.resetUI);
-  const isExchangeProductID = userDataPoints[0]?.id_articulo_canjeado;
-  const isExchangeProductGetData = userDataPoints
-    ? userDataPoints[0]?.lista_Regalos?.filter(
-        (item) => item.id_articulo === isExchangeProductID
-      )
-    : null;
+  const lastProductExchange = useViewStore((s) => s.lastRedeemedProduct);
+
+  const isExchangeProductGetData = (id: number) => {
+    return userDataPoints
+      ? (userDataPoints[0]?.lista_Regalos as IRegalo[])?.find(
+          (item) => item.id_articulo === id
+        )?.nombreImagen
+      : null;
+  };
+
+  const isExchangeProductID =
+    userDataPoints[0]?.id_articulo_canjeado > 0
+      ? isExchangeProductGetData(userDataPoints[0]?.id_articulo_canjeado)
+      : lastProductExchange?.nombreImagen;
+
+  console.log('data: ', isExchangeProductGetData, isExchangeProductID);
+
   const [imgBase64, setImgBase64] = useState<any>(null);
   const toggle = useUIStore((s) => s.toggle);
   const selectedId = useViewStore((s) => s.selectedId);
@@ -56,18 +76,21 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
     );
 
   useEffect(() => {
+    setTimeout(() => {
+      useUIStore.getState().toggle('loading', false);
+      useUIStore.getState().setLoadingLabel();
+    }, 1500);
+  }, []);
+
+  useEffect(() => {
     const getImg = async () => {
-      if (!productoSeleccionado?.nombreImagen) return;
-      const result = await fetchImgBase64(productoSeleccionado.nombreImagen);
+      await usePromocionesStore.getState().loadPromociones();
+      if (!isExchangeProductID) return;
+      const result = await fetchImgBase64(isExchangeProductID);
       setImgBase64(result);
-      /*useUIStore.getState().toggle('loading', false);*/
-      setTimeout(() => {
-        useUIStore.getState().toggle('loading', false);
-        useUIStore.getState().setLoadingLabel();
-      }, 1500);
     };
     getImg();
-  }, [productoSeleccionado?.nombreImagen]);
+  }, [isExchangeProductID]);
 
   return (
     <div

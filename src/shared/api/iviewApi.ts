@@ -4,6 +4,7 @@ import {
   ISeccion,
   IPromocionesResponse,
   CanjeRequest,
+  IRegalo,
 } from '../types/iview.types';
 import { usePromocionesStore } from '@/store/promocionesStore';
 import { useUserStore } from '@/store/userStore';
@@ -112,8 +113,100 @@ export const canjearPremio_old = async (): Promise<boolean> => {
 };
 
 export const canjearPremio = async () => {
+  const userDataPoints = useUserStore.getState().userDataPoints;
   const selectedId = useViewStore.getState().selectedId;
+  const getProductExchange = userDataPoints[0]?.lista_Regalos?.find(
+    (item) => item.id_articulo === Number(selectedId)
+  );
+  if (getProductExchange) {
+    const producto: IRegalo = {
+      estado: !!getProductExchange.estado,
+      id_articulo: getProductExchange.id_articulo,
+      nombre: getProductExchange.nombre,
+      nombreImagen: getProductExchange.nombreImagen,
+      stock: getProductExchange.stock,
+    };
+    useViewStore.getState().setLastRedeemedProduct(producto);
 
+    try {
+      const user = useUserStore.getState();
+      const beneficio = user.selectedBeneficioData;
+      if (!beneficio) {
+        console.error('No hay beneficio seleccionado para canje.');
+        return false;
+      }
+
+      const idPromocion = beneficio.id;
+      const idArticulo = Number(selectedId);
+
+      // 1. Validar stock
+      const stockRes = await fetch(
+        `${ENV.API_BASE_URL_V1}Regalos/obtener-stock?Id_promocion=${idPromocion}&Id_articulo=${idArticulo}`
+      );
+
+      if (!stockRes.ok) throw new Error('No se pudo verificar el stock');
+
+      const stockData = await stockRes.json();
+      const stock =
+        stockData?.value === null ? 0 : stockData?.value?.stock ?? 0;
+      const errorApi = stockData?.error === '' ? true : false;
+
+      if (stock <= 0 || errorApi) {
+        console.warn('Producto sin stock disponible');
+
+        usePromocionesStore.getState().loadPromociones();
+        return 'no-stock';
+      }
+
+      // 2. Realizar canje
+      const payload: CanjeRequest = {
+        tarjeta: user.getEffectiveCard(),
+        id_articulo: idArticulo,
+        id_promocion: idPromocion,
+        puntos: beneficio?.puntos,
+        asset: user.getEffectiveAsset().toString(),
+        usuario_registro: 'front',
+      };
+
+      //https://dev-api-canjeregalo-acity.com.pe/api/Regalos/canje-regalo-reservar
+      const response = await fetch(
+        `${ENV.API_BASE_URL_V1}Regalos/canje-regalo-reservar`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      if (!response.ok) throw new Error('Error en el canje del premio');
+
+      const result = await response.json();
+
+      if (result) {
+        // Si el usuario ya tiene un canje en curso
+        if (result?.isSuccess && result?.value < 1) {
+          return 'no-canje';
+        }
+        if (result.isSuccess && result?.value > 0) {
+          return 'canje';
+        }
+        usePromocionesStore.getState().loadPromociones();
+      }
+    } catch (error) {
+      console.error('Error al canjear premio:', error);
+    }
+  }
+};
+
+export const canjearPremio2 = async () => {
+  const userDataPoints = useUserStore.getState().userDataPoints;
+  const selectedId = useViewStore.getState().selectedId;
+  //Almacenar el producto canjeado
+  const isExchangeProductID = userDataPoints[0]?.id_articulo_canjeado;
+
+  //useViewStore.getState().setLastRedeemedProduct(productoCanjeado);
   try {
     const user = useUserStore.getState();
     const beneficio = user.selectedBeneficioData;

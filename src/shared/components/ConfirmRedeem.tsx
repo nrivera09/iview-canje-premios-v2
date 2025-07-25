@@ -74,13 +74,11 @@ const ConfirmRedeem: FC<ConfirmRedeemProps> = ({ id }) => {
           disabled={disableButton || canjePogress}
           label="CANJEAR"
           onClick={async () => {
-            resetUI();
             soundManager.play('button');
             setCanjeProgress(true);
 
             if (!disableButton) {
               const success = await canjearPremio();
-
               if (success === 'no-stock') {
                 return toggle('noStock', true);
               }

@@ -1,4 +1,5 @@
 // store/viewStore.ts
+import { IRegalo } from '@/shared/types/iview.types';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -28,6 +29,9 @@ interface ViewStore {
   goBack: () => void;
   previousId?: string;
   setPreviousId: (id: string) => void;
+
+  lastRedeemedProduct: IRegalo | null;
+  setLastRedeemedProduct: (product: IRegalo | null) => void;
 }
 
 export const useViewStore = create<ViewStore>()(
@@ -91,6 +95,9 @@ export const useViewStore = create<ViewStore>()(
           selectedId: undefined,
           selectedType: undefined,
         })),
+      lastRedeemedProduct: null,
+      setLastRedeemedProduct: (product) =>
+        set({ lastRedeemedProduct: product }),
     }),
 
     { name: 'view-store' }

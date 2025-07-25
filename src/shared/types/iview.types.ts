@@ -138,7 +138,8 @@ export interface ITorneoItem {
 }
 
 export interface IRegalo {
-  id: number;
+  estado: boolean;
+  id_articulo: number;
   nombre: string;
   nombreImagen: string;
   stock: number;
