@@ -74,19 +74,27 @@ const ConfirmRedeem: FC<ConfirmRedeemProps> = ({ id }) => {
           disabled={disableButton || canjePogress}
           label="CANJEAR"
           onClick={async () => {
-            //useViewStore.getState().resetViews();
             resetUI();
             soundManager.play('button');
-            useUIStore.getState().toggle('loading', true);
-            useUIStore.getState().setLoadingLabel('Cargando ...');
             setCanjeProgress(true);
+
             if (!disableButton) {
               const success = await canjearPremio();
-              if (success === 'no-stock') return toggle('noStock', true);
-              if (success === 'canje')
-                return useUIStore.getState().toggle('postRedeem', true);
-              if (success === 'no-canje')
+
+              if (success === 'no-stock') {
+                return toggle('noStock', true);
+              }
+
+              if (success === 'canje' || success === 'no-canje') {
+                useUIStore.getState().toggle('loading', true);
+                useUIStore.getState().setLoadingLabel('Cargando ...');
+
+                if (success === 'canje') {
+                  return useUIStore.getState().toggle('postRedeem', true);
+                }
+
                 return toggle('postRedeem', true, true);
+              }
             }
 
             toggle('loading', false);

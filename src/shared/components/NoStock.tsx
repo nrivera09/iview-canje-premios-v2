@@ -22,7 +22,7 @@ const NoStock = () => {
   );
 
   return (
-    <div className="fixed top-0 left-0 w-full h-dvh bg-black/70 flex items-center justify-center  z-50">
+    <div className="fixed top-0 left-0 w-full h-dvh bg-black/70 flex items-center justify-center z-[9999]">
       {!isLVDS ? (
         <div className="box w-[360px] h-[219px] backdrop-blur-[25px] bg-[#4f4f4f] border border-white/20 rounded-2xl  ">
           <div className="w-full min-h-[148px] pt-[48px] px-[24px] text-center relative">
