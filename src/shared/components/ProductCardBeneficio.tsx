@@ -22,7 +22,11 @@ const ProductCardBeneficio: FC<ProductCardBeneficioProps> = ({
   const isLVDS = useIsLVDS();
   const { promocion, puntos_Min, canjeado } = beneficio;
   const goTo = useViewStore((s) => s.goTo);
-  const isReadyToExchange = false;
+  const typePromo = beneficio.promocion;
+  const isReadyToExchange =
+    beneficio.puntos >= beneficio.puntos_Min &&
+    (typePromo === 'MIREGA' || typePromo === 'DOREGA') &&
+    beneficio?.tipo === 'Canje';
   const showPoints = false;
   const isOutStock = false;
 

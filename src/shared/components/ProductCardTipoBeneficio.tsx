@@ -48,7 +48,9 @@ const ProductCardTipoBeneficio = ({
   const typePromo = beneficio.promocion;
   const isReadyToExchange =
     beneficio.puntos >= beneficio.puntos_Min &&
-    (typePromo === 'MIREGA' || typePromo === 'DOREGA');
+    (typePromo === 'MIREGA' || typePromo === 'DOREGA') &&
+    beneficio?.tipo === 'Canje';
+
   const showPoints = beneficio.tipo === 'Canje';
 
   const setBg = (vip: boolean = false) => {
