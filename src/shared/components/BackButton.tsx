@@ -1,6 +1,8 @@
 import { useUserStore } from '@/store/userStore';
 import clsx from 'clsx';
 import React, { FC } from 'react';
+import arrowMirega from '@/shared/assets/img/arrowMirega.png';
+import arrowDorega from '@/shared/assets/img/arrowDorega.png';
 
 interface BackButtonProps {
   onClick: () => void;
@@ -28,14 +30,14 @@ const BackButton: FC<BackButtonProps> = ({
     >
       {beneficio?.promocion === 'MIREGA' && (
         <img
-          src={`/assets/arrowMirega.png`}
+          src={arrowMirega}
           alt=""
           className="w-[40px] min-w-[40px] h-[40px]"
         />
       )}
       {beneficio?.promocion === 'DOREGA' && (
         <img
-          src={`/assets/arrowDorega2.png`}
+          src={arrowDorega}
           alt=""
           className="w-[40px] min-w-[40px] h-[40px]"
         />
