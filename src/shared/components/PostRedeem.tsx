@@ -20,6 +20,7 @@ import { IBeneficioRegalo } from '../types/iview.types';
 import bgDM from '@/shared/assets/img/DM.png';
 import bgLVDS from '@/shared/assets/img/LVDS.png';
 import { usePromocionesStore } from '@/store/promocionesStore';
+import ConfettiCanvas from './ConfettiCanvas';
 
 interface PostRedeemProps {
   id: string;
@@ -94,7 +95,7 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
 
   return (
     <div
-      className="h-dvh w-full flex flex-col overflow-hidden  bg-cover absolute top-0 left-0  bg-no-repeat z-50 "
+      className=" h-dvh w-full flex flex-col overflow-hidden  bg-cover absolute top-0 left-0  bg-no-repeat z-50 "
       style={{
         backgroundImage: `url(${getPromoImage(
           String(userDataPoints[0].promocion.toLocaleLowerCase()),
@@ -106,7 +107,7 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
     >
       <main
         className={clsx(
-          `flex-1 flex  flex-col justify-center`,
+          `z-50 flex-1 flex  flex-col justify-center`,
           !isLVDS ? `px-[31px] items-start` : `p-[20px] items-center `
         )}
       >
@@ -208,7 +209,7 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
           <ProductExchangeLabel />
         </div>
       </main>
-      <footer className="min-h-[62px] gap-[16px] flex flex-row items-center justify-center border-b-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px]">
+      <footer className="z-50 min-h-[62px] gap-[16px] flex flex-row items-center justify-center border-b-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px]">
         <BtnCasinoOnline
           minWidth="142px"
           label="IR A BENEFICIOS"
@@ -218,6 +219,7 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
           }}
         ></BtnCasinoOnline>
       </footer>
+      <ConfettiCanvas />
     </div>
   );
 };
