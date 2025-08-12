@@ -28,7 +28,7 @@ const CloseButton: FC<CloseButtonProps> = ({
       className={clsx(className, `!overflow-hidden relative top-[-1px]`)}
     >
       <svg
-        className="relative top-[-1px] right-[-1px]"
+        className="relative top-[1px] right-[-1px]"
         width={width}
         height={height}
         viewBox="0 0 72 65"
