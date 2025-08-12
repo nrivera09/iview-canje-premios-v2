@@ -104,7 +104,7 @@ const MultiplicadorPromo = () => {
                 }}
               />
               <CloseButton
-                className="absolute right-0 top-[-8px]"
+                className="absolute right-0 top-[-8px] !hidden"
                 width="52px"
                 height="48px"
                 onClick={() => soundManager.play('button')}
