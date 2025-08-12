@@ -21,7 +21,6 @@ import bgDM from '@/shared/assets/img/DM.png';
 import bgLVDS from '@/shared/assets/img/LVDS.png';
 import { usePromocionesStore } from '@/store/promocionesStore';
 import ConfettiCanvas from './ConfettiCanvas';
-import { useConfettiStore } from '@/store/useConfettiStore';
 
 interface PostRedeemProps {
   id: string;
@@ -37,7 +36,6 @@ interface IRegalo {
 
 const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
   const isLVDS = useIsLVDS();
-  const isActiveConfettiStore = useConfettiStore((state) => state.isActive);
   const { userDataPoints } = useUserStore();
   const { goTo } = useViewStore();
   //const { isExchange } = useUIStore();
@@ -59,6 +57,8 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
       ? isExchangeProductGetData(userDataPoints[0]?.id_articulo_canjeado)
       : lastProductExchange?.nombreImagen;
 
+  console.log('data: ', isExchangeProductGetData, isExchangeProductID);
+
   const [imgBase64, setImgBase64] = useState<any>(null);
   const toggle = useUIStore((s) => s.toggle);
   const selectedId = useViewStore((s) => s.selectedId);
@@ -75,10 +75,6 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
     userDataPoints[0]?.lista_Regalos?.find(
       (item) => item.id_articulo === Number(selectedId)
     );
-
-  const isActiveConfetti = !userDataPoints[0]?.canjeado
-    ? false
-    : isActiveConfettiStore;
 
   useEffect(() => {
     setTimeout(() => {
@@ -216,14 +212,14 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
       <footer className="z-50 min-h-[62px] gap-[16px] flex flex-row items-center justify-center border-b-0 border-r-0 border-l-0 border border-white/20 bg-white bg-opacity-5 backdrop-blur-[40px]">
         <BtnCasinoOnline
           minWidth="142px"
-          label={`IR A BENEFICIOS`}
+          label="IR A BENEFICIOS"
           onClick={() => {
             resetUI();
             goTo('rooms');
           }}
         ></BtnCasinoOnline>
       </footer>
-      {(userDataPoints[0]?.reservado || isActiveConfetti) && <ConfettiCanvas />}
+      <ConfettiCanvas />
     </div>
   );
 };

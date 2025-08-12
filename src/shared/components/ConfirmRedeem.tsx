@@ -12,15 +12,12 @@ import { useUserStore } from '@/store/userStore';
 import clsx from 'clsx';
 import { useIsLVDS } from '../hooks/useDetectIview';
 import { canjearPremio } from '../api/iviewApi';
-import { useConfettiStore } from '@/store/useConfettiStore';
 
 interface ConfirmRedeemProps {
   id: string;
 }
 
 const ConfirmRedeem: FC<ConfirmRedeemProps> = ({ id }) => {
-  const setTrueConfetti = useConfettiStore((state) => state.setTrue);
-
   const isLVDS = useIsLVDS();
   const resetUI = useUIStore((s) => s.resetUI);
   const { userDataPoints } = useUserStore();
@@ -91,7 +88,6 @@ const ConfirmRedeem: FC<ConfirmRedeemProps> = ({ id }) => {
                 useUIStore.getState().setLoadingLabel('Cargando ...');
 
                 if (success === 'canje') {
-                  setTrueConfetti();
                   return useUIStore.getState().toggle('postRedeem', true);
                 }
 
