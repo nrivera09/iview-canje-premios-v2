@@ -27,7 +27,7 @@ const ProductCardBeneficio: FC<ProductCardBeneficioProps> = ({
     beneficio.puntos >= beneficio.puntos_Min &&
     (typePromo === 'MIREGA' || typePromo === 'DOREGA') &&
     beneficio?.tipo === 'Canje' &&
-    !beneficio?.canjeado;
+    !beneficio?.reservado;
   const showPoints = false;
   const isOutStock = false;
 
