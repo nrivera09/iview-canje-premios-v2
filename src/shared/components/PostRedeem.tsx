@@ -76,6 +76,13 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
       (item) => item.id_articulo === Number(selectedId)
     );
 
+  const enableConfetti =
+    userDataPoints[0]?.reservado && !userDataPoints[0]?.canjeado ? true : false;
+
+  useEffect(() => {
+    usePromocionesStore.getState().loadPromociones();
+  }, []);
+
   useEffect(() => {
     setTimeout(() => {
       useUIStore.getState().toggle('loading', false);
@@ -219,7 +226,7 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
           }}
         ></BtnCasinoOnline>
       </footer>
-      <ConfettiCanvas />
+      {enableConfetti && <ConfettiCanvas />}
     </div>
   );
 };

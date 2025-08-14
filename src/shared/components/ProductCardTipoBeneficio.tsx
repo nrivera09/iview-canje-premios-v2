@@ -174,7 +174,7 @@ const ProductCardTipoBeneficio = ({
           {showPoints && (
             <div className="w-full bg-cover text-center absolute   bottom-0 mb-[-1px]">
               <div
-                className="w-[129px] h-[29px] bg-contain text-center mx-auto flex items-center justify-center text-[14px] font-bold "
+                className="w-[129px] h-[29px] bg-cover text-center mx-auto flex items-center justify-center text-[14px] font-bold "
                 style={{ backgroundImage: `url(${imgPtsInferior})` }}
               >
                 <p
