@@ -12,6 +12,8 @@ import { useUserStore } from '@/store/userStore';
 import clsx from 'clsx';
 import { useIsLVDS } from '../hooks/useDetectIview';
 import { canjearPremio } from '../api/iviewApi';
+import { useConfettiStore } from '@/store/confettiStore';
+import { usePromocionesStore } from '@/store/promocionesStore';
 
 interface ConfirmRedeemProps {
   id: string;
@@ -88,6 +90,12 @@ const ConfirmRedeem: FC<ConfirmRedeemProps> = ({ id }) => {
                 useUIStore.getState().setLoadingLabel('Cargando ...');
 
                 if (success === 'canje') {
+                  useConfettiStore.getState().pulse(6000);
+
+                  Promise.allSettled([
+                    usePromocionesStore.getState().loadPromociones(),
+                  ]);
+
                   return useUIStore.getState().toggle('postRedeem', true);
                 }
 

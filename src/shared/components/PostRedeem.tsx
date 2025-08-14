@@ -21,6 +21,7 @@ import bgDM from '@/shared/assets/img/DM.png';
 import bgLVDS from '@/shared/assets/img/LVDS.png';
 import { usePromocionesStore } from '@/store/promocionesStore';
 import ConfettiCanvas from './ConfettiCanvas';
+import { useConfettiStore } from '@/store/confettiStore';
 
 interface PostRedeemProps {
   id: string;
@@ -76,8 +77,25 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
       (item) => item.id_articulo === Number(selectedId)
     );
 
+  /*const enableConfetti =
+    userDataPoints[0]?.reservado && !userDataPoints[0]?.canjeado ? true : false;*/
+
   const enableConfetti =
     userDataPoints[0]?.reservado && !userDataPoints[0]?.canjeado ? true : false;
+
+  // 🧨 escucha el estado del confetti store
+  const confettiActive = useConfettiStore((s) => s.active);
+  const resetConfetti = useConfettiStore((s) => s.reset);
+
+  // Mostrar confetti si cualquiera de las condiciones está activa
+  const showConfetti = confettiActive || enableConfetti;
+
+  // Auto–reset del confetti si vino por store (para evitar que quede prendido)
+  useEffect(() => {
+    if (!confettiActive) return;
+    const t = setTimeout(() => resetConfetti(), 6000);
+    return () => clearTimeout(t);
+  }, [confettiActive, resetConfetti]);
 
   useEffect(() => {
     usePromocionesStore.getState().loadPromociones();
@@ -226,7 +244,7 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
           }}
         ></BtnCasinoOnline>
       </footer>
-      {enableConfetti && <ConfettiCanvas />}
+      {showConfetti && <ConfettiCanvas />}
     </div>
   );
 };
