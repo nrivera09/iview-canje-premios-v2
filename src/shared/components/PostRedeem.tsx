@@ -176,6 +176,8 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
                     !isLVDS ? `h-[216px] w-full` : ` min-w-[180px] h-[120px]`
                   )}
                 />
+                <span className="truncate">{imgBase64}</span>
+                <span className="truncate">{imgDemo}</span>
               </div>
               <div
                 className={clsx(
