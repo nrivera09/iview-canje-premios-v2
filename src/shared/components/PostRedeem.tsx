@@ -59,7 +59,6 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
       : lastProductExchange?.nombreImagen;
 
   console.log('data: ', isExchangeProductGetData, isExchangeProductID);
-
   const [imgBase64, setImgBase64] = useState<any>(null);
   const toggle = useUIStore((s) => s.toggle);
   const selectedId = useViewStore((s) => s.selectedId);
@@ -113,6 +112,7 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
       await usePromocionesStore.getState().loadPromociones();
       if (!isExchangeProductID) return;
       const result = await fetchImgBase64(isExchangeProductID);
+
       setImgBase64(result);
     };
     getImg();
@@ -176,8 +176,6 @@ const PostRedeem: FC<PostRedeemProps> = ({ id }) => {
                     !isLVDS ? `h-[216px] w-full` : ` min-w-[180px] h-[120px]`
                   )}
                 />
-                <span className="truncate">{imgBase64}</span>
-                <span className="truncate">{imgDemo}</span>
               </div>
               <div
                 className={clsx(
