@@ -11,13 +11,23 @@ import { useUserStore } from '@/store/userStore';
 import { useViewStore } from '@/store/viewStore';
 import { removeExtension } from '../utils/Utils';
 
+// Header por defecto con API Key (se agrega a TODAS las requests)
+const API_HEADERS: HeadersInit = {
+  'X-Api-Key': ENV.API_KEY || '',
+};
+
 export const fetchPromociones = async (
   tarjeta: string
 ): Promise<IPromocionesResponse> => {
   const url = new URL(`${ENV.API_BASE_URL}IView/ListarPromocionesIviewJson`);
   url.searchParams.append('tarjeta', tarjeta);
 
-  const response = await fetch(url.toString());
+  const response = await fetch(url.toString(), {
+    headers: {
+      ...API_HEADERS,
+      'Content-Type': 'application/json',
+    },
+  });
   if (!response.ok)
     throw new Error(`Error en la solicitud: ${response.status}`);
 
@@ -38,7 +48,13 @@ export const fetchPromociones = async (
 export const fetchImgBase64 = async (nombre: string) => {
   try {
     const response = await fetch(
-      `${ENV.API_BASE_URL_V1}Regalos/imagen?nombre=${removeExtension(nombre)}`
+      `${ENV.API_BASE_URL_V1}Regalos/imagen?nombre=${removeExtension(nombre)}`,
+      {
+        headers: {
+          ...API_HEADERS,
+          'Content-Type': 'application/json',
+        },
+      }
     );
 
     const blob = await response.blob();
@@ -67,14 +83,6 @@ export const canjearPremio_old = async (): Promise<boolean> => {
       return false;
     }
 
-    /*const payload: CanjeRequest = {
-      promocionid: beneficio.promocion_Tipo_Id,
-      tarjeta: Number(user.getEffectiveCard()),
-      regalo: Number(selectedId),
-      asset: user.getEffectiveAsset(),
-      puntos: beneficio.puntos,
-    };*/
-
     const payload: CanjeRequest = {
       tarjeta: user.getEffectiveCard(),
       id_articulo: Number(selectedId),
@@ -89,6 +97,7 @@ export const canjearPremio_old = async (): Promise<boolean> => {
       {
         method: 'POST',
         headers: {
+          ...API_HEADERS,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(payload),
@@ -141,7 +150,13 @@ export const canjearPremio = async () => {
 
       // 1. Validar stock
       const stockRes = await fetch(
-        `${ENV.API_BASE_URL_V1}Regalos/obtener-stock?Id_promocion=${idPromocion}&Id_articulo=${idArticulo}`
+        `${ENV.API_BASE_URL_V1}Regalos/obtener-stock?Id_promocion=${idPromocion}&Id_articulo=${idArticulo}`,
+        {
+          headers: {
+            ...API_HEADERS,
+            'Content-Type': 'application/json',
+          },
+        }
       );
 
       if (!stockRes.ok) throw new Error('No se pudo verificar el stock');
@@ -153,7 +168,6 @@ export const canjearPremio = async () => {
 
       if (stock <= 0 || errorApi) {
         console.warn('Producto sin stock disponible');
-
         usePromocionesStore.getState().loadPromociones();
         return 'no-stock';
       }
@@ -168,12 +182,12 @@ export const canjearPremio = async () => {
         usuario_registro: 'front',
       };
 
-      //https://dev-api-canjeregalo-acity.com.pe/api/Regalos/canje-regalo-reservar
       const response = await fetch(
         `${ENV.API_BASE_URL_V1}Regalos/canje-regalo-reservar`,
         {
           method: 'POST',
           headers: {
+            ...API_HEADERS,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(payload),
@@ -185,7 +199,6 @@ export const canjearPremio = async () => {
       const result = await response.json();
 
       if (result) {
-        // Si el usuario ya tiene un canje en curso
         if (result?.isSuccess && result?.value < 1) {
           return 'no-canje';
         }
@@ -203,10 +216,8 @@ export const canjearPremio = async () => {
 export const canjearPremio2 = async () => {
   const userDataPoints = useUserStore.getState().userDataPoints;
   const selectedId = useViewStore.getState().selectedId;
-  //Almacenar el producto canjeado
   const isExchangeProductID = userDataPoints[0]?.id_articulo_canjeado;
 
-  //useViewStore.getState().setLastRedeemedProduct(productoCanjeado);
   try {
     const user = useUserStore.getState();
     const beneficio = user.selectedBeneficioData;
@@ -220,7 +231,13 @@ export const canjearPremio2 = async () => {
 
     // 1. Validar stock
     const stockRes = await fetch(
-      `${ENV.API_BASE_URL_V1}Regalos/obtener-stock?Id_promocion=${idPromocion}&Id_articulo=${idArticulo}`
+      `${ENV.API_BASE_URL_V1}Regalos/obtener-stock?Id_promocion=${idPromocion}&Id_articulo=${idArticulo}`,
+      {
+        headers: {
+          ...API_HEADERS,
+          'Content-Type': 'application/json',
+        },
+      }
     );
 
     if (!stockRes.ok) throw new Error('No se pudo verificar el stock');
@@ -231,7 +248,6 @@ export const canjearPremio2 = async () => {
 
     if (stock <= 0 || errorApi) {
       console.warn('Producto sin stock disponible');
-
       usePromocionesStore.getState().loadPromociones();
       return 'no-stock';
     }
@@ -246,12 +262,12 @@ export const canjearPremio2 = async () => {
       usuario_registro: 'front',
     };
 
-    //https://dev-api-canjeregalo-acity.com.pe/api/Regalos/canje-regalo-reservar
     const response = await fetch(
       `${ENV.API_BASE_URL_V1}Regalos/canje-regalo-reservar`,
       {
         method: 'POST',
         headers: {
+          ...API_HEADERS,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(payload),
@@ -263,7 +279,6 @@ export const canjearPremio2 = async () => {
     const result = await response.json();
 
     if (result) {
-      // Si el usuario ya tiene un canje en curso
       if (result?.isSuccess && result?.value < 1) {
         usePromocionesStore.getState().loadPromociones();
         return 'no-canje';

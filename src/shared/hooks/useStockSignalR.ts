@@ -9,6 +9,9 @@ export const useStockSignalR = (onStockUpdate: (message: any) => void) => {
     const connection = new signalR.HubConnectionBuilder()
       .withUrl(`${ENV.REACT_APP_ACITY_SOCKET}hub/stock`, {
         transport: signalR.HttpTransportType.LongPolling,
+        headers: {
+          'X-Api-Key': ENV.API_KEY || '',
+        },
       })
       .withAutomaticReconnect()
       .configureLogging(signalR.LogLevel.Information)
@@ -16,9 +19,9 @@ export const useStockSignalR = (onStockUpdate: (message: any) => void) => {
 
     connectionRef.current = connection;
 
-    // Definir el handler ANTES de iniciar la conexión
+    // Handler de eventos ANTES de iniciar la conexión
     connection.on('StockActualizadoCanje', (data, message) => {
-      console.log("📦 Evento 'ReceiveStockUpdate':", data);
+      console.log("📦 Evento 'StockActualizadoCanje':", data);
       console.log('📦 Mensaje:', message);
       onStockUpdate(data);
     });
@@ -26,10 +29,7 @@ export const useStockSignalR = (onStockUpdate: (message: any) => void) => {
     connection
       .start()
       .then(() => {
-        console.log('✅ Conectado a SignalR');
-
-        // (Opcional) Invocar algo al conectar
-        // connection.invoke("send", "Hello desde React");
+        console.log('✅ Conectado a SignalR con API Key');
       })
       .catch((err) =>
         console.error('❌ Error al conectar a SignalR:', err.message)

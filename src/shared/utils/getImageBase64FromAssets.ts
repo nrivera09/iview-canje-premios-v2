@@ -10,6 +10,12 @@ export interface AssetItem {
 type GroupedCache = Record<string, AssetItem[]>;
 const folderCache: GroupedCache = {};
 
+// Header común con API Key
+const API_HEADERS: HeadersInit = {
+  'X-Api-Key': ENV.API_KEY || '',
+  'Content-Type': 'application/json',
+};
+
 export const getGroupedAssetsByCodigo = async (
   beneficioCodigo: string
 ): Promise<GroupedAssets | null> => {
@@ -18,7 +24,14 @@ export const getGroupedAssetsByCodigo = async (
       return groupAssetFiles(folderCache[beneficioCodigo]);
     }
 
-    const res = await fetch(`${ENV.API_IMG64}asset?folder=${beneficioCodigo}`);
+    const res = await fetch(`${ENV.API_IMG64}asset?folder=${beneficioCodigo}`, {
+      headers: API_HEADERS,
+    });
+
+    if (!res.ok) {
+      throw new Error(`Error al obtener assets: ${res.status}`);
+    }
+
     const data = await res.json();
     if (!Array.isArray(data)) return null;
 
@@ -26,6 +39,7 @@ export const getGroupedAssetsByCodigo = async (
 
     return groupAssetFiles(data);
   } catch (err) {
+    console.error('Error en getGroupedAssetsByCodigo:', err);
     return null;
   }
 };
@@ -49,6 +63,7 @@ export const getImageBase64FromAssets = async (
     const match = allItems.find((file) => file.fileName.endsWith(fileName));
     return match?.base64 ?? null;
   } catch (err) {
+    console.error('Error en getImageBase64FromAssets:', err);
     return null;
   }
 };
