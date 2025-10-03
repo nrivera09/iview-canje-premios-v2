@@ -27,8 +27,10 @@
   "scripts": {
     "start:dev": "cross-env NODE_ENV=development craco start",
     "start:prod": "cross-env NODE_ENV=production craco start",
+    "start:testing": "cross-env NODE_ENV=testing craco start",
     "build:dev": "cross-env NODE_ENV=development craco build",
     "build:prod": "cross-env NODE_ENV=production craco build",
+    "build:testing": "cross-env NODE_ENV=testing craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
   },
