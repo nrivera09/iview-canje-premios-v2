@@ -11,9 +11,14 @@ import { useUserStore } from '@/store/userStore';
 import { useViewStore } from '@/store/viewStore';
 import { removeExtension } from '../utils/Utils';
 
-// Header por defecto con API Key (se agrega a TODAS las requests)
+// Header por defecto con API Key (todas las requests normales)
 const API_HEADERS: HeadersInit = {
   'X-Api-Key': ENV.API_KEY || '',
+};
+
+// Header ESPECIAL para la función de imágenes (usa PROD si el flag está activo)
+const API_HEADERS_IMG: HeadersInit = {
+  'X-Api-Key': ENV.API_KEY_FOR_IMG || ENV.API_KEY || '',
 };
 
 export const fetchPromociones = async (
@@ -47,15 +52,22 @@ export const fetchPromociones = async (
 
 export const fetchImgBase64 = async (nombre: string) => {
   try {
+    // 👇 base y key de imágenes: si el flag está activo, usa PROD
+    const base = ENV.API_BASE_URL_V1_FOR_IMG;
+
     const response = await fetch(
-      `${ENV.API_BASE_URL_V1}Regalos/imagen?nombre=${removeExtension(nombre)}`,
+      `${base}Regalos/imagen?nombre=${removeExtension(nombre)}`,
       {
         headers: {
-          ...API_HEADERS,
+          ...API_HEADERS_IMG,
           'Content-Type': 'application/json',
         },
       }
     );
+
+    if (!response.ok) {
+      throw new Error(`Error fetching imagen: ${response.status}`);
+    }
 
     const blob = await response.blob();
 
